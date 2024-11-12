@@ -2,6 +2,9 @@
 $tabela = 'config';
 require_once("../conexao.php");
 
+echo 'Desativado em modo de Testes';
+exit();
+
 $nome = $_POST['nome_sistema'];
 $email = $_POST['email_sistema'];
 $telefone = $_POST['telefone_sistema'];

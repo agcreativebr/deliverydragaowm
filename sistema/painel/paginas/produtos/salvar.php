@@ -7,7 +7,7 @@ $nome = $_POST['nome'];
 $valor_compra = $_POST['valor_compra'];
 $valor_compra = str_replace(',', '.', $valor_compra);
 $valor_venda = $_POST['valor_venda'];
-$valor_venda = str_replace(',', '.', $valor_venda);
+
 $descricao = $_POST['descricao'];
 $nivel_estoque = $_POST['nivel_estoque'];
 $tem_estoque = $_POST['tem_estoque'];
@@ -19,6 +19,18 @@ $categoria = @$_POST['categoria'];
 $val_promocional = @$_POST['val_promocional'];
 $val_promocional = str_replace(',', '.', $val_promocional);
 
+
+if($valor_venda <= 0 and $val_promocional <= 0){
+	echo 'Adicione um valor de venda ou um valor Pormocional!';
+	die;
+}
+
+if($promocao == 'Sim' and $val_promocional <= 0){
+	echo 'Você precisa adicionar um valor Promocional ou desativar o campo Pormoção!';
+	die;
+}
+
+$valor_venda = str_replace(',', '.', $valor_venda);
 
 $nome_novo = strtolower( preg_replace("[^a-zA-Z0-9-]", "-", 
         strtr(@utf8_decode(trim($nome)), @utf8_decode("áàãâéêíóôõúüñçÁÀÃÂÉÊÍÓÔÕÚÜÑÇ"),

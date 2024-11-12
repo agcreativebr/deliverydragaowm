@@ -10,6 +10,7 @@ $usuario = 'root';
 $senha = '';
 
 
+
 $url_sistema = "http://$_SERVER[HTTP_HOST]/";
 $url = explode("//", $url_sistema);
 if ($url[1] == 'localhost/') {

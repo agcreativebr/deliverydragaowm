@@ -113,6 +113,7 @@ if ($id_mesa == "" and $sessão_balcao == "") {
 
 
 
+
 <style type="text/css">
   .img-aberto {
     animation-duration: 2s;
@@ -510,353 +511,353 @@ if ($id_mesa == "" and $sessão_balcao == "") {
   <!-- CATEGORIAS DASKTOP -->
   <section class="brand-product ocultar_mobile" id="categoria">
     <div class="container">
-    <div class="sections__wrapper white-bg pl-50 pr-50 pb-40 brand-product">
-      <div class="row">
-        <div class="col-lg-12 text-center mb-20">
-          <div class="tpsection">
-            <h4 class="tpsection__sub-title">~~~~~~~~ CATEGORIAS ~~~~~~~~</h4>
+      <div class="sections__wrapper white-bg pl-50 pr-50 pb-40 brand-product">
+        <div class="row">
+          <div class="col-lg-12 text-center mb-20">
+            <div class="tpsection">
+              <h4 class="tpsection__sub-title">~~~~~~~~ CATEGORIAS ~~~~~~~~</h4>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="row">
+        <div class="row">
 
-        <?php
-        $query = $pdo->query("SELECT * FROM categorias where ativo = 'Sim'");
-        $res = $query->fetchAll(PDO::FETCH_ASSOC);
-        $total_reg = @count($res);
-        if ($total_reg > 0) {
-          for ($i = 0; $i < $total_reg; $i++) {
-            foreach ($res[$i] as $key => $value) {
-            }
-            $cor = $res[$i]['cor'];
-            $foto = $res[$i]['foto'];
-            $nome = $res[$i]['nome'];
-            $descricao = $res[$i]['descricao'];
-            $url = $res[$i]['url'];
-            $id = $res[$i]['id'];
-            $mais_sabores = $res[$i]['mais_sabores'];
-            $delivery = $res[$i]['delivery'];
-
-            if ($id_mesa == "" and $delivery == 'Não' and $sessão_balcao == '') {
-              continue;
-            }
-
-            $query2 = $pdo->query("SELECT * FROM produtos where categoria = '$id' and ativo = 'Sim'");
-            $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-            $tem_produto = @count($res2);
-            $mostrar = 'ocultar';
-            if ($tem_produto > 0) {
-              for ($i2 = 0; $i2 < $tem_produto; $i2++) {
-                foreach ($res2[$i2] as $key => $value) {
-                }
-
-                $id_prod = $res2[$i2]['id'];
-                $estoque = $res2[$i2]['estoque'];
-                $tem_estoque = $res2[$i2]['tem_estoque'];
-
-                if (($tem_estoque == 'Sim' and $estoque > 0) or ($tem_estoque == 'Não')) {
-                  $mostrar = '';
-                }
+          <?php
+          $query = $pdo->query("SELECT * FROM categorias where ativo = 'Sim'");
+          $res = $query->fetchAll(PDO::FETCH_ASSOC);
+          $total_reg = @count($res);
+          if ($total_reg > 0) {
+            for ($i = 0; $i < $total_reg; $i++) {
+              foreach ($res[$i] as $key => $value) {
               }
-            } else {
+              $cor = $res[$i]['cor'];
+              $foto = $res[$i]['foto'];
+              $nome = $res[$i]['nome'];
+              $descricao = $res[$i]['descricao'];
+              $url = $res[$i]['url'];
+              $id = $res[$i]['id'];
+              $mais_sabores = $res[$i]['mais_sabores'];
+              $delivery = $res[$i]['delivery'];
+
+              if ($id_mesa == "" and $delivery == 'Não' and $sessão_balcao == '') {
+                continue;
+              }
+
+              $query2 = $pdo->query("SELECT * FROM produtos where categoria = '$id' and ativo = 'Sim'");
+              $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+              $tem_produto = @count($res2);
               $mostrar = 'ocultar';
-            }
+              if ($tem_produto > 0) {
+                for ($i2 = 0; $i2 < $tem_produto; $i2++) {
+                  foreach ($res2[$i2] as $key => $value) {
+                  }
 
-            $descricaoF = mb_strimwidth($descricao, 0, 50, "...");
+                  $id_prod = $res2[$i2]['id'];
+                  $estoque = $res2[$i2]['estoque'];
+                  $tem_estoque = $res2[$i2]['tem_estoque'];
 
-            if ($mais_sabores == 'Sim') {
-              $link_cat =  "categoria-sabores-" . $url;
-            } else {
-              $link_cat =  "categoria-" . $url;
-            }
-
-
-
-        ?>
-
-
-
-
-            <div class="col-xl-4">
-              <a href="<?php echo $link_cat ?>">
-                <div class="tpbrandproduct__item d-flex mb-10" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
-                  <div class="imgem-cat-div p-relative">
-                    <img class="imagem-cat" src="sistema/painel/images/categorias/<?php echo $foto ?>" alt="">
-                  </div>
-
-                  <div class="tpbrandproduct__contact">
-                    <span><?php echo $nome ?></span><br>
-                    <span class="" style="color:#474747; font-size: 13px"><?php echo $descricaoF ?></span>
-
-                    <div class="tpproduct__price">
-                      <span style="color:#474747; font-size: 12px"><?php echo $tem_produto ?> Itens</span>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-
-        <?php }
-        } ?>
-
-
-
-
-
-      </div>
-    </div>
-</div>
-</section>
-<!-- FIM CATEGORIAS DASKTOP -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- OFERTA DA SEMANA -->
-<section class="brand-product" style="margin-top: 20px" id="promocao">
-  <div class="container">
-    <div class="sections__wrapper white-bg pl-50 pr-50 pb-40 brand-product">
-      <div class="row">
-        <div class="col-lg-12 text-center mb-20">
-          <div class="tpsection">
-            <h4 class="tpsection__sub-title">~~~~~~~~ OFERTA DA SEMANA ~~~~~~~~</h4>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-
-        <?php
-        $query = $pdo->query("SELECT * FROM produtos where ativo = 'Sim' and promocao = 'Sim'");
-        $res = $query->fetchAll(PDO::FETCH_ASSOC);
-        $tem_produto = @count($res);
-        $mostrar = 'ocultar';
-        if ($tem_produto > 0) {
-          for ($i = 0; $i < $tem_produto; $i++) {
-            foreach ($res[$i] as $key => $value) {
-            }
-            $id_prod = $res[$i]['id'];
-            $foto = $res[$i]['foto'];
-            $nome = $res[$i]['nome'];
-            $descricao = $res[$i]['descricao'];
-            $url = $res[$i]['url'];
-            $estoque = $res[$i]['estoque'];
-            $tem_estoque = $res[$i]['tem_estoque'];
-            $valor = $res[$i]['valor_venda'];
-            $val_promocional = $res[$i]['val_promocional'];
-
-            $valorF = number_format($valor, 2, ',', '.');
-
-            $val_promocionalF = number_format($val_promocional, 2, ',', '.');
-
-            $descricaoF = mb_strimwidth($descricao, 0, 50, "...");
-
-
-            $valor_porc = $valor - $val_promocional;
-
-            $valor_porcentagem = ($valor_porc / $valor) * 100;
-
-            $valor_porcentagemF = number_format($valor_porcentagem, 2, ',', '.') . '%';
-
-
-            if ($tem_estoque == 'Sim' and $estoque <= 0) {
-              continue;
-            } else {
-
-              $url_produto = 'produto-' . $url;
-            }
-
-
-
-            //verificar se o produto tem adicionais
-            $query3 = $pdo->query("SELECT * FROM grades where produto = '$id_prod'");
-            $res3 = $query3->fetchAll(PDO::FETCH_ASSOC);
-            $total_adc = @count($res3);
-            if ($total_adc > 0) {
-              if ($tem_estoque == 'Sim' and $estoque <= 0) {
-                $url_produto = '#';
+                  if (($tem_estoque == 'Sim' and $estoque > 0) or ($tem_estoque == 'Não')) {
+                    $mostrar = '';
+                  }
+                }
               } else {
-                $url_produto = 'adicionais-' . $url;
+                $mostrar = 'ocultar';
               }
-            } else {
-              if ($tem_estoque == 'Sim' and $estoque <= 0) {
-                $url_produto = '#';
+
+              $descricaoF = mb_strimwidth($descricao, 0, 50, "...");
+
+              if ($mais_sabores == 'Sim') {
+                $link_cat =  "categoria-sabores-" . $url;
               } else {
-                $url_produto = 'observacoes-' . $url;
+                $link_cat =  "categoria-" . $url;
               }
-            }
+
+
+
+          ?>
 
 
 
 
-        ?>
-
-
-
-            <div class="col-xl-4">
-              <a href="<?php echo $url_produto ?>">
-                <div class="tpbrandproduct__item d-flex mb-20" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
-                  <div class="tpbrandproduct__img p-relative">
-                    <img src="sistema/painel/images/produtos/<?php echo $foto ?>" alt="">
-                    <div class="tpproduct__info bage tpbrandproduct__bage">
-                      <span class="tpproduct__info-discount bage__discount">-<?php echo $valor_porcentagemF ?></span>
-                    </div>
-                  </div>
-                  <div class="tpbrandproduct__contact">
-                    <span><?php echo $nome ?></span><br>
-                    <div class="tpproduct__rating">
-                      <a href="<?php echo $url_produto ?>"><i class="icon-star"></i></a>
-                      <a href="<?php echo $url_produto ?>"><i class="icon-star"></i></a>
-                      <a href="<?php echo $url_produto ?>"><i class="icon-star"></i></a>
-                      <a href="<?php echo $url_produto ?>"><i class="icon-star"></i></a>
-                      <a href="<?php echo $url_produto ?>"><i class="icon-star"></i></a>
-                    </div>
-                    <div class="tpproduct__price">
-                      <span>R$ <?php echo $val_promocionalF    ?></span>
-                      <del>R$ <?php echo $valorF ?></del>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-
-        <?php }
-        } ?>
-
-
-
-
-
-      </div>
-    </div>
-  </div>
-</section>
-<!-- FIM OFERTA DA SEMANA -->
-
-
-
-
-
-
-
-
-
-<!-- APROVEITE NOSSO COMBOS -->
-<section class="blog-area pt-75 pb-30" style="margin-top: -80px; margin-bottom: 80px;" id="combo">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12 text-center">
-        <div class="tpsection mb-35">
-          <h4 class="tpsection__sub-title">~~~~~~~~ APROVEITE NOSSO COMBOS ~~~~~~~~</h4>
-        </div>
-      </div>
-    </div>
-
-    <div class="swiper-container tpblog-active">
-      <div class="swiper-wrapper">
-
-
-        <?php
-        $query = $pdo->query("SELECT * FROM produtos where ativo = 'Sim' and combo = 'Sim'");
-        $res = $query->fetchAll(PDO::FETCH_ASSOC);
-        $tem_produto = @count($res);
-        $mostrar = 'ocultar';
-        if ($tem_produto > 0) {
-          for ($i = 0; $i < $tem_produto; $i++) {
-            foreach ($res[$i] as $key => $value) {
-            }
-            $id_prod = $res[$i]['id'];
-            $foto = $res[$i]['foto'];
-            $nome = $res[$i]['nome'];
-            $descricao = $res[$i]['descricao'];
-            $url = $res[$i]['url'];
-            $estoque = $res[$i]['estoque'];
-            $tem_estoque = $res[$i]['tem_estoque'];
-            $valor = $res[$i]['valor_venda'];
-            $valorF = number_format($valor, 2, ',', '.');
-
-            $descricaoF = mb_strimwidth($descricao, 0, 70, "...");
-
-            if ($tem_estoque == 'Sim' and $estoque <= 0) {
-              continue;
-            } else {
-
-              $url_produto = 'produto-' . $url;
-            }
-
-
-
-
-            //verificar se o produto tem adicionais
-            $query3 = $pdo->query("SELECT * FROM grades where produto = '$id_prod'");
-            $res3 = $query3->fetchAll(PDO::FETCH_ASSOC);
-            $total_adc = @count($res3);
-            if ($total_adc > 0) {
-              if ($tem_estoque == 'Sim' and $estoque <= 0) {
-                $url_produto = '#';
-              } else {
-                $url_produto = 'adicionais-' . $url;
-              }
-            } else {
-              if ($tem_estoque == 'Sim' and $estoque <= 0) {
-                $url_produto = '#';
-              } else {
-                $url_produto = 'observacoes-' . $url;
-              }
-            }
-
-
-        ?>
-
-
-            <div class="swiper-slide">
-              <div class="tpbrandproduct__item d-flex" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px">
-                <a href="<?php echo $url_produto ?>">
-                  <div class="tpblog__item">
-
-
-
-                    <div class="img_combo" style="height: 220px; width: 100%">
-                      <a href="<?php echo $url_produto ?>">
-                        <img src="sistema/painel/images/produtos/<?php echo $foto ?>" alt="" class="imag_combo">
-
-                      </a>
+              <div class="col-xl-4">
+                <a href="<?php echo $link_cat ?>">
+                  <div class="tpbrandproduct__item d-flex mb-10" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+                    <div class="imgem-cat-div p-relative">
+                      <img class="imagem-cat" src="sistema/painel/images/categorias/<?php echo $foto ?>" alt="">
                     </div>
 
-                    <span><b><?php echo $nome ?></b></span><br>
-                    <span style="font-size: 12px; color: #939393"><b><?php echo $descricaoF ?></b></span>
-                    <div class="tpproduct__price mb-10">
-                      <span>R$ <?php echo $valorF ?></span>
+                    <div class="tpbrandproduct__contact">
+                      <span><?php echo $nome ?></span><br>
+                      <span class="" style="color:#474747; font-size: 13px"><?php echo $descricaoF ?></span>
 
+                      <div class="tpproduct__price">
+                        <span style="color:#474747; font-size: 12px"><?php echo $tem_produto ?> Itens</span>
+                      </div>
                     </div>
-
-
-
                   </div>
                 </a>
               </div>
+
+
+          <?php }
+          } ?>
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- FIM CATEGORIAS DASKTOP -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- OFERTA DA SEMANA -->
+  <section class="brand-product" style="margin-top: 20px" id="promocao">
+    <div class="container">
+      <div class="sections__wrapper white-bg pl-50 pr-50 pb-40 brand-product">
+        <div class="row">
+          <div class="col-lg-12 text-center mb-20">
+            <div class="tpsection">
+              <h4 class="tpsection__sub-title">~~~~~~~~ OFERTA DA SEMANA ~~~~~~~~</h4>
             </div>
-        <?php }
-        } ?>
+          </div>
+        </div>
+        <div class="row">
+
+          <?php
+          $query = $pdo->query("SELECT * FROM produtos where ativo = 'Sim' and promocao = 'Sim'");
+          $res = $query->fetchAll(PDO::FETCH_ASSOC);
+          $tem_produto = @count($res);
+          $mostrar = 'ocultar';
+          if ($tem_produto > 0) {
+            for ($i = 0; $i < $tem_produto; $i++) {
+              foreach ($res[$i] as $key => $value) {
+              }
+              $id_prod = $res[$i]['id'];
+              $foto = $res[$i]['foto'];
+              $nome = $res[$i]['nome'];
+              $descricao = $res[$i]['descricao'];
+              $url = $res[$i]['url'];
+              $estoque = $res[$i]['estoque'];
+              $tem_estoque = $res[$i]['tem_estoque'];
+              $valor = $res[$i]['valor_venda'];
+              $val_promocional = $res[$i]['val_promocional'];
+
+              $valorF = number_format($valor, 2, ',', '.');
+
+              $val_promocionalF = number_format($val_promocional, 2, ',', '.');
+
+              $descricaoF = mb_strimwidth($descricao, 0, 50, "...");
+
+
+              $valor_porc = $valor - $val_promocional;
+
+              $valor_porcentagem = ($valor_porc / $valor) * 100;
+
+              $valor_porcentagemF = number_format($valor_porcentagem, 2, ',', '.') . '%';
+
+
+              if ($tem_estoque == 'Sim' and $estoque <= 0) {
+                continue;
+              } else {
+
+                $url_produto = 'produto-' . $url;
+              }
+
+
+
+              //verificar se o produto tem adicionais
+              $query3 = $pdo->query("SELECT * FROM grades where produto = '$id_prod'");
+              $res3 = $query3->fetchAll(PDO::FETCH_ASSOC);
+              $total_adc = @count($res3);
+              if ($total_adc > 0) {
+                if ($tem_estoque == 'Sim' and $estoque <= 0) {
+                  $url_produto = '#';
+                } else {
+                  $url_produto = 'adicionais-' . $url;
+                }
+              } else {
+                if ($tem_estoque == 'Sim' and $estoque <= 0) {
+                  $url_produto = '#';
+                } else {
+                  $url_produto = 'observacoes-' . $url;
+                }
+              }
+
+
+
+
+          ?>
+
+
+
+              <div class="col-xl-4">
+                <a href="<?php echo $url_produto ?>">
+                  <div class="tpbrandproduct__item d-flex mb-20" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+                    <div class="tpbrandproduct__img p-relative">
+                      <img src="sistema/painel/images/produtos/<?php echo $foto ?>" alt="">
+                      <div class="tpproduct__info bage tpbrandproduct__bage">
+                        <span class="tpproduct__info-discount bage__discount">-<?php echo $valor_porcentagemF ?></span>
+                      </div>
+                    </div>
+                    <div class="tpbrandproduct__contact">
+                      <span><?php echo $nome ?></span><br>
+                      <div class="tpproduct__rating">
+                        <a href="<?php echo $url_produto ?>"><i class="icon-star"></i></a>
+                        <a href="<?php echo $url_produto ?>"><i class="icon-star"></i></a>
+                        <a href="<?php echo $url_produto ?>"><i class="icon-star"></i></a>
+                        <a href="<?php echo $url_produto ?>"><i class="icon-star"></i></a>
+                        <a href="<?php echo $url_produto ?>"><i class="icon-star"></i></a>
+                      </div>
+                      <div class="tpproduct__price">
+                        <span>R$ <?php echo $val_promocionalF    ?></span>
+                        <del>R$ <?php echo $valorF ?></del>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+
+
+          <?php }
+          } ?>
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- FIM OFERTA DA SEMANA -->
+
+
+
+
+
+
+
+
+
+  <!-- APROVEITE NOSSO COMBOS -->
+  <section class="blog-area pt-75 pb-30" style="margin-top: -80px; margin-bottom: 80px;" id="combo">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <div class="tpsection mb-35">
+            <h4 class="tpsection__sub-title">~~~~~~~~ APROVEITE NOSSOS COMBOS ~~~~~~~~</h4>
+          </div>
+        </div>
+      </div>
+
+      <div class="swiper-container tpblog-active">
+        <div class="swiper-wrapper">
+
+
+          <?php
+          $query = $pdo->query("SELECT * FROM produtos where ativo = 'Sim' and combo = 'Sim'");
+          $res = $query->fetchAll(PDO::FETCH_ASSOC);
+          $tem_produto = @count($res);
+          $mostrar = 'ocultar';
+          if ($tem_produto > 0) {
+            for ($i = 0; $i < $tem_produto; $i++) {
+              foreach ($res[$i] as $key => $value) {
+              }
+              $id_prod = $res[$i]['id'];
+              $foto = $res[$i]['foto'];
+              $nome = $res[$i]['nome'];
+              $descricao = $res[$i]['descricao'];
+              $url = $res[$i]['url'];
+              $estoque = $res[$i]['estoque'];
+              $tem_estoque = $res[$i]['tem_estoque'];
+              $valor = $res[$i]['valor_venda'];
+              $valorF = number_format($valor, 2, ',', '.');
+
+              $descricaoF = mb_strimwidth($descricao, 0, 70, "...");
+
+              if ($tem_estoque == 'Sim' and $estoque <= 0) {
+                continue;
+              } else {
+
+                $url_produto = 'produto-' . $url;
+              }
+
+
+
+
+              //verificar se o produto tem adicionais
+              $query3 = $pdo->query("SELECT * FROM grades where produto = '$id_prod'");
+              $res3 = $query3->fetchAll(PDO::FETCH_ASSOC);
+              $total_adc = @count($res3);
+              if ($total_adc > 0) {
+                if ($tem_estoque == 'Sim' and $estoque <= 0) {
+                  $url_produto = '#';
+                } else {
+                  $url_produto = 'adicionais-' . $url;
+                }
+              } else {
+                if ($tem_estoque == 'Sim' and $estoque <= 0) {
+                  $url_produto = '#';
+                } else {
+                  $url_produto = 'observacoes-' . $url;
+                }
+              }
+
+
+          ?>
+
+
+              <div class="swiper-slide">
+                <div class="tpbrandproduct__item d-flex" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px">
+                  <a href="<?php echo $url_produto ?>">
+                    <div class="tpblog__item">
+
+
+
+                      <div class="img_combo" style="height: 220px; width: 100%">
+                        <a href="<?php echo $url_produto ?>">
+                          <img src="sistema/painel/images/produtos/<?php echo $foto ?>" alt="" class="imag_combo">
+
+                        </a>
+                      </div>
+
+                      <span><b><?php echo $nome ?></b></span><br>
+                      <span style="font-size: 12px; color: #939393"><b><?php echo $descricaoF ?></b></span>
+                      <div class="tpproduct__price mb-10">
+                        <span>R$ <?php echo $valorF ?></span>
+
+                      </div>
+
+
+
+                    </div>
+                  </a>
+                </div>
+              </div>
+          <?php }
+          } ?>
+        </div>
+
       </div>
 
     </div>
-
-  </div>
-</section><br>
-<!-- FIM APROVEITE NOSSO COMBOS -->
+  </section><br>
+  <!-- FIM APROVEITE NOSSO COMBOS -->
 
 
 
