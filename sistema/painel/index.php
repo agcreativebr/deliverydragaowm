@@ -528,8 +528,8 @@ if (@count($res1) > 0) {
 									<span class="side-menu__label" style="margin-left: 15px">Pedidos Esteira</span></a>
 							</li>
 
-							<li class="slide <?php echo @$pedidos_cozinha ?>">
-								<a class="side-menu__item" href="pedidos_cozinha">
+							<li class="slide <?php echo @$pedidos_mesa ?>">
+								<a class="side-menu__item" href="pedidos_mesa">
 									<i class="fa fa-table text-white"></i>
 									<span class="side-menu__label" style="margin-left: 15px">Pedido Cozinha</span></a>
 							</li>

@@ -87,7 +87,7 @@ HTML;
 
 <a class="btn btn-primary-light btn-sm" href="#" onclick="mostrar('{$nome}','{$email}','{$telefone}','{$endereco}', '{$data_cadF}','{$cpf}','{$data_nascF}','{$numero}','{$bairro}','{$cidade}','{$estado}','{$cep}','{$complemento}')" title="Mostrar Dados"><i class="fa fa-info-circle"></i></a>
 
-<a class="btn btn-secondary-light btn-sm" href="#" onclick="arquivo('{$id}', '{$nome}')" title="Inserir / Ver Arquivos"><i class="fa fa-file-o "></i></a>
+<a class="btn btn-dark-light btn-sm" href="#" onclick="arquivo('{$id}', '{$nome}')" title="Inserir / Ver Arquivos"><i class="fa fa-file-o "></i></a>
 
 <a class="btn btn-success-light btn-sm" href="#" onclick="mostrarContas('{$nome}','{$id}')" title="Mostrar Contas"><i class="fa fa-money"></i></a>
 
@@ -219,67 +219,5 @@ HTML;
 				$("#listar_debitos").html(result);
 			}
 		});
-	}
-</script>
-
-<script>
-	function selecionar(id) {
-
-		var ids = $('#ids').val();
-
-		if ($('#seletor-' + id).is(":checked") == true) {
-			var novo_id = ids + id + '-';
-			$('#ids').val(novo_id);
-		} else {
-			var retirar = ids.replace(id + '-', '');
-			$('#ids').val(retirar);
-		}
-
-		var ids_final = $('#ids').val();
-		if (ids_final == "") {
-			$('#btn-deletar').hide();
-		} else {
-			$('#btn-deletar').show();
-
-		}
-	}
-
-
-
-	function deletarSel() {
-		//$('#mensagem-excluir').text('Excluindo...')
-
-
-		$('body').removeClass('timer-alert');
-		swal({
-				title: "Deseja Excluir?",
-				text: "Você não conseguirá recuperá-lo novamente!",
-				type: "error",
-				showCancelButton: true,
-				confirmButtonClass: "btn btn-danger",
-				confirmButtonText: "Sim, Excluir!",
-				closeOnConfirm: true
-
-			},
-			function() {
-
-				//swal("Excluído(a)!", "Seu arquivo imaginário foi excluído.", "success");
-
-				var ids = $('#ids').val();
-				var id = ids.split("-");
-
-				for (i = 0; i < id.length - 1; i++) {
-					excluirMultiplos(id[i]);
-				}
-
-				setTimeout(() => {
-					excluido();
-					listar();
-				}, 1000);
-
-				limparCampos();
-
-			});
-
 	}
 </script>

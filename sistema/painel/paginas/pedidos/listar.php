@@ -239,14 +239,12 @@ echo <<<HTML
 
 
 
-
-
 		<big><a href="#" class="btn btn-danger-light btn-sm {$classe_excluir}" onclick="excluir('{$id}')" title="Excluir"><i class="fa fa-trash-can text-danger"></i></a></big>
 
 
 
 <a class="btn btn-success-light btn-sm {$classe_excluir}" href="#" onclick="baixar('{$id}', '{$nome_cliente}', '{$tipo_pgto}')" title="Confirmar Pgto">
-<i class="fa-solid fa-hand-holding-dollar"></i></a>
+<i class="fa fa-check-square"></i></a>
 
 
 <a class="btn btn-success-light btn-sm" target="_blank" href="http://api.whatsapp.com/send?1=pt_BR&phone={$telefone_clienteF}" title="Whatsapp Cliente">

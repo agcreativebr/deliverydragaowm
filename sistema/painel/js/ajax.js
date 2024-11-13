@@ -77,21 +77,19 @@ $("#form").submit(function () {
 function excluir(id) {
     //$('#mensagem-excluir').text('Excluindo...')
 
-
     $('body').removeClass('timer-alert');
-    swal({
+    Swal.fire({
         title: "Deseja Excluir?",
         text: "Você não conseguirá recuperá-lo novamente!",
-        type: "error",
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonClass: "btn btn-danger",
+        confirmButtonColor: '#d33', // Cor do botão de confirmação (vermelho)
+        cancelButtonColor: '#3085d6', // Cor do botão de cancelamento (azul)
         confirmButtonText: "Sim, Excluir!",
-        closeOnConfirm: true
-
-    },
-        function () {
-
-            //swal("Excluído(a)!", "Seu arquivo imaginário foi excluído.", "success");
+        cancelButtonText: "Cancel",
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
 
 
             $.ajax({
@@ -102,18 +100,31 @@ function excluir(id) {
 
                 success: function (mensagem) {
                     if (mensagem.trim() == "Excluído com Sucesso") {
-                        excluido();
+
+                        // Ação de exclusão aqui
+                        Swal.fire({
+                            title: 'Excluido com Sucesso!',
+                            text: 'Fecharei em 1 segundo.',
+                            icon: "success",
+                            timer: 1000
+                        })
+                        //excluido();
                         listar();
-                        limparCampos()
+                        limparCampos();
+
+
                     } else {
                         $('#mensagem-excluir').addClass('text-danger')
                         $('#mensagem-excluir').text(mensagem)
                     }
                 }
             });
-        });
 
-}
+        }
+    });
+
+
+};
 
 
 
@@ -201,3 +212,74 @@ function baixarConta(id) {
         });
 
 }
+
+
+
+function selecionar(id) {
+
+    var ids = $('#ids').val();
+
+    if ($('#seletor-' + id).is(":checked") == true) {
+        var novo_id = ids + id + '-';
+        $('#ids').val(novo_id);
+    } else {
+        var retirar = ids.replace(id + '-', '');
+        $('#ids').val(retirar);
+    }
+
+    var ids_final = $('#ids').val();
+    if (ids_final == "") {
+        $('#btn-deletar').hide();
+    } else {
+        $('#btn-deletar').show();
+    }
+}
+
+
+function deletarSel(id) {
+    //$('#mensagem-excluir').text('Excluindo...')
+
+    $('body').removeClass('timer-alert');
+    Swal.fire({
+        title: "Deseja Excluir?",
+        text: "Você não conseguirá recuperá-lo novamente!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33', // Cor do botão de confirmação (vermelho)
+        cancelButtonColor: '#3085d6', // Cor do botão de cancelamento (azul)
+        confirmButtonText: "Sim, Excluir!",
+        cancelButtonText: "Cancel",
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+
+
+
+
+            var ids = $('#ids').val();
+            var id = ids.split("-");
+
+            for (i = 0; i < id.length - 1; i++) {
+                excluirMultiplos(id[i]);
+            }
+
+            setTimeout(() => {
+                // Ação de exclusão aqui
+                Swal.fire({
+                    title: 'Excluido com Sucesso!',
+                    text: 'Fecharei em 1 segundo.',
+                    icon: "success",
+                    timer: 1000
+                })
+
+                listar();
+            }, 1000);
+
+            limparCampos();
+
+
+        }
+    });
+
+
+};

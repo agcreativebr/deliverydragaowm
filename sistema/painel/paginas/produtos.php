@@ -92,7 +92,7 @@ $pag = 'produtos';
 
 					<div class="row">
 
-						<div class="col-md-3">
+						<div class="col-md-2">
 							<div class="form-group">
 								<label for="exampleInputEmail1">Valor Compra</label>
 								<input type="text" class="form-control" id="valor_compra" name="valor_compra" placeholder="R$ 0,00">
@@ -100,35 +100,19 @@ $pag = 'produtos';
 						</div>
 
 
-						<div class="col-md-3">
+						<div class="col-md-2">
 							<div class="form-group">
 								<label for="exampleInputEmail1">Valor Venda</label>
 								<input type="text" class="form-control" id="valor_venda" name="valor_venda" placeholder="R$ 0,00">
 							</div>
 						</div>
 
-
-						<div class="col-md-3">
+						<div class="col-md-2">
 							<div class="form-group">
-								<label for="exampleInputEmail1">Alerta Estoque</label>
-								<input type="number" class="form-control" id="nivel_estoque" name="nivel_estoque"
-									placeholder="Nível Min.">
+								<label for="val_promocional">Valor Promoção</label>
+								<input type="text" class="form-control" id="val_promocional" name="val_promocional" placeholder="R$ 0,00">
 							</div>
 						</div>
-
-						<div class="col-md-3">
-							<div class="form-group">
-								<label for="exampleInputEmail1">Quantidade Guarnições</label>
-								<input type="number" class="form-control" id="guarnicoes" name="guarnicoes" placeholder="Se Houver">
-							</div>
-						</div>
-
-
-
-
-					</div>
-
-					<div class="row">
 
 
 						<div class="col-md-3">
@@ -141,12 +125,23 @@ $pag = 'produtos';
 							</div>
 						</div>
 
+
 						<div class="col-md-3">
 							<div class="form-group">
-								<label for="val_promocional">Valor Promocional</label>
-								<input type="text" class="form-control" id="val_promocional" name="val_promocional" placeholder="R$ 0,00">
+								<label for="exampleInputEmail1">Alerta Estoque</label>
+								<input type="number" class="form-control" id="nivel_estoque" name="nivel_estoque"
+									placeholder="Nível Min.">
 							</div>
 						</div>
+
+
+
+
+					</div>
+
+					<div class="row">
+
+
 
 
 						<div class="col-md-3">
@@ -171,14 +166,6 @@ $pag = 'produtos';
 							</div>
 						</div>
 
-
-
-
-					</div>
-
-
-					<div class="row">
-
 						<div class="col-md-3">
 							<div class="form-group">
 								<label for="exampleInputEmail1">Preparado Cozinha?</label>
@@ -202,10 +189,9 @@ $pag = 'produtos';
 						</div>
 
 
-
-
-
 					</div>
+
+
 
 
 
@@ -303,12 +289,7 @@ $pag = 'produtos';
 										<td class="bg-primary text-white">Alerta Nível Estoque</td>
 										<td><span id="nivel_estoque_dados"></span></td>
 									</tr>
-
-									<tr>
-										<td class="bg-primary text-white">Qtd Guarnições</td>
-										<td><span id="guarnicoes_dados"></span></td>
-									</tr>
-
+									
 									<tr>
 										<td class="bg-primary text-white">Tem Estoque</td>
 										<td><span id="tem_estoque_dados"></span></td>

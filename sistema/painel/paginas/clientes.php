@@ -390,9 +390,9 @@ if (@$clientes == 'ocultar') {
 
 <!-- Modal Baixar-->
 <div class="modal fade" id="modalBaixar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog ">
+	<div class="modal-dialog " style="box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;">
 		<div class="modal-content">
-			<div class="modal-header bg-primary text-white">
+			<div class="modal-header bg-success text-white">
 				<h4 class="modal-title" id="tituloModal">Baixar Conta: <span id="descricao-baixar"> </span></h4>
 				<button id="btn-fechar-baixar" aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"><span
 						class="text-white" aria-hidden="true">&times;</span></button>
@@ -631,8 +631,6 @@ if (@$clientes == 'ocultar') {
 			target.src = "";
 		}
 	}
-
-
 </script>
 
 

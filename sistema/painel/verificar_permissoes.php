@@ -13,7 +13,7 @@ $tarefas = 'ocultar';
 $lancar_tarefas = 'ocultar';
 $anotacoes = 'ocultar';
 $configuracoes = 'ocultar';
-$pedidos_cozinha = 'ocultar';
+$pedidos_mesa = 'ocultar';
 $pedido_site = 'ocultar';
 
 //grupo pessoas
@@ -272,8 +272,8 @@ if($total_reg > 0){
 			$pedidos_esteiras = '';
 		}
 		
-		if ($chave == 'pedidos_cozinha') {
-			$pedidos_cozinha = '';
+		if ($chave == 'pedidos_mesa') {
+			$pedidos_mesa = '';
 		}
 		
 

@@ -310,7 +310,7 @@ $segundos = $tempo_atualizar * 1000;
 				$('#mensagem-baixar').text('');
 				$('#mensagem-baixar').removeClass()
 				if (mensagem.trim() == "Baixado com Sucesso") {
-
+					baixado()
 					$('#btn-fechar-baixar').click();
 					listar();
 

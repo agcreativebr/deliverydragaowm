@@ -335,37 +335,4 @@ HTML;
 	}
 
 
-
-
-	function selecionar(id) {
-
-		var ids = $('#ids').val();
-
-		if ($('#seletor-' + id).is(":checked") == true) {
-			var novo_id = ids + id + '-';
-			$('#ids').val(novo_id);
-		} else {
-			var retirar = ids.replace(id + '-', '');
-			$('#ids').val(retirar);
-		}
-
-
-		var ids_final = $('#ids').val();
-		if (ids_final == "") {
-			$('#div_botoes').hide();
-		} else {
-			$('#div_botoes').show();
-		}
-	}
-
-	function deletarSel() {
-		var ids = $('#ids').val();
-		var id = ids.split("-");
-
-		for (i = 0; i < id.length - 1; i++) {
-			excluir_conta(id[i]);
-		}
-
-		limparCampos();
-	}
 </script>

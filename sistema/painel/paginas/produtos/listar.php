@@ -43,7 +43,7 @@ HTML;
 		$promocao = $res[$i]['promocao'];
 		$preparado = $res[$i]['preparado'];
 		$delivery = $res[$i]['delivery'];
-		$guarnicoes = $res[$i]['guarnicoes'];
+	
 		$val_promocional = $res[$i]['val_promocional'];
 
 		$nomeF = mb_strimwidth($nome, 0, 25, "...");
@@ -137,9 +137,9 @@ HTML;
 <td style="color:{$classe_linha}">{$delivery}</td>
 <td style="color:{$classe_linha}">{$preparado}</td>
 <td>
-	<a class="btn btn-info-light btn-sm" href="#" onclick="editar('{$id}','{$nome}', '{$categoria}', '{$valor_compra}', '{$valor_venda}', '{$foto}', '{$nivel_estoque}', '{$tem_estoque}', '{$guarnicoes}', '{$combo}', '{$promocao}', '{$preparado}', '{$delivery}', '{$val_promocional}')" title="Editar Dados"><i class="fa fa-edit"></i></a>
+	<a class="btn btn-info-light btn-sm" href="#" onclick="editar('{$id}','{$nome}', '{$categoria}', '{$valor_compra}', '{$valor_venda}', '{$foto}', '{$nivel_estoque}', '{$tem_estoque}', '{$combo}', '{$promocao}', '{$preparado}', '{$delivery}', '{$val_promocional}')" title="Editar Dados"><i class="fa fa-edit"></i></a>
 
-		<a class="btn btn-primary-light btn-sm" href="#" onclick="mostrar('{$id}','{$nome}', '{$nome_cat}', '{$valor_compraF}',  '{$valor_vendaF}', '{$estoque}', '{$foto}', '{$nivel_estoque}', '{$tem_estoque}', '{$guarnicoes}', '{$combo}', '{$promocao}', '{$preparado}', '{$delivery}', '{$val_promocionalF}')" title="Ver Dados"><i class="fa fa-info-circle"></i></a>
+		<a class="btn btn-primary-light btn-sm" href="#" onclick="mostrar('{$id}','{$nome}', '{$nome_cat}', '{$valor_compraF}',  '{$valor_vendaF}', '{$estoque}', '{$foto}', '{$nivel_estoque}', '{$tem_estoque}', '{$combo}', '{$promocao}', '{$preparado}', '{$delivery}', '{$val_promocionalF}')" title="Ver Dados"><i class="fa fa-info-circle"></i></a>
 
 <big><a href="#" class="btn btn-danger-light btn-sm" onclick="excluir('{$id}')" title="Excluir"><i class="fa fa-trash-can text-danger"></i></a></big>
 
@@ -193,7 +193,7 @@ HTML;
 
 
 <script type="text/javascript">
-	function editar(id, nome, categoria, valor_compra, valor_venda, foto, nivel_estoque, tem_estoque, guarnicoes, combo, promocao, preparado, delivery, val_promocional) {
+	function editar(id, nome, categoria, valor_compra, valor_venda, foto, nivel_estoque, tem_estoque, combo, promocao, preparado, delivery, val_promocional) {
 
 		var descricao = $('#descricao_' + id).val();
 		$('#descricao').val(descricao);
@@ -209,7 +209,6 @@ HTML;
 		$('#promocao').val(promocao).change();
 		$('#preparado').val(preparado).change();
 		$('#delivery').val(delivery).change();
-		$('#guarnicoes').val(guarnicoes);
 		$('#val_promocional').val(val_promocional);
 
 		$('#titulo_inserir').text('Editar Registro');
@@ -224,7 +223,6 @@ HTML;
 		$('#valor_compra').val('');
 		$('#valor_venda').val('');
 		$('#descricao').val('');
-		$('#guarnicoes').val('');
 		$('#foto').val('');
 		$('#val_promocional').val('');
 		$('#nivel_estoque').val('');
@@ -240,7 +238,7 @@ HTML;
 
 
 <script type="text/javascript">
-	function mostrar(id, nome, categoria, valor_compra, valor_venda, estoque, foto, nivel_estoque, tem_estoque, guarnicoes, combo, promocao, preparado, delivery, val_promocional) {
+	function mostrar(id, nome, categoria, valor_compra, valor_venda, estoque, foto, nivel_estoque, tem_estoque, combo, promocao, preparado, delivery, val_promocional) {
 
 		var descricao = $('#descricao_' + id).val();
 
@@ -253,7 +251,7 @@ HTML;
 		$('#estoque_dados').text(estoque);
 		$('#nivel_estoque_dados').text(nivel_estoque);
 		$('#tem_estoque_dados').text(tem_estoque);
-		$('#guarnicoes_dados').text(guarnicoes);
+
 
 
 		$('#combo_dados').text(combo);
@@ -327,68 +325,3 @@ HTML;
 	}
 </script>
 
-
-<script>
-	function selecionar(id) {
-
-		var ids = $('#ids').val();
-
-		if ($('#seletor-' + id).is(":checked") == true) {
-			var novo_id = ids + id + '-';
-			$('#ids').val(novo_id);
-		} else {
-			var retirar = ids.replace(id + '-', '');
-			$('#ids').val(retirar);
-		}
-
-		var ids_final = $('#ids').val();
-		if (ids_final == "") {
-			$('#btn-deletar').hide();
-		} else {
-			$('#btn-deletar').show();
-		}
-	}
-
-
-
-	function deletarSel() {
-		//$('#mensagem-excluir').text('Excluindo...')
-
-
-		$('body').removeClass('timer-alert');
-		swal({
-				title: "Deseja Excluir?",
-				text: "Você não conseguirá recuperá-lo novamente!",
-				type: "error",
-				showCancelButton: true,
-				confirmButtonClass: "btn btn-danger",
-				confirmButtonText: "Sim, Excluir!",
-				closeOnConfirm: true
-
-			},
-			function() {
-
-				//swal("Excluído(a)!", "Seu arquivo imaginário foi excluído.", "success");
-
-				var ids = $('#ids').val();
-				var id = ids.split("-");
-
-				for (i = 0; i < id.length - 1; i++) {
-					excluirMultiplos(id[i]);
-				}
-
-				setTimeout(() => {
-					excluido();
-					listar();
-				}, 1000);
-
-				limparCampos();
-
-				$('#btn-deletar').hide();
-
-
-
-			});
-
-	}
-</script>

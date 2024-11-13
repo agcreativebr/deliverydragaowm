@@ -237,25 +237,25 @@ HTML;
 	}
 
 
-
-	function deletarSel() {
+	function deletarSel(id) {
 		//$('#mensagem-excluir').text('Excluindo...')
 
-
 		$('body').removeClass('timer-alert');
-		swal({
-				title: "Deseja Excluir?",
-				text: "Você não conseguirá recuperá-lo novamente!",
-				type: "error",
-				showCancelButton: true,
-				confirmButtonClass: "btn btn-danger",
-				confirmButtonText: "Sim, Excluir!",
-				closeOnConfirm: true
+		Swal.fire({
+			title: "Deseja Excluir?",
+			text: "Você não conseguirá recuperá-lo novamente!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#d33', // Cor do botão de confirmação (vermelho)
+			cancelButtonColor: '#3085d6', // Cor do botão de cancelamento (azul)
+			confirmButtonText: "Sim, Excluir!",
+			cancelButtonText: "Cancel",
+			reverseButtons: true
+		}).then((result) => {
+			if (result.isConfirmed) {
 
-			},
-			function() {
 
-				//swal("Excluído(a)!", "Seu arquivo imaginário foi excluído.", "success");
+
 
 				var ids = $('#ids').val();
 				var id = ids.split("-");
@@ -265,15 +265,23 @@ HTML;
 				}
 
 				setTimeout(() => {
-					excluido();
+					// Ação de exclusão aqui
+					Swal.fire({
+						title: 'Excluido com Sucesso!',
+						text: 'Fecharei em 1 segundo.',
+						icon: "success",
+						timer: 1000
+					})
+
 					listar();
 				}, 1000);
 
 				limparCampos();
 
 
+			}
+		});
 
-			});
 
 	}
 </script>

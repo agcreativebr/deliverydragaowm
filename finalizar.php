@@ -947,6 +947,7 @@ $complemento = "";
             setTimeout(() => {
               alert('Pedido Finalizado!');
 
+
               //chamar o comprovante 
               var id = msg2;
               if (abrir_comprovante != 'Não') {
