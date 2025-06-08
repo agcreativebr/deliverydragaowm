@@ -200,9 +200,9 @@ class CodeExporter {
     }
     
     private function writeHeader() {
-    $header = "# 📁 Log de Programação - Sistema de Controle de Combustível" . PHP_EOL . PHP_EOL;
+    $header = "# 📁 Log de Programação - Sistema delivery" . PHP_EOL . PHP_EOL;
     $header .= "**Gerado em:** " . date('d/m/Y H:i:s') . PHP_EOL;
-    $header .= "**Projeto:** Sistema de Controle de Combustível (PHP Puro)" . PHP_EOL;
+    $header .= "**Projeto:** Sistema delivery" . PHP_EOL;
     $header .= "**Arquitetura:** PHP 8.1+ + MySQL + JavaScript Vanilla" . PHP_EOL . PHP_EOL;
     $header .= "---" . PHP_EOL;
 
@@ -251,7 +251,7 @@ class CodeExporter {
 // =====================================
 
 $projectPath = './';
-$logFile = 'public/codigo-log.md';
+$logFile = 'codigo-log.md';
 
 $options = getopt('p:f:h', ['path:', 'file:', 'help']);
 
