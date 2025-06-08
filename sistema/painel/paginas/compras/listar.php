@@ -11,6 +11,9 @@ $status = '%' . @$_POST['status'] . '%';
 $total_pago = 0;
 $total_a_pagar = 0;
 
+
+
+
 $query = $pdo->query("SELECT * FROM $tabela where vencimento >= '$dataInicial' and vencimento <= '$dataFinal' and pago LIKE '$status' and produto != 0 ORDER BY pago asc, vencimento asc");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_reg = @count($res);
@@ -89,6 +92,13 @@ HTML;
 		} else {
 			$nome_usuario_lanc = 'Sem Referência!';
 		}
+		$query2 = $pdo->query("SELECT * FROM formas_pgto where id = '$forma_pgto'");
+		$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+		if (@count($res2) > 0) {
+			$nome_pgto = $res2[0]['nome'];
+		} else {
+			$nome_pgto = 'Sem Registro';
+		}
 
 
 		if ($data_pgto == '0000-00-00') {
@@ -133,12 +143,11 @@ HTML;
 
 
 <td>
-		
 
-<a class="btn btn-primary-light btn-sm" href="#" onclick="mostrar('{$descricao}', '{$valorF}', '{$data_lancF}', '{$data_vencF}',  '{$data_pgtoF}', '{$nome_usuario_lanc}', '{$nome_usuario_pgto}', '{$tumb_arquivo}', '{$nome_pessoa}', '{$foto}', '{$telefone_pessoa}', '{$obs}', '{$forma_pgto}', '{$pago}')" title="Ver Dados"><i class="fa fa-info-circle"></i></a>
+<a class="btn btn-primary-light btn-sm" href="#" onclick="mostrar('{$descricao}', '{$valorF}', '{$data_lancF}', '{$data_vencF}',  '{$data_pgtoF}', '{$nome_usuario_lanc}', '{$nome_usuario_pgto}', '{$tumb_arquivo}', '{$nome_pessoa}', '{$foto}', '{$telefone_pessoa}', '{$obs}', '{$nome_pgto}', '{$pago}')" title="Ver Dados"><i class="fa fa-info-circle"></i></a>
 
 
-<big><a href="#" class="btn btn-danger-light btn-sm" onclick="excluir('{$id}')" title="Excluir"><i class="fa fa-trash-can text-danger"></i></a></big>
+<big><a href="#" class="btn btn-danger-light btn-sm {$visivel}" onclick="excluir('{$id}')" title="Excluir"><i class="fa fa-trash-can text-danger"></i></a></big>
 
 
 <big><a href="#" class="btn btn-success-light btn-sm {$visivel}" onclick="baixarConta('{$id}')" title="Baixar Conta"><i class="bi bi-check-square-fill"></i></a></big>

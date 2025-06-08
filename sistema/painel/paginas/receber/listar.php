@@ -189,8 +189,8 @@ if ($linhas > 0) {
 	<th>Descrição</th>	
 	<th>Valor</th>	
 	<th>Cliente</th>	
-	<th>Vencimento</th>	
-	<th>Pagamento</th>		
+	<th>Data Vencimento</th>	
+	<th>Data Pgto</th>		
 	<th class="text-center">Arquivo</th>	
 	<th>Ações</th>
 	</tr> 
@@ -243,7 +243,7 @@ HTML;
 
 
 		//extensão do arquivo
-		$ext = pathinfo($arquivo, PATHINFO_EXTENSION);
+		$ext = @pathinfo($arquivo, PATHINFO_EXTENSION);
 		if ($ext == 'pdf') {
 			$tumb_arquivo = 'pdf.png';
 		} else if ($ext == 'rar' || $ext == 'zip' || $ext == 'RAR' || $ext == 'ZIP') {
@@ -411,13 +411,13 @@ HTML;
 <td>{$data_pgtoF}</td>
 
 <td class="text-center"><a href="images/contas/{$arquivo}" target="_blank">
-	<img alt="avatar" class="rounded-circle" src="images/contas/{$tumb_arquivo}" width="30px" height="30px"></a>
+	<img class="rounded-circle" src="images/contas/{$tumb_arquivo}" width="30px" height="30px"></a>
 	</td>
 
 <td>
 	<big><a class="icones_mobile {$ocultar}" href="#" onclick="editar('{$id}','{$descricao}','{$valor}','{$cliente}','{$vencimento}','{$data_pgto}','{$forma_pgto}','{$frequencia}','{$obs}','{$tumb_arquivo}')" title="Editar Dados"><i class="fa fa-edit text-info"></i></a></big>
 
-<big><a href="#" onclick="excluirConta('{$id}')" title="Excluir"><i class="fa fa-trash-can text-danger"></i></a></big>
+<big><a class="{$ocultar}" href="#" onclick="excluirConta('{$id}')" title="Excluir"><i class="fa fa-trash-can text-danger"></i></a></big>
 
 	<big><a href="#" onclick="mostrar('{$descricao}','{$valorF}','{$nome_cliente}','{$vencimentoF}','{$data_pgtoF}','{$nome_pgto}','{$nome_frequencia}','{$obs}','{$tumb_arquivo}','{$multaF}','{$jurosF}','{$descontoF}','{$taxaF}','{$subtotalF}','{$nome_usu_lanc}','{$nome_usu_pgto}', '{$pago}', '{$arquivo}')" title="Mostrar Dados"><i class="fa fa-info-circle text-primary"></i></a></big>
 

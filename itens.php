@@ -21,9 +21,10 @@ if ($total_reg > 0) {
 	$pdo->query("DELETE FROM temp where carrinho = 0 and sessao = '$sessao'");
 }
 
-if ($_SESSION['nome_mesa'] != '') {
+if (@$_SESSION['nome_mesa'] != '') {
 	unset($_SESSION['pedido_balcao']);
-}
+};
+
 
 ?>
 
@@ -60,9 +61,15 @@ if ($_SESSION['nome_mesa'] != '') {
 					$estoque = $res[$i]['estoque'];
 					$tem_estoque = $res[$i]['tem_estoque'];
 					$valor = $res[$i]['valor_venda'];
-					$valorF = number_format($valor, 2, ',', '.');
 					$promocao = $res[$i]['promocao'];
 					$delivery = $res[$i]['delivery'];
+					$val_promocional = $res[$i]['val_promocional'];
+					$promocao = $res[$i]['promocao'];
+
+					$val_promocionalF = @number_format($val_promocional, 2, ',', '.');
+
+
+					$valorF = @number_format($valor, 2, ',', '.');
 
 					if (@$_SESSION['nome_mesa'] == "" and $delivery == 'Não') {
 						continue;
@@ -138,7 +145,7 @@ if ($_SESSION['nome_mesa'] != '') {
 														$id_item = $res3[$i3]['id'];
 														$nome_item = $res3[$i3]['texto'];
 														$valor_item = $res3[$i3]['valor'];
-														$valor_itemF = number_format($valor_item, 2, ',', '.');
+														$valor_itemF = @number_format($valor_item, 2, ',', '.');
 
 														echo '<span style="font-size:10px">(' . $nome_item . ') R$ ' . $valor_itemF;
 														if ($i3 < $total_reg3 - 1) {
@@ -149,7 +156,17 @@ if ($_SESSION['nome_mesa'] != '') {
 												}
 											} else {
 												if ($valor > 0) {
-													echo 'R$ ' . $valorF;
+
+													if($val_promocional != 0 and $promocao != 'Não'){
+														echo 'R$ ' . $val_promocionalF;
+														echo '  <del style="color: red">R$ ' . $valorF . ' </del';
+
+														//$valor = $val_promocional;
+													}else{
+														echo 'R$ ' . $valorF;
+													}
+
+													
 												}
 											}
 											?>

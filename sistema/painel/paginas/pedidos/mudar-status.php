@@ -13,7 +13,8 @@ $pagamento = @$_POST['pagamento'];
 $texto = @$_POST['texto'];
 
 
-$query = $pdo->query("SELECT * FROM vendas where id = '$id'");
+
+$query = $pdo->query("SELECT * FROM $tabela where id = '$id'");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_reg = @count($res);
 if ($total_reg > 0) {
@@ -21,7 +22,9 @@ if ($total_reg > 0) {
 	$entrega = $res[0]['entrega'];
 	$cliente = $res[0]['cliente'];
 	$forma_pgto = $res[0]['tipo_pgto'];
+	$pago = $res[0]['pago'];
 }
+
 
 
 //verificar caixa aberto
@@ -33,25 +36,28 @@ if (@count($res1) > 0) {
 	$id_caixa = 0;
 }
 
-
-
-if ($acao == 'Finalizado') {
-	$pdo->query("UPDATE $tabela SET status = '$acao', pago = 'Sim', usuario_baixa = $id_usuario where id = '$id'");
-
-
-	$pdo->query("INSERT INTO receber SET descricao = '$entrega', cliente = '$cliente', valor = '$valor', subtotal = '$valor', data_lanc = curDate(), hora = curTime(), pago = 'Sim', usuario_pgto = '$id_usuario', vencimento = curDate(), data_pgto = curDate(), foto = 'sem-foto.png', arquivo = 'sem-foto.png', forma_pgto = '$forma_pgto', caixa = '$id_caixa', referencia = '$entrega'");
-
-	$pdo->query("UPDATE entregadores SET pago = 'Sim', status = '$acao', data = curDate() where id = '$id'");
-
-} else {
-	$pdo->query("UPDATE $tabela SET status = '$acao' where id = '$id'");
+$query2 = $pdo->query("SELECT * FROM formas_pgto WHERE nome = '$pagamento'");
+$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+if (@count($res2) > 0) {
+	$id_tipo_pgto = $res2[0]['id'];
 }
 
 
 
+if ($acao == 'Finalizado') {
+	$pdo->query("UPDATE $tabela SET status = '$acao', pago = '$pago', usuario_baixa = $id_usuario where id = '$id'");
 
-echo 'Alterado com Sucesso***';
+if($pago != 'Sim'){
+		$pdo->query("INSERT INTO receber SET descricao = '$entrega', cliente = '$cliente', valor = '$valor', subtotal = '$valor', data_lanc = curDate(), hora = curTime(), pago = 'Sim', usuario_pgto = '$id_usuario', vencimento = curDate(), data_pgto = curDate(), foto = 'sem-foto.png', arquivo = 'sem-foto.png', forma_pgto = '$id_tipo_pgto', caixa = '$id_caixa', referencia = '$entrega'");
+}
 
+
+	
+} else {
+	$pdo->query("UPDATE $tabela SET status = '$acao' where id = '$id'");
+}
+
+$telefone = '55' . preg_replace('/[ ()-]+/', '', $telefone);
 
 if ($api_whatsapp != 'Não' and $acao == 'Entrega') {
 	$mensagem = '*----------ATENÇÃO----------* %0A%0A';
@@ -63,5 +69,33 @@ if ($api_whatsapp != 'Não' and $acao == 'Entrega') {
 	$telefone_envio = $telefone;
 	require ("../../../../js/ajax/api_texto.php");
 }
+
+
+if ($api_whatsapp != 'Não' and $acao == 'Aceito') {
+	$mensagem = '*----------ATENÇÃO----------* %0A%0A';
+
+	$mensagem .= 'Seu Pedido foi aceito, em breve iremos preparar!! %0A';
+	$mensagem .= '*Total:* R$ ' . $total . '%0A';
+	$mensagem .= '*Pagamento:* ' . $pagamento . '%0A';
+	$data_mensagem = date('Y-m-d H:i:s');
+	$telefone_envio = $telefone;
+	require ("../../../../js/ajax/api_texto.php");
+}
+
+
+if ($api_whatsapp != 'Não' and $acao == 'Preparando') {
+	$mensagem = '*----------ATENÇÃO----------* %0A%0A';
+
+	$mensagem .= 'Seu Pedido entrou em preparo!!';	
+	$data_mensagem = date('Y-m-d H:i:s');
+	$telefone_envio = $telefone;
+	require ("../../../../js/ajax/api_texto.php");
+}
+
+
+echo 'Alterado com Sucesso***';
+
+
+
 
 ?>

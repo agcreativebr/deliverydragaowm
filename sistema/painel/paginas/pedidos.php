@@ -156,7 +156,7 @@ $segundos = $tempo_atualizar * 1000;
 							<input type="hidden" name="id" id="id_baixar">
 						</div>
 						<div class="col-md-4">
-							<button type="submit" class="btn btn-primary">Confirmar</button>
+							<button id="btn_confirmar" type="submit" class="btn btn-primary">Confirmar</button>
 						</div>
 
 
@@ -219,6 +219,46 @@ $segundos = $tempo_atualizar * 1000;
 
 				<br><small>
 					<div align="center" id="mensagem-entregador"></div>
+				</small>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+<!-- Modal Desconto-->
+<div class="modal fade" id="modalDesconto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+	aria-hidden="true" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg-primary text-white">
+				<h4 class="modal-title" id="exampleModalLabel">Desconto</h4>
+				<button id="btn-fechar-desconto" aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+					type="button"><span class="text-white" aria-hidden="true">&times;</span></button>
+			</div>
+
+			<div class="modal-body">
+				<form id="form-desconto">
+					<div class="row">
+						<div class="col-md-8">
+							<input class="form-control" type="text" name="valor" id="desconto_valor">
+
+							<input type="hidden" name="id" id="id_desconto">
+						</div>
+						<div class="col-md-4">
+							<button id="btn_desconto" type="submit" class="btn btn-primary">Confirmar</button>
+						</div>
+
+
+					</div>
+				</form>
+
+				<br><small>
+					<div align="center" id="mensagem-desconto"></div>
 				</small>
 
 			</div>
@@ -306,6 +346,9 @@ $segundos = $tempo_atualizar * 1000;
 		event.preventDefault();
 		var formData = new FormData(this);
 
+		$('#mensagem-baixar').text('Carregando!!');
+		$('#btn_confirmar').hide();
+
 		$.ajax({
 			url: 'paginas/' + pag + "/baixar.php",
 			type: 'POST',
@@ -325,6 +368,9 @@ $segundos = $tempo_atualizar * 1000;
 					$('#mensagem-baixar').addClass('text-danger')
 					$('#mensagem-baixar').text(mensagem)
 				}
+
+				$('#mensagem-baixar').text('');
+				$('#btn_confirmar').show();
 
 
 			},
@@ -368,6 +414,50 @@ $segundos = $tempo_atualizar * 1000;
 				}
 
 				$('#btn_entregador').show();
+
+
+			},
+
+			cache: false,
+			contentType: false,
+			processData: false,
+
+		});
+
+	});
+
+
+
+
+	$("#form-desconto").submit(function() {
+
+		$('#mensagem-desconto').text('Carregando!!');
+		$('#btn_desconto').hide();
+
+		event.preventDefault();
+		var formData = new FormData(this);
+
+		$.ajax({
+			url: 'paginas/' + pag + "/desconto.php",
+			type: 'POST',
+			data: formData,
+
+			success: function(mensagem) {
+				$('#mensagem-desconto').text('');
+				$('#mensagem-desconto').removeClass()
+				if (mensagem.trim() == "Baixado com Sucesso") {
+					$('#btn_desconto').show();
+					$('#desconto_valor').val('');
+					$('#btn-fechar-desconto').click();
+					listar();
+
+				} else {
+
+					$('#mensagem-desconto').addClass('text-danger')
+					$('#mensagem-desconto').text(mensagem)
+				}
+
+				$('#btn_desconto').show();
 
 
 			},

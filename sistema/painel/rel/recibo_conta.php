@@ -166,12 +166,12 @@ if (@count($res) > 0) {
     <br><br>
     <div align="center">
 
-      <?php if ($assinatura_recibo != 'Sim') {
-        echo '<br><br>';
-      } else {
-        ?>
-        <img src="<?php echo $url_sistema ?>sistema/img/assinatura.jpg" width="" height=""><br>
-      <?php } ?>
+        <?php if ($assinatura_recibo != 'Sim') {
+          echo '<br><br>';
+        } else {
+          ?>
+          <img src="<?php echo $url_sistema ?>sistema/img/assinatura.jpg" width="100" height=""><br>
+        <?php } ?>
 
 
       ______________________________________________________________________<br>

@@ -267,7 +267,7 @@ $data_final_mes = $ano_atual . "-" . $mes_atual . "-" . $dia_final_mes;
 									$linhas = @count($res);
 									if ($linhas > 0) {
 										for ($i = 0; $i < $linhas; $i++) {
-											echo '<option value="' . $res[$i]['nome'] . '">' . $res[$i]['nome'] . '</option>';
+											echo '<option value="' . $res[$i]['id'] . '">' . $res[$i]['nome'] . '</option>';
 										}
 									} else {
 										echo '<option value="0">Cadastre uma Forma de Pagamento</option>';
@@ -342,14 +342,14 @@ $data_final_mes = $ano_atual . "-" . $mes_atual . "-" . $dia_final_mes;
 				<div class="row">
 
 
-					<div class="col-md-6">
+					<div class="col-md-9">
 						<div class="tile">
 							<div class="table-responsive">
 								<table id="" class="text-left table table-bordered">
 
 
 									<tr>
-										<td width="40%" class="bg-primary text-white">Valor</td>
+										<td width="30%" class="bg-primary text-white">Valor</td>
 										<td><span id="valor_dados"></span></td>
 									</tr>
 
@@ -386,21 +386,8 @@ $data_final_mes = $ano_atual . "-" . $mes_atual . "-" . $dia_final_mes;
 									</tr>
 
 
-
-
-								</table>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-md-6">
-						<div class="tile">
-							<div class="table-responsive">
-								<table id="" class="text-left table table-bordered">
-
-
 									<tr>
-										<td width="30%" class="bg-primary text-white w_150">Telefone</td>
+										<td class="bg-primary text-white w_150">Telefone</td>
 										<td><span id="telefone_dados"></span></td>
 									</tr>
 
@@ -422,18 +409,18 @@ $data_final_mes = $ano_atual . "-" . $mes_atual . "-" . $dia_final_mes;
 
 
 
+
+
 								</table>
 							</div>
 						</div>
 					</div>
 
-
-
-
-					<div class="col-md-12">
+					<div class="col-md-3">
 						<div class="tile">
 							<div class="table-responsive">
 								<table id="" class="text-left table table-bordered">
+
 
 									<tr>
 										<td align="center"><a id="link_mostrar" target="_blank" title="Clique para abrir o arquivo!">
@@ -445,6 +432,8 @@ $data_final_mes = $ano_atual . "-" . $mes_atual . "-" . $dia_final_mes;
 							</div>
 						</div>
 					</div>
+
+
 
 				</div>
 

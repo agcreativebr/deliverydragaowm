@@ -15,6 +15,7 @@ $url = preg_replace('/[ -]+/' , '-' , $nome_novo);
 $url = str_replace('+', '-', $url);
 $url = str_replace('/', '-', $url);
 $url = str_replace('"', '-', $url);
+$url = str_replace('%', '', $url);
 
 //validar nome
 $query = $pdo->query("SELECT * from $tabela where nome = '$nome'");
@@ -23,10 +24,6 @@ if(@count($res) > 0 and $id != $res[0]['id']){
 	echo 'Categoria já Cadastrado, escolha outro nome!!';
 	exit();
 }
-
-
-
-
 
 
 
@@ -41,24 +38,26 @@ if($total_reg > 0){
 }
 
 
+
+
 //SCRIPT PARA SUBIR FOTO NO SERVIDOR
-$nome_img = date('d-m-Y H:i:s') .'-'.@$_FILES['foto']['name'];
-$nome_img = preg_replace('/[ :]+/' , '-' , $nome_img);
+$nome_img = date('d-m-Y H:i:s') . '-' . @$_FILES['foto']['name'];
+$nome_img = preg_replace('/[ :]+/', '-', $nome_img);
 
-$caminho = '../../images/categorias/' .$nome_img;
+$caminho = '../../images/categorias/' . $nome_img;
 
-$imagem_temp = @$_FILES['foto']['tmp_name']; 
+$imagem_temp = @$_FILES['foto']['tmp_name'];
 
-if(@$_FILES['foto']['name'] != ""){
-	$ext = pathinfo($nome_img, PATHINFO_EXTENSION);   
-	if($ext == 'png' or $ext == 'jpg' or $ext == 'jpeg' or $ext == 'gif' or $ext == 'pdf' or $ext == 'rar' or $ext == 'zip' or $ext == 'doc' or $ext == 'docx' or $ext == 'webp' or $ext == 'PNG' or $ext == 'JPG' or $ext == 'JPEG' or $ext == 'GIF' or $ext == 'PDF' or $ext == 'RAR' or $ext == 'ZIP' or $ext == 'DOC' or $ext == 'DOCX' or $ext == 'WEBP' or $ext == 'xlsx' or $ext == 'xlsm' or $ext == 'xls' or $ext == 'xml'){ 
-	
-			//EXCLUO A FOTO ANTERIOR
-			if($foto != "sem-foto.jpg"){
-				@unlink('../../images/categorias/'.$foto);
-			}
+if (@$_FILES['foto']['name'] != "") {
+	$ext = pathinfo($nome_img, PATHINFO_EXTENSION);
+	if ($ext == 'png' or $ext == 'jpg' or $ext == 'jpeg' or $ext == 'gif' or $ext == 'pdf' or $ext == 'rar' or $ext == 'zip' or $ext == 'doc' or $ext == 'docx' or $ext == 'webp' or $ext == 'PNG' or $ext == 'JPG' or $ext == 'JPEG' or $ext == 'GIF' or $ext == 'PDF' or $ext == 'RAR' or $ext == 'ZIP' or $ext == 'DOC' or $ext == 'DOCX' or $ext == 'WEBP' or $ext == 'xlsx' or $ext == 'xlsm' or $ext == 'xls' or $ext == 'xml') {
 
-			$foto = $nome_img;
+		//EXCLUO A FOTO ANTERIOR
+		if ($foto != "sem-foto.jpg") {
+			@unlink('../../images/categorias/' . $foto);
+		}
+
+		$foto = $nome_img;
 
 		//pegar o tamanho da imagem
 		list($largura, $altura) = getimagesize($imagem_temp);
@@ -68,8 +67,7 @@ if(@$_FILES['foto']['name'] != ""){
 		} else {
 			move_uploaded_file($imagem_temp, $caminho);
 		}
-
-	}else{
+	} else {
 		echo 'Extensão de Imagem não permitida!';
 		exit();
 	}

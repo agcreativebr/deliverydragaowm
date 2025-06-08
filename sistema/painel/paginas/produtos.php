@@ -16,7 +16,23 @@ $pag = 'produtos';
 		<!-- EXCLUIR MULTIPLO -->
 		<a class="btn btn-danger" href="#" onclick="deletarSel()" title="Excluir" id="btn-deletar" style="display:none"><i class="fe fe-trash-2"></i> Deletar</a>
 
+		<select class="form-select sel7" name="categoria" id="busca" style="width:350px" onchange="buscar()">
+			<option value="">Buscasr por Categoria</option>
+			<?php
+			$query = $pdo->query("SELECT * from categorias order by id desc");
+			$res = $query->fetchAll(PDO::FETCH_ASSOC);
+			$linhas = @count($res);
+			if ($linhas > 0) {
+				for ($i = 0; $i < $linhas; $i++) { ?>
+					<option value="<?php echo $res[$i]['id'] ?>"><?php echo $res[$i]['nome'] ?></option>
+			<?php }
+			} ?>
+		</select>
+
+
 	</div>
+
+
 </div>
 
 
@@ -39,7 +55,7 @@ $pag = 'produtos';
 				<button id="btn-fechar" aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"><span
 						class="text-white" aria-hidden="true">&times;</span></button>
 			</div>
-			<form id="form">
+			<form id="form_produtos">
 				<div class="modal-body">
 
 					<div class="row">
@@ -289,7 +305,7 @@ $pag = 'produtos';
 										<td class="bg-primary text-white">Alerta Nível Estoque</td>
 										<td><span id="nivel_estoque_dados"></span></td>
 									</tr>
-									
+
 									<tr>
 										<td class="bg-primary text-white">Tem Estoque</td>
 										<td><span id="tem_estoque_dados"></span></td>
@@ -522,15 +538,14 @@ $pag = 'produtos';
 						</div>
 
 						<div class="col-md-3" style="margin-top: 25px">
-							<button type="submit" class="btn btn-primary">Salvar</button>
+							<button id="btn_var" type="submit" class="btn btn-primary">Salvar</button>
 
 						</div>
 
 					</div>
 
-
-
 					<input type="hidden" id="id_var" name="id">
+					<input type="hidden" id="id_it_var" name="id_item">
 
 				</form>
 
@@ -540,7 +555,6 @@ $pag = 'produtos';
 				</small>
 
 
-				<hr>
 				<div id="listar-var"></div>
 			</div>
 
@@ -846,7 +860,15 @@ $pag = 'produtos';
 </script>
 <script src="js/ajax.js"></script>
 
+<script>
+	$(document).ready(function() {
 
+		$('.sel7').select2({
+		
+		});
+
+	});
+</script>
 
 <script type="text/javascript">
 	function carregarImg() {
@@ -889,7 +911,7 @@ $pag = 'produtos';
 				if (mensagem.trim() == "Salvo com Sucesso") {
 
 					$('#btn-fechar-saida').click();
-					listar();
+					buscar();
 
 				} else {
 
@@ -930,7 +952,7 @@ $pag = 'produtos';
 				if (mensagem.trim() == "Salvo com Sucesso") {
 
 					$('#btn-fechar-entrada').click();
-					listar();
+					buscar();
 
 				} else {
 
@@ -977,6 +999,7 @@ $pag = 'produtos';
 					listarVariacoes(id_var);
 					limparCamposVar();
 
+
 				} else {
 
 					$('#mensagem-var').addClass('text-danger')
@@ -1001,6 +1024,7 @@ $pag = 'produtos';
 		$('#valor_var').val('');
 		$('#sigla').val('');
 		$('#descricao_var').val('');
+		$('#id_it_var').val('');
 
 	}
 
@@ -1121,7 +1145,6 @@ $pag = 'produtos';
 		$('#texto').val('');
 		$('#limite').val('');
 		$('#nome_comprovante').val('');
-
 		$('#id_grade_editar').val('');
 		$('#btn_grade').text('Salvar');
 
@@ -1400,4 +1423,61 @@ $pag = 'produtos';
 		});
 
 	}
+
+
+	function buscar() {
+		var busca = $('#busca').val();
+		listar(busca)
+	}
+</script>
+
+
+
+<script type="text/javascript">
+	
+$("#form_produtos").submit(function () {
+
+    event.preventDefault();
+    var formData = new FormData(this);
+
+    $('#mensagem').text('Salvando...')
+    $('#btn_salvar').hide();
+    $('#btn_carregando').show();
+
+    $.ajax({
+        url: 'paginas/' + pag + "/salvar.php",
+        type: 'POST',
+        data: formData,
+
+        success: function (mensagem) {
+            $('#mensagem').text('');
+            $('#mensagem').removeClass()
+            if (mensagem.trim() == "Salvo com Sucesso") {
+
+                $('#btn-fechar').click();
+                sucesso();
+                buscar();
+
+                $('#mensagem').text('')          
+
+            } else {
+
+                $('#mensagem').addClass('text-danger')
+                $('#mensagem').text(mensagem)
+            }
+
+            $('#btn_salvar').show();
+            $('#btn_carregando').hide();
+
+        },
+
+        cache: false,
+        contentType: false,
+        processData: false,
+
+    });
+
+});
+
+
 </script>

@@ -51,13 +51,13 @@ require_once("sistema/conexao.php");
 
 
 
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+	<!-- SweetAlert2 JS -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	
 
 
-	<!-- BOTÃO Scroll-top -->
-	<button class="scroll-top scroll-to-target mb-25" data-target="html">
-		<i class="icon-chevrons-up"></i>
-	</button>
-	<!-- Scroll-top-end-->
+
 
 
 </head>

@@ -211,7 +211,7 @@ if ($entrega == 'Consumir Local') {
 
   <div class="th title">Comprovante de Venda</div>
 
-  <div class="th">CUMPOM NÃO FISCAL</div>
+  <div class="th">CUPOM NÃO FISCAL</div>
 
   <?php
 

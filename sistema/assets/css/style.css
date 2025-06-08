@@ -16853,12 +16853,16 @@ body {
 }
 
 .chat-scroll,
-.Notification-scroll,
-.chat-scroll1,
-.Notification-scroll1,
-.cart-scroll {
-    max-height: 280px;
+.Notification-scroll {
+    max-height: 380px;
     position: relative;
+}
+
+.Not-scroll {
+    max-height: 380px;
+    /* Altura do conteúdo para demonstrar o scroll */
+    overflow-y: auto;
+    /* Permite rolagem no conteúdo */
 }
 
 
@@ -79677,7 +79681,18 @@ a.text-dark:focus {
 .botao_excluir_listar {
     padding: 12px;
     background: #ffd6d6;
+    border-radius: 5px;
+}
 
+.botao_excluir_listar_sim{
+    background: #e50000;
+    color: #ffffff;
+    padding: 2px 6px;
+    border-radius: 5px;
+}
+
+.botao_excluir_listar_sim:hover{
+    background: #ff3c3c;
 }
 
 
@@ -79921,30 +79936,39 @@ a.text-dark:focus {
 .text-azul {
     color: blue;
 }
+
 .width10 {
     width: 10%;
 }
-.width20{
+
+.width20 {
     width: 20%;
 }
-.width30{
+
+.width30 {
     width: 30%;
 }
-.width40{
+
+.width40 {
     width: 40%;
 }
-.width50{
+
+.width50 {
     width: 50%;
 }
+
 .width60 {
     width: 60%;
 }
+
 .width70 {
     width: 70%;
 }
+
 .width80 {
     width: 80%;
 }
+
 .width90 {
     width: 90%;
 }

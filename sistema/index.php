@@ -160,9 +160,9 @@ if (@$mensagem_auto == 'Sim' and strtotime($data_cobranca) != strtotime($data_at
 	<meta charset="UTF-8">
 	<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="Description" content="Fluxo Comunicação Inteligente">
-	<meta name="Author" content="Samuel Lima">
-	<meta name="Keywords" content="fluxo, comunicacao, inteligente, marketing, whatsapp" />
+	<meta name="Description" content="Sistema para Delivery Interativo, sistemas para delivery, delivery interativo, sistemas Hugo Vasconcelos, sistemas hugocursos, sistemas hugo">
+	<meta name="Author" content="Hugo Vasconcelos do Portal HugoCursos">
+	<meta name="Keywords" content="sistema para delivery, sistemas hugo vasconcelos, sistemas hugo, portal hugocursos" />
 
 	<!-- TITLE -->
 	<title><?php echo $nome_sistema ?></title>

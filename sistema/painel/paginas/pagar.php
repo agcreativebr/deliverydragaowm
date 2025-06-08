@@ -286,7 +286,7 @@ if ($linhas > 0) {
 								$linhas = @count($res);
 								if ($linhas > 0) {
 									for ($i = 0; $i < $linhas; $i++) {
-										echo '<option value="' . $res[$i]['nome'] . '">' . $res[$i]['nome'] . '</option>';
+										echo '<option value="' . $res[$i]['id'] . '">' . $res[$i]['nome'] . '</option>';
 									}
 								} else {
 									echo '<option value="0">Cadastre uma Forma de Pagamento</option>';
@@ -389,6 +389,11 @@ if ($linhas > 0) {
 									<tr>
 										<td class="bg-primary text-white w_150">Pagamento</td>
 										<td><span id="data_pgto_dados"></span></td>
+									</tr>
+
+									<tr>
+										<td class="bg-primary text-white w_150">Forma Pgto</td>
+										<td><span id="nome_pgto_dados"></span></td>
 									</tr>
 
 
@@ -600,7 +605,7 @@ if ($linhas > 0) {
 										}
 
 									?>
-										<option value="<?php echo $res[$i]['nome'] ?>"><?php echo $res[$i]['nome'] ?></option>
+										<option value="<?php echo $res[$i]['id'] ?>"><?php echo $res[$i]['nome'] ?></option>
 
 									<?php } ?>
 
@@ -671,7 +676,10 @@ if ($linhas > 0) {
 				</div>
 				<div class="modal-footer">
 
-					<button type="submit" class="btn btn-success">Baixar<i class="fa fa-check ms-2"></i></button>
+					<button type="submit" class="btn btn-success" id="btn_baixar">Baixar<i class="fa fa-check ms-2"></i></button>
+					<button class="btn btn-success" type="button" id="btn_carregando_baixar" style="display: none">
+						<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Carregando...
+					</button>
 				</div>
 			</form>
 		</div>
@@ -946,6 +954,10 @@ if ($linhas > 0) {
 		event.preventDefault();
 		var formData = new FormData(this);
 
+		$('#btn_carregando_baixar').show();
+		$('#btn_baixar').hide();
+
+
 		$.ajax({
 			url: 'paginas/' + pag + "/baixar.php",
 			type: 'POST',
@@ -962,6 +974,9 @@ if ($linhas > 0) {
 					$('#mensagem-baixar').addClass('text-danger')
 					$('#mensagem-baixar').text(mensagem)
 				}
+
+				$('#btn_carregando_baixar').hide();
+				$('#btn_baixar').show();
 
 			},
 

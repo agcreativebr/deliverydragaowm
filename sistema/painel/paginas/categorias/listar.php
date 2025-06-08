@@ -18,7 +18,7 @@ if ($total_reg > 0) {
 	<th>Descrição</th> 	
 	<th>Mais Sabores</th> 	
 	<th>Delivery</th> 
-			
+	<th>Produtos</th> 
 	<th>Ações</th>
 	</tr> 
 	</thead> 
@@ -41,7 +41,7 @@ HTML;
 			$ocultar_ad = '';
 		}
 
-		$descricaoF = mb_strimwidth($descricao, 0, 120, "...");
+		$descricaoF = mb_strimwidth($descricao, 0, 50, "...");
 
 		if ($ativo == 'Sim') {
 			$icone = 'fa-check-square';
@@ -54,6 +54,11 @@ HTML;
 			$acao = 'Sim';
 			$classe_linha = '#c4c4c4';
 		}
+
+		$query2 = $pdo->query("SELECT * from produtos where categoria = '$id'");
+		$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+		$produtos = @count($res2);
+
 
 		echo <<<HTML
 <tr class="{$classe_linha}">
@@ -70,7 +75,7 @@ HTML;
 <td style="color:{$classe_linha}">{$descricaoF}</td>
 <td style="color:{$classe_linha}">{$mais_sabores}</td>
 <td style="color:{$classe_linha}">{$delivery}</td>
-
+<td align="center" style="color:{$classe_linha}">{$produtos}</td>
 <td>
 	<a class="btn btn-info-light btn-sm" href="#" onclick="editar('{$id}','{$nome}', '{$descricao}', '{$foto}', '{$mais_sabores}', '{$delivery}')" title="Editar Dados"><i class="fa fa-edit"></i></a>
 

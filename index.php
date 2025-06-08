@@ -1,6 +1,7 @@
 <?php
-require_once("cabecalho.php");
 @session_start();
+require_once("cabecalho.php");
+
 
 $id_mesa = @$_POST['id_mesa'];
 $pedido_balcao = @$_POST['pedido_balcao'];
@@ -8,8 +9,10 @@ $pedido_balcao = @$_POST['pedido_balcao'];
 $url_instagram = 'https://www.instagram.com/' . $instagram_sistema . '/';
 
 if ($pedido_balcao != "") {
-  unset($_SESSION['id_mesa'], $_SESSION['nome_mesa'], $_SESSION['id_ab_mesa'], $_SESSION['sessao_usuario']);
+  unset($_SESSION['id_mesa'], $_SESSION['nome_mesa'], $_SESSION['id_ab_mesa'], $_SESSION['sessao_usuario'], $_SESSION['id_edicao']);
   $_SESSION['pedido_balcao'] = $pedido_balcao;
+
+  
 }
 
 @$sessão_balcao = $_SESSION['pedido_balcao'];
@@ -21,14 +24,28 @@ if ($sessão_balcao != '') {
 
 if ($id_mesa != "") {
   $_SESSION['id_mesa'] = $id_mesa;
+  unset($_SESSION['id_edicao']);
 }
 
 if (@$_SESSION['id_mesa'] != "") {
   $id_mesa = $_SESSION['id_mesa'];
+  unset($_SESSION['id_edicao']);
 }
 
 
 
+//buscar informações da edição pedido
+$id_edicao = @$_POST['id_edicao'];
+
+if ($id_edicao != "") {
+  $_SESSION['id_edicao'] = $id_edicao;
+  unset($_SESSION['id_mesa'], $_SESSION['nome_mesa'], $_SESSION['id_ab_mesa'], $_SESSION['sessao_usuario']);
+}
+
+if (@$_SESSION['id_edicao'] != "") {
+  $id_edicao = $_SESSION['id_edicao'];
+  unset($_SESSION['id_mesa'], $_SESSION['nome_mesa'], $_SESSION['id_ab_mesa'], $_SESSION['sessao_usuario']);
+}
 
 //buscar os dados da mesa
 $query2 = $pdo->query("SELECT * FROM mesas where id = '$id_mesa' ");
@@ -112,7 +129,11 @@ if ($id_mesa == "" and $sessão_balcao == "") {
 <script src="js/main.js"></script>
 
 
-
+<!-- BOTÃO Scroll-top -->
+<button class="scroll-top scroll-to-target mb-25" data-target="html">
+  <i class="icon-chevrons-up"></i>
+</button>
+<!-- Scroll-top-end-->
 
 <style type="text/css">
   .img-aberto {
@@ -262,8 +283,8 @@ if ($id_mesa == "" and $sessão_balcao == "") {
 
         <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5" style="width:100%;">
           <li class="nav-item" style="width:34%;">
-            <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" href="#categoria">
-              <img class="icone_mobile" src="img/acai.png" width="50px" height="50px">
+            <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 " href="#categoria">
+              <img class="icone_mobile" src="img/hamburguer.png" width="50px" height="50px">
               <div class="ps-1">
                 <small class="text-body titulo_icones">Categorias</small>
                 <h6 class="mt-n1 mb-0 subtitulo_icones" style="font-size: 12px">Produtos</h6>
@@ -272,7 +293,7 @@ if ($id_mesa == "" and $sessão_balcao == "") {
           </li>
           <li class="nav-item" style="width:34%;">
             <a class="d-flex align-items-center text-start mx-3 pb-3" href="#combo">
-              <img class="icone_mobile" src="img/acai2.png" width="50px" height="50px">
+              <img class="icone_mobile" src="img/comida.png" width="50px" height="50px">
               <div class="ps-1">
                 <small class="text-body titulo_icones">Combos</small>
                 <h6 class="mt-n1 mb-0 subtitulo_icones" style="font-size: 12px">Diversos</h6>
@@ -281,7 +302,7 @@ if ($id_mesa == "" and $sessão_balcao == "") {
           </li>
           <li class="nav-item" style="width:32%;">
             <a class="d-flex align-items-center text-start mx-3 me-0 pb-3" href="#promocao">
-              <img class="icone_mobile" src="img/icone3.png" width="50px" height="50px">
+              <img class="icone_mobile" src="img/promo.png" width="50px" height="50px">
               <div class="ps-1">
                 <small class="text-body titulo_icones">Promoções</small>
                 <h6 class="mt-n1 mb-0 subtitulo_icones" style="font-size: 12px">Ofertas</h6>
@@ -297,6 +318,22 @@ if ($id_mesa == "" and $sessão_balcao == "") {
   <!-- Menu End -->
 
 
+<div style=" display:flex; align-items:center; margin-bottom:20px; " class="padding_input">
+  <input 
+    onkeyup = "buscarProduto()"
+    placeholder="Digite o nome do Produto" 
+    type="text" 
+    name="buscar" 
+    id="buscar" 
+    style="flex-grow:1; margin-right:10px; border:none; border-bottom:1px solid #b3b3b3; outline:none; margin-top:-10px"
+  >
+  <i class="icon-search"></i>
+</div>
+
+
+<div id="area_busca" style="display:none; margin-top:-30px">
+  
+</div>
 
   <?php
   $query = $pdo->query("SELECT * FROM categorias where ativo = 'Sim'");
@@ -361,7 +398,7 @@ if ($id_mesa == "" and $sessão_balcao == "") {
                 $mostrar = 'ocultar';
               }
 
-              $descricaoF = mb_strimwidth($descricao, 0, 23, "...");
+              $descricaoF = mb_strimwidth($descricao, 0, 35, "...");
 
               if ($mais_sabores == 'Sim') {
                 $link_cat =  "categoria-sabores-" . $url;
@@ -378,7 +415,7 @@ if ($id_mesa == "" and $sessão_balcao == "") {
 
               <a href="<?php echo $link_cat ?>">
                 <div class="swiper-slide">
-                  <div class="category__item mb-30" style="height: 200px; background: #f5f5f5; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px">
+                  <div class="category__item mb-30" style="height: 250px; background: #f5f5f5; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px">
                     <div class="quadrado">
                       <div class="fix">
                         <img src="sistema/painel/images/categorias/<?php echo $foto ?>" alt="category-thumb" class="imagem">
@@ -426,7 +463,7 @@ if ($id_mesa == "" and $sessão_balcao == "") {
                 $valor = $res[$i]['valor_venda'];
                 $valorF = number_format($valor, 2, ',', '.');
 
-                $descricaoF = mb_strimwidth($descricao, 0, 70, "...");
+                $descricaoF = mb_strimwidth($descricao, 0, 100, "...");
 
                 if ($tem_estoque == 'Sim' and $estoque <= 0) {
                   continue;
@@ -642,14 +679,14 @@ if ($id_mesa == "" and $sessão_balcao == "") {
 
 
 
-    <!-- OFERTA DA SEMANA -->
+    <!-- OFERTAS DA SEMANA -->
     <section class="brand-product" style="margin-top: 20px" id="promocao">
       <div class="container">
         <div class="sections__wrapper white-bg pl-50 pr-50 pb-40 brand-product">
           <div class="row">
             <div class="col-lg-12 text-center mb-20">
               <div class="tpsection">
-                <h4 class="tpsection__sub-title">~~~~~~~~ OFERTA DA SEMANA ~~~~~~~~</h4>
+                <h4 class="tpsection__sub-title">~~~~~~~~ OFERTAS DA SEMANA ~~~~~~~~</h4>
               </div>
             </div>
           </div>
@@ -720,15 +757,21 @@ if ($id_mesa == "" and $sessão_balcao == "") {
 
 
 
+
+
+
+
                 <div class="col-xl-4">
-                  <a href="<?php echo $url_produto ?>">
-                    <div class="tpbrandproduct__item d-flex mb-20" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
-                      <div class="tpbrandproduct__img p-relative">
+                  <div class="tpbrandproduct__item d-flex mb-20" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+                    <a href="<?php echo $url_produto ?>">
+                      <div class="imgem-cat-div p-relative">
                         <img src="sistema/painel/images/produtos/<?php echo $foto ?>" alt="">
                         <div class="tpproduct__info bage tpbrandproduct__bage">
                           <span class="tpproduct__info-discount bage__discount">-<?php echo $valor_porcentagemF ?></span>
                         </div>
                       </div>
+
+
                       <div class="tpbrandproduct__contact">
                         <span><?php echo $nome ?></span><br>
                         <div class="tpproduct__rating">
@@ -743,8 +786,9 @@ if ($id_mesa == "" and $sessão_balcao == "") {
                           <del>R$ <?php echo $valorF ?></del>
                         </div>
                       </div>
-                    </div>
-                  </a>
+                    </a>
+                  </div>
+
                 </div>
 
 
@@ -763,7 +807,7 @@ if ($id_mesa == "" and $sessão_balcao == "") {
 
 
 
-  <?php }?>
+  <?php } ?>
 
 
   <?php
@@ -808,7 +852,16 @@ if ($id_mesa == "" and $sessão_balcao == "") {
                 $valor = $res[$i]['valor_venda'];
                 $valorF = number_format($valor, 2, ',', '.');
 
-                $descricaoF = mb_strimwidth($descricao, 0, 70, "...");
+                $promocao = $res[$i]['promocao'];
+                $val_promocional = $res[$i]['val_promocional'];
+
+          $val_promocionalF = @number_format($val_promocional, 2, ',', '.');
+
+          if($val_promocional != 0 and $promocao != 'Não'){
+            $valorF = $val_promocionalF;
+          }
+
+                $descricaoF = mb_strimwidth($descricao, 0, 100, "...");
 
                 if ($tem_estoque == 'Sim' and $estoque <= 0) {
                   continue;
@@ -885,8 +938,8 @@ if ($id_mesa == "" and $sessão_balcao == "") {
 </div>
 
 
-<?php if($tem_produto >= 0 and $total_cat2 >= 0 and $total_cat >= 0){
- echo 'Nenhum Produtos Disponível!';
+<?php if ($tem_produto >= 0 and $total_cat2 >= 0 and $total_cat >= 0) {
+  
 }
 ?>
 
@@ -955,3 +1008,36 @@ if ($id_mesa == "" and $sessão_balcao == "") {
 </body>
 
 </html>
+
+
+<script type="text/javascript">
+  function buscarProduto(){
+    var buscar = $('#buscar').val();
+    if(buscar == ""){
+      $('#area_busca').hide();
+    }else{
+      $('#area_busca').show();
+
+      $.ajax({
+      url: 'js/ajax/buscar_produtos.php',
+      method: 'POST',
+      data: {
+        buscar
+      },
+      dataType: "text",
+
+      success: function(mensagem) {       
+       
+       $('#area_busca').html(mensagem);
+
+      },
+
+    });
+
+    }
+
+
+
+
+  }
+</script>

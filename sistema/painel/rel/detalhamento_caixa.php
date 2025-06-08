@@ -153,12 +153,8 @@ $texto_filtro = 'OPERADOR: ' . $nome_operador;
 ?>
 
 <!DOCTYPE html>
-
 <html>
-
 <head>
-
-
 
 	<style>
 		@import url('https://fonts.cdnfonts.com/css/tw-cen-mt-condensed');
@@ -302,8 +298,6 @@ $texto_filtro = 'OPERADOR: ' . $nome_operador;
 
 		<?php if ($total_recebido > 0 || $total_saidas > 0) { ?>
 
-
-
 			<div style="border-bottom: 1px solid #000; margin-top: 30px">
 
 				<div style="font-size: 11px; margin-bottom: 7px"><b>DETALHAMENTO DE ENTRADAS / TOTAL <span style="color:green">R$ <?php echo $total_recebidoF ?></span></b></div>
@@ -319,7 +313,7 @@ $texto_filtro = 'OPERADOR: ' . $nome_operador;
 					<tr id="cabeca" style="margin-left: 0px; background-color:#CCC; font-weight: bold">
 
 						<?php
-						$query2 = $pdo->query("SELECT * FROM formas_pgto order by nome asc");
+						$query2 = $pdo->query("SELECT * FROM formas_pgto order by id asc");
 						$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 						if (@count($res2) > 0) {
 							for ($i2 = 0; $i2 < @count($res2); $i2++) {
@@ -336,16 +330,18 @@ $texto_filtro = 'OPERADOR: ' . $nome_operador;
 
 					<tr id="cabeca" style="margin-left: 0px;">
 						<?php
+						//PEGAR O ID DA FORMA DE PAGAMENTO
 						$query2 = $pdo->query("SELECT * FROM formas_pgto order by id asc");
 						$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 						if (@count($res2) > 0) {
 							for ($i2 = 0; $i2 < @count($res2); $i2++) {
 								$id_pgto = $res2[$i2]['id'];
 
-								//total de entradas por essa forma de pgto	
+								//TOTAL DE ENTRADAS POR ESSA FORMA DE PGTO
 								$total_recebido_pgto = 0;
 								$query3 = $pdo->query("SELECT * FROM receber where usuario_pgto = '$operador' and data_pgto >= '$data_abertura' and data_pgto <= '$data_fechamento_consulta' and forma_pgto = '$id_pgto' and caixa = '$id'");
 								$res3 = $query3->fetchAll(PDO::FETCH_ASSOC);
+
 								if (@count($res3) > 0) {
 									for ($i3 = 0; $i3 < @count($res3); $i3++) {
 										$valor_rec_pgto = $res3[$i3]['valor'];
@@ -363,8 +359,6 @@ $texto_filtro = 'OPERADOR: ' . $nome_operador;
 					</tr>
 				</thead>
 			</table>
-
-
 
 
 
@@ -396,15 +390,11 @@ $texto_filtro = 'OPERADOR: ' . $nome_operador;
 					$total_consumoF = 0;
 					$total_finalF = 0;
 
-					$query = $pdo->query("SELECT * from receber where usuario_pgto = '$operador' and data_pgto >= '$data_abertura' and data_pgto <= '$data_fechamento_consulta' and caixa = '$id' ORDER BY ID ASC");
-
+					$query = $pdo->query("SELECT * from receber where usuario_pgto = '$operador' and data_pgto >= '$data_abertura' and data_pgto <= '$data_fechamento_consulta' and caixa = '$id' ORDER BY id ASC");
 					$res = $query->fetchAll(PDO::FETCH_ASSOC);
-
 					$linhas = @count($res);
 					if ($linhas > 0) {
 						for ($i = 0; $i < $linhas; $i++) {
-
-
 
 							$descricao = $res[$i]['descricao'];
 							$valor = $res[$i]['valor'];
@@ -425,9 +415,6 @@ $texto_filtro = 'OPERADOR: ' . $nome_operador;
 
 							$forma_pgtoF = $forma_pgto;
 
-
-
-
 							$data_lancF = implode('/', array_reverse(@explode('-', $data_lanc)));
 							$data_vencF = implode('/', array_reverse(@explode('-', $data_venc)));
 							$data_pgtoF = implode('/', array_reverse(@explode('-', $data_pgto)));
@@ -444,13 +431,12 @@ $texto_filtro = 'OPERADOR: ' . $nome_operador;
 								$nome_usu_lanc = 'Sem Usuário';
 							}
 
-
 							$query2 = $pdo->query("SELECT * FROM clientes where id = '$cliente'");
 							$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 							if (@count($res2) > 0) {
 								$nome_cliente = $res2[0]['nome'];
 							} else {
-								$nome_cliente = '';
+								$nome_cliente = 'Sem Registro';
 							}
 
 
@@ -470,34 +456,25 @@ $texto_filtro = 'OPERADOR: ' . $nome_operador;
 							$total_finalF = @number_format($total_final, 2, ',', '.');
 
 
-							if ($referencia == 'Venda' || $referencia == 'Serviço') {
-								$texto_ref = 'VENDA';
-							} else {
-								$texto_ref = '';
-							}
-
-							if ($referencia == 'Entrada' || $referencia == 'Restante') {
-								$texto_ref2 = 'RESERVA';
-							} else {
-								$texto_ref2 = '';
+							$query2 = $pdo->query("SELECT * FROM formas_pgto WHERE id = '$forma_pgto'");
+							$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+							if (@count($res2) > 0) {
+								$nome_do_pgto = $res2[0]['nome'];
 							}
 
 
 					?>
 
 
-
-
-
 							<tr>
 
 								<td style="width:25%"><?php echo $descricao ?></td>
-								<td style="width:9%;"><?php echo $texto_ref2  ?><?php echo $texto_ref ?> </td>
+								<td style="width:9%;"><?php echo $referencia ?></td>
 								<td style="width:10%; color:green">R$ <?php echo $valorF ?></td>
 								<td style="width:9%"><?php echo $data_pgtoF ?></td>
 								<td style="width:9%; "><?php echo $horaF ?></td>
 								<td style="width:20%; "><?php echo $nome_cliente ?></td>
-								<td style="width:17%"><?php echo $forma_pgtoF ?></td>
+								<td style="width:17%"><?php echo @$nome_do_pgto ?></td>
 
 
 
@@ -507,9 +484,6 @@ $texto_filtro = 'OPERADOR: ' . $nome_operador;
 
 					<?php }
 					} ?>
-
-
-
 
 
 				</thead>
@@ -557,23 +531,24 @@ $texto_filtro = 'OPERADOR: ' . $nome_operador;
 						$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 						if (@count($res2) > 0) {
 							for ($i2 = 0; $i2 < @count($res2); $i2++) {
-								$id_pgto = $res2[$i2]['nome'];
-
+								$id_pgto = $res2[$i2]['id'];
 
 
 								//total de entradas por essa forma de pgto	
 								$total_recebido_pgto = 0;
-								$query3 = $pdo->query("SELECT * FROM pagar where usuario_pgto = '$operador' and data_pgto >= '$data_abertura' and data_pgto <= '$data_fechamento_consulta' and forma_pgto = '$id_pgto' and caixa = '$id'");
-								$res3 = $query3->fetchAll(PDO::FETCH_ASSOC);
-								if (@count($res3) > 0) {
-									for ($i3 = 0; $i3 < @count($res3); $i3++) {
-										$valor_rec_pgto = $res3[$i3]['valor'];
+								
+								$query4 = $pdo->query("SELECT * FROM pagar where usuario_pgto = '$operador' and data_pgto >= '$data_abertura' and data_pgto <= '$data_fechamento_consulta' and forma_pgto = '$id_pgto' and caixa = '$id'");
+								$res4 = $query4->fetchAll(PDO::FETCH_ASSOC);
+								
+								if (@count($res4) > 0) {
+									for ($i4 = 0; $i4 < @count($res4); $i4++) {
+										$valor_rec_pgto = $res4[$i4]['valor'];
 										$total_recebido_pgto += $valor_rec_pgto;
 									}
+
 								}
 
 								$total_recebido_pgtoF = @number_format($total_recebido_pgto, 2, ',', '.');
-
 
 
 								echo '<td style="width:20%; color:red">R$ ' . $total_recebido_pgtoF . '</td>';
@@ -582,7 +557,6 @@ $texto_filtro = 'OPERADOR: ' . $nome_operador;
 
 
 						?>
-
 
 					</tr>
 
@@ -696,7 +670,7 @@ $texto_filtro = 'OPERADOR: ' . $nome_operador;
 							$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 							if (@count($res2) > 0) {
 								$nome_pessoa = $res2[0]['nome'];
-								$pix_pessoa = $res2[0]['chave_pix'];
+								$pix_pessoa = $res2[0]['pix'];
 								$tipo_pessoa = 'Fornecedor';
 							}
 
@@ -704,9 +678,16 @@ $texto_filtro = 'OPERADOR: ' . $nome_operador;
 							$query2 = $pdo->query("SELECT * FROM usuarios where id = '$funcionario'");
 							$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 							if (@count($res2) > 0) {
-								$nome_pessoa = $res2[0]['nome'];
-								$pix_pessoa = $res2[0]['chave_pix'];
+								$nome_pessoa = @$res2[0]['nome'];
+								$pix_pessoa = @$res2[0]['chave_pix'];
 								$tipo_pessoa = 'Funcionário';
+							}
+
+
+							$query2 = $pdo->query("SELECT * FROM formas_pgto WHERE id = '$forma_pgto'");
+							$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+							if (@count($res2) > 0) {
+								$nome_do_pgto = $res2[0]['nome'];
 							}
 
 
@@ -725,7 +706,7 @@ $texto_filtro = 'OPERADOR: ' . $nome_operador;
 								<td style="width:9%"><?php echo $data_pgtoF ?></td>
 								<td style="width:9%; "><?php echo $horaF ?></td>
 								<td style="width:20%; "><?php echo $nome_pessoa ?></td>
-								<td style="width:17%"><?php echo $forma_pgtoF ?></td>
+								<td style="width:17%"><?php echo $nome_do_pgto ?></td>
 
 							</tr>
 
@@ -773,59 +754,48 @@ $texto_filtro = 'OPERADOR: ' . $nome_operador;
 
 
 					<tr id="cabeca" style="margin-left: 0px; background-color:#CCC; font-weight: bold">
-
 						<td style="width:20%">VALOR</td>
-
 						<td style="width:40%">FEITA POR</td>
-
 						<td style="width:20%">DATA</td>
-
 						<td style="width:20%">HORA</td>
-
-
-
 
 					</tr>
 
 
-
 					<?php
 
-
 					$query = $pdo->query("SELECT * from sangrias where caixa = '$id' ORDER BY ID ASC");
-
 					$res = $query->fetchAll(PDO::FETCH_ASSOC);
-
 					$linhas = @count($res);
-
 					if ($linhas > 0) {
-
 						for ($i = 0; $i < $linhas; $i++) {
-
 
 							$valor = $res[$i]['valor'];
 							$usuario = $res[$i]['usuario'];
 							$data = $res[$i]['data'];
 							$hora = $res[$i]['hora'];
-
-
+							$feito_por = $res[$i]['feito_por'];
 
 
 							$dataF = implode('/', array_reverse(@explode('-', $data)));
 							$valorF = @number_format($valor, 2, ',', '.');
 							$horaF = date("H:i", @strtotime($hora));
 
-
 							$query2 = $pdo->query("SELECT * FROM usuarios where id = '$usuario'");
-
 							$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-
 							if (@count($res2) > 0) {
-
 								$nome_usu_lanc = $res2[0]['nome'];
 							} else {
-
 								$nome_usu_lanc = 'Sem Usuário';
+							}
+
+
+							$query2 = $pdo->query("SELECT * FROM usuarios where id = '$feito_por'");
+							$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+							if (@count($res2) > 0) {
+								$nome_usu_feito = $res2[0]['nome'];
+							} else {
+								$nome_usu_feito = 'Sem Usuário';
 							}
 
 
@@ -838,7 +808,7 @@ $texto_filtro = 'OPERADOR: ' . $nome_operador;
 							<tr>
 
 								<td style="width:20%; color:red">R$ <?php echo $valorF ?></td>
-								<td style="width:40%"><?php echo $nome_usu_lanc ?></td>
+								<td style="width:40%"><?php echo $nome_usu_feito ?></td>
 								<td style="width:20%; "><?php echo $dataF ?></td>
 								<td style="width:20%; "><?php echo $horaF ?></td>
 

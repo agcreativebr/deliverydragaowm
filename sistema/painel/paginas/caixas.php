@@ -53,7 +53,7 @@ $pag = 'caixas';
 
 					<?php
 					if ($nivel_usuario == 'Administrador' || $nivel_usuario == 'Gerente') {
-						$query = $pdo->query("SELECT * FROM usuarios where nivel != 'Cliente' order by nome asc");
+						$query = $pdo->query("SELECT * FROM usuarios where nivel != 'Cliente' and acessar_painel != 'Não'  and nivel != 'Entregador' and nivel != 'Motoboy' order by nome asc");
 						echo '<option value="">Selecionar Operador</option>';
 					} else {
 						$query = $pdo->query("SELECT * FROM usuarios where id = '$id_usuario' ");
@@ -121,7 +121,7 @@ $pag = 'caixas';
 								<select class="form-select sel5" aria-label="Default select example" name="operador" id="operador" style="width:100%" required>
 									<?php
 									if ($nivel_usuario == 'Administrador' || $nivel_usuario == 'Gerente') {
-										$query = $pdo->query("SELECT * FROM usuarios where nivel != 'Cliente'order by id desc");
+										$query = $pdo->query("SELECT * FROM usuarios where nivel != 'Cliente'  and acessar_painel != 'Não' and nivel != 'Entregador' and nivel != 'Motoboy' order by id desc");
 										echo '<option value="">Selecionar Operador</option>';
 									} else {
 										$query = $pdo->query("SELECT * FROM usuarios where id = '$id_usuario' ");
@@ -278,12 +278,31 @@ $pag = 'caixas';
 
 
 					<div class="row">
-						<div class="col-md-5">
-							<label>Operador</label>
-							<input type="text" class="form-control" name="nome_operador_sangria" id="nome_operador_sangria"
-								readonly="">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Operador</label>
+								<select class="form-select sel5" aria-label="Default select example" name="nome_operador_sangria" id="nome_operador_sangria" style="width:100%" required>
+									<?php
+									if ($nivel_usuario == 'Administrador' || $nivel_usuario == 'Gerente') {
+										$query = $pdo->query("SELECT * FROM usuarios where nivel != 'Cliente'  and acessar_painel != 'Não' and nivel != 'Entregador' and nivel != 'Motoboy' order by id desc");
+										echo '<option value="0">Selecionar Operador</option>';
+									} else {
+										$query = $pdo->query("SELECT * FROM usuarios where id = '$id_usuario' ");
+									}
+									$res = $query->fetchAll(PDO::FETCH_ASSOC);
+									for ($i = 0; $i < @count($res); $i++) {
+										foreach ($res[$i] as $key => $value) {
+										}
+									?>
+										<option value="<?php echo $res[$i]['id'] ?>" <?php if ($res[$i]['id'] == $id_usuario) { ?> selected <?php } ?>>
+											<?php echo $res[$i]['nome'] ?> </option>
+									<?php } ?>
+								</select>
+							</div>
 						</div>
-						<div class="col-md-4">
+
+
+						<div class="col-md-3">
 							<div class="form-group">
 								<label>Valor Sangria</label>
 								<input type="text" class="form-control" name="valor_sangria" id="valor_sangria" placeholder="0,00">
@@ -345,9 +364,6 @@ $pag = 'caixas';
 		$('.sel3').select2({
 			dropdownParent: $('#modalParcelar')
 		});
-
-
-
 	});
 </script>
 

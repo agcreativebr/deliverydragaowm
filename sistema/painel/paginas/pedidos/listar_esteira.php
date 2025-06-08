@@ -94,9 +94,9 @@ if ($total_reg > 0) {
 		$hora_pedido = date('H:i', strtotime("+$previsao_entrega minutes", strtotime($hora)));
 
 		if ($hora_pedido < date('H:i')) {
-			$classe_hora = 'text-danger';
+			$classe_pago2 = '#ffdddd';
 		} else {
-			$classe_hora = '';
+			$classe_pago2 = '#ffffff';
 		}
 
 		$query2 = $pdo->query("SELECT * FROM usuarios where id = '$usuario_baixa'");
@@ -205,10 +205,10 @@ if ($total_reg > 0) {
 
 		echo <<<HTML
 <div class="col-md-3 widget " style="display: inline-block;">
-			<div class="" style="padding:4px; min-height: 100px; background: #ffffff;">
+			<div class="" style="padding:4px; min-height: 100px; background: {$classe_pago2};">
 				<div style="border-bottom: 1px solid #000">
 					<span style="color:{$classe_alerta}"> <i class="fa fa-square"></i></span> Pedido <b>{$pedido}</b>
-					<span style="position:absolute; right:5px" class="{$classe_hora}"><i>{$horaF}</i></span>
+					<span style="position:absolute; right:5px"><i>{$horaF}</i></span>
 				</div>
 
 				<div style="margin-top: 5px">
@@ -406,9 +406,11 @@ $total_dos_itens_pedidos = @count($res);
 
 <script type="text/javascript">
 	function gerarComprovante(id) {
+
+
 		let a = document.createElement('a');
 		a.target = '_blank';
-		a.href = 'rel/comprovante.php?id=' + id + '&imp=Não';
+		a.href = 'rel/comprovante.php?id=' + id;
 		a.click();
 	}
 </script>

@@ -1,4 +1,6 @@
 <?php
+@session_start();
+$id_usuario = $_SESSION['id'];
 require_once ("../../../conexao.php");
 $tabela = 'vendas';
 
@@ -85,7 +87,7 @@ if ($api_whatsapp != 'Não') {
 
   //ABAIXO É PARA PEGAR OS PRODUTOS COMPRADOS
   $nome_produto2 = '';
-  $res = $pdo->query("SELECT * from carrinho where pedido = '$n_pedido' order by id asc");
+  $res = $pdo->query("SELECT * from carrinho where pedido = '$id' order by id asc");
   $dados = $res->fetchAll(PDO::FETCH_ASSOC);
   $linhas = count($dados);
 
@@ -290,5 +292,8 @@ if ($api_whatsapp != 'Não') {
 }
 
 
-$pdo->query("INSERT INTO entregadores SET nome = '$nome_entregador', pedido = '$n_pedido', cliente = '$nome_cliente', data = curDate(), status = '$status', pago = '$pago', valor = '$valor', entregador = '$entregador', id_entregador = '$entregador', taxa_entrega = '$taxa_entrega'");
+
+$query = $pdo->prepare("INSERT INTO pagar SET descricao = 'Comissão Entrega', tipo = 'Comissão', valor = :valor, data_lanc = curDate(), vencimento = curDate(), usuario_lanc = '$id_usuario', foto = 'sem-foto.png', arquivo = 'sem-foto.jpg', pessoa = '0', pago = 'Não', funcionario = '$entregador', referencia = 'Comissão', id_ref = '$n_pedido', comissao = 'Entregador'");
+$query->bindValue(":valor", "$taxa_entrega");
+$query->execute();
 ?>

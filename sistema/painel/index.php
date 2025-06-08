@@ -4,9 +4,6 @@ require_once("../conexao.php");
 require_once("verificar.php");
 
 
-
-
-
 $data_atual = date('Y-m-d');
 $mes_atual = Date('m');
 $ano_atual = Date('Y');
@@ -73,8 +70,10 @@ if ($linhas > 0) {
 $query1 = $pdo->query("SELECT * from caixas where operador = '$id_usuario' and data_fechamento is null order by id desc limit 1");
 $res1 = $query1->fetchAll(PDO::FETCH_ASSOC);
 if (@count($res1) > 0) {
+	$caixa_esta_aberto = 'Sim';
 	$texto_caixa = '<small><span style="color:green"> (Aberto)</span></small>';
 } else {
+	$caixa_esta_aberto = 'Não';
 	$texto_caixa = '<small><span style="color:red"> (Fechado)</span></small>';
 }
 
@@ -85,15 +84,18 @@ if (@count($res1) > 0) {
 
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 
+
 <head>
+
+
 
 
 	<meta charset="UTF-8">
 	<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="Description" content="Fluxo Comunicação Inteligente">
-	<meta name="Author" content="Samuel Lima">
-	<meta name="Keywords" content="fluxo, comunicacao, inteligente, marketing, whatsapp" />
+	<meta name="Description" content="Sistema para Delivery Interativo, sistemas para delivery, delivery interativo, sistemas Hugo Vasconcelos, sistemas hugocursos, sistemas hugo">
+	<meta name="Author" content="Hugo Vasconcelos do Portal HugoCursos">
+	<meta name="Keywords" content="sistema para delivery, sistemas hugo vasconcelos, sistemas hugo, portal hugocursos" />
 
 	<title><?php echo $nome_sistema ?></title>
 
@@ -114,6 +116,9 @@ if (@count($res1) > 0) {
 	<!-- fontawesome-->
 	<link rel="stylesheet" type="text/css" href="../fontawesome/css/all.min.css">
 
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+	<!-- SweetAlert2 JS -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 </head>
@@ -230,13 +235,7 @@ if (@count($res1) > 0) {
 
 
 
-
-
-
-
 									<li class="dropdown nav-item  main-header-message <?php echo $pedidos ?>">
-
-
 										<?php
 										$query = $pdo->query("SELECT * FROM vendas where data = CurDate() and status = 'Iniciado'");
 										$res = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -386,9 +385,7 @@ if (@count($res1) > 0) {
 
 
 									<li class="dropdown nav-item  main-header-message <?php echo $pagar ?>">
-
 										<?php
-
 										$query = $pdo->query("SELECT * from pagar where vencimento < curDate() and pago != 'Sim' order by id asc");
 
 										$res = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -413,7 +410,7 @@ if (@count($res1) > 0) {
 													Vencidas!</p>
 											</div>
 
-											<div class="main-message-list Notification-scroll">
+											<div class="main-message-list Not-scroll">
 
 												<?php
 
@@ -662,6 +659,8 @@ if (@count($res1) > 0) {
 
 									<li class="<?php echo @$compras ?> "><a class="slide-item" href="compras">Compras</a></li>
 
+									<li class="<?php echo @$comissoes ?> "><a class="slide-item" href="comissoes"> Lista de Comissões</a></li>
+
 								</ul>
 							</li>
 
@@ -721,6 +720,29 @@ if (@count($res1) > 0) {
 
 
 
+										<li class="slide <?php echo @$minhas_comissoes ?>" >
+									<a class="side-menu__item" href="minhas_comissoes">
+										<i class="fa fa-usd text-white"></i>
+										<span class="side-menu__label" style="margin-left: 15px">Minhas Comissões</span></a>
+								</li>
+
+								
+
+
+										<li class="slide <?php echo @$marketing ?>" >
+									<a class="side-menu__item" href="marketing">
+										<i class="fa fa-phone text-white"></i>
+										<span class="side-menu__label" style="margin-left: 15px">Marketing</span></a>
+								</li>
+
+
+								<li class="slide <?php echo @$dispositivos ?>" >
+									<a class="side-menu__item" href="dispositivos">
+										<i class="fa fa-phone text-white"></i>
+										<span class="side-menu__label" style="margin-left: 15px">Dispositivos</span></a>
+								</li>
+
+
 						</ul>
 						<div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24"
 								height="24" viewBox="0 0 24 24">
@@ -764,13 +786,14 @@ if (@count($res1) > 0) {
 
 
 
-		<!-- RODAPÉ -->
+		<!--######################## RODAPÉ ###########################-->
 		<div class="main-footer">
 			<div class="container-fluid pt-0 ht-100p">
-				Copyright © <?php echo date('Y'); ?> Desevolvedor<a target="_BLACK" href="https://monielsistemas.com.br/"
-					class="text-primary"> MonielSistemas</a>. Todos os direitos reservados
+				Copyright © <?php echo date('Y'); ?> Desevolvedor<a target="_BLACK" href="https://hugocursos.com.br/"
+					class="text-primary"> Hugo Vasconcelos</a>. Todos os direitos reservados
 			</div>
-		</div> <!-- FOOTER END -->
+		</div>
+		<!--######################## FIM RODAPÉ ###########################-->
 
 	</div>
 	<!-- End Page -->
@@ -1010,7 +1033,7 @@ if (@count($res1) > 0) {
 					</small>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-primary" id="btn_salvar_perfil">Salvar</button>
+					<button type="submit" class="btn btn-primary" id="btn_salvar_perfil">Salvar<i class="fa fa-check ms-2"></i></button>
 					<button class="btn btn-primary" type="button" id="btn_carregando_peril" style="display: none">
 						<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Carregando...
 					</button>
@@ -1324,13 +1347,10 @@ if (@count($res1) > 0) {
 						<div class="col-md-3">
 							<label>Impressão Automática</label>
 							<select class="form-select" name="impressao_automatica">
-								<option value="Sim" <?php if (@$impressao_automatica == 'Sim') { ?> selected <?php } ?>>Sim (Painél
-									Pedidos)
+								<option value="Site" <?php if (@$impressao_automatica == 'Site') { ?> selected <?php } ?>>Site (Pedidos)
 								</option>
-
-								<option value="Site" <?php if (@$impressao_automatica == 'Site') { ?> selected <?php } ?>>Sim (Pedido
-									Cliente
-									Site)</option>
+								<option value="Sim" <?php if (@$impressao_automatica == 'Sim') { ?> selected <?php } ?>>Sim
+								</option>
 
 								<option value="Não" <?php if (@$impressao_automatica == 'Não') { ?> selected <?php } ?>>Não</option>
 							</select>
@@ -1357,7 +1377,7 @@ if (@count($res1) > 0) {
 									<a title="Clique para ver as opções das apis" href="#" aria-expanded="false" aria-haspopup="true"
 										data-bs-toggle="dropdown" class="dropdown"><i class="fa fa-info-circle text-primary"></i> </a>
 									<div class="dropdown-menu tx-13" style="width:500px">
-										<div class="dropdown-item-text botao_excluir" style="width:500px">
+										<div class="dropdown-item-text" style="width:500px; background: #d3ffd6; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
 											<p>Integrei ao projeto 3 serviços de apis, estes serviços sáo terceirizados e tem custo adicional
 												para utilização, segue abaixo site e contato dos 3. <br><br>
 
@@ -1478,9 +1498,61 @@ if (@count($res1) > 0) {
 								value="<?php echo @$api_merc ?>" <?php if ($nivel_usuario == 'Administrador') {
 																									} else { ?> readonly <?php } ?>>
 						</div>
+
+						<div class="col-md-2">
+							<label>Dias Retorno</label>
+							<input type="number" class="form-control" id="dias_retorno" name="dias_retorno" placeholder="Mensagem retorno cliente"
+								value="<?php echo @$dias_retorno ?>">
+						</div>
+
+						<div class="col-md-3">
+							<label>Link Mensagem Retorno</label>
+							<input type="text" class="form-control" id="link_retorno" name="link_retorno" placeholder="Link na mensagem de retorno cliente"
+								value="<?php echo @$link_retorno ?>" >
+						</div>
 					</div>
 
+					<div class="row">
+						<div class="col-md-12">
+							<label>Mensagem Retorno Cliente <small>(Já virá no inicio um texto Olá (nome cliente), )</small></label>
+							<input type="text" class="form-control" id="mensagem_retorno" name="mensagem_retorno" placeholder="Texto mensagem de retorno cliente"
+								value="<?php echo @$mensagem_retorno ?>" >
+						</div>
+					</div>
 
+					<div class="row">
+						<div class="col-md-3">
+							<label>Total Cartões Troca</label>
+							<input type="number" name="total_cartoes" id="total_cartoes" class="form-control"
+								value="<?php echo @$total_cartoes_config ?>" placeholder="Cartões para o cupom">
+						</div>
+
+						<div class="col-md-3">
+							<label>Valor Cupom Troca</label>
+							<input type="number" name="valor_cupom" id="valor_cupom" class="form-control"
+								value="<?php echo @$valor_cupom_config ?>" placeholder="Valor do cupom">
+						</div>
+						
+						<!-- ADICIONAR ESTE CAMPO NA MODAL DE CONFIGURAÇÕES EXISTENTE -->
+                        
+                            
+                                <div class="col-md-3">
+                                    <label>Taxa Cartão de Crédito (%)</label>
+                                    <input type="number" class="form-control" name="taxa_cartao_percentual" id="taxa_cartao_percentual" 
+                                           value="<?php echo $taxa_cartao_percentual ?? 5.00; ?>" step="0.01" min="0" max="100" required>
+                                    <small class="text-muted">Taxa adicional para pagamentos no cartão de crédito</small>
+                                </div>
+                            
+                        
+
+					</div>
+					
+					
+					
+
+
+
+					<hr>
 
 					<div class="row mb-3">
 						<div class="col-md-4">
@@ -1570,7 +1642,7 @@ if (@count($res1) > 0) {
 					</small>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-primary" id="btn_salvar_config">Salvar</button>
+					<button type="submit" class="btn btn-primary" id="btn_salvar_config">Salvar<i class="fa fa-check ms-2"></i></button>
 					<button class="btn btn-primary" type="button" id="btn_carregando_config" style="display: none">
 						<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Carregando...
 					</button>
@@ -1651,6 +1723,10 @@ if (@count($res1) > 0) {
 							<select name="filtro_lancamento" class="form-select">
 								<option value="">Tudo</option>
 								<option value="Conta">Ganhos / Despesas</option>
+								<option value="Delivery">Delivery</option>
+								<option value="Venda">Venda Mesas</option>
+								<option value="Balcão">Venda Balcão</option>
+								<option value="Comissão">Comissões</option>
 
 							</select>
 						</div>
@@ -1909,7 +1985,7 @@ if (@count($res1) > 0) {
 
 <!-- Modal Rel Vendas -->
 <div class="modal fade" id="RelVen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
+	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header bg-primary text-white">
 				<h4 class="modal-title" id="exampleModalLabel">Relatório de Vendas
@@ -1936,18 +2012,34 @@ if (@count($res1) > 0) {
 				<div class="modal-body">
 
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-3">
 							<div class="form-group">
 								<label>Data Inicial</label>
 								<input type="date" class="form-control" name="dataInicial" id="dataInicialRel-Ven"
 									value="<?php echo $data_atual ?>" required>
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-3">
 							<div class="form-group">
 								<label>Data Final</label>
 								<input type="date" class="form-control" name="dataFinal" id="dataFinalRel-Ven"
 									value="<?php echo $data_atual ?>" required>
+							</div>
+						</div>
+
+
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>Hora Inicial</label>
+								<input type="time" class="form-control" name="horaInicial" id=""
+									value="" >
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>Hora Final</label>
+								<input type="time" class="form-control" name="horaFinal" id=""
+									value="" >
 							</div>
 						</div>
 
@@ -1958,7 +2050,18 @@ if (@count($res1) > 0) {
 
 
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Tipo</label>
+								<select class="form-select" name="tipo" style="width:100%;">
+									<option value="">Todas</option>
+									<option value="Delivery">Delivery</option>
+									<option value="Balcão">Balcão</option>
+									<option value="Mesa">Mesa</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-4">
 							<div class="form-group">
 								<label>Status</label>
 								<select class="form-select" name="status" style="width:100%;">
@@ -1969,7 +2072,7 @@ if (@count($res1) > 0) {
 								</select>
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-4">
 							<div class="form-group">
 								<label>Forma PGTO</label>
 								<select class="form-select" name="forma_pgto" style="width:100%;">
@@ -1986,13 +2089,15 @@ if (@count($res1) > 0) {
 
 					</div>
 
-
+					<input type="hidden" name="impressao" id="impressao">
 
 
 				</div>
 
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-primary">Gerar Relatório<i class="fa fa-check ms-2"></i></button>
+					<button onclick="$('#impressao').val('');" type="submit" class="btn btn-success">Gerar PDF<i class="fa fa-file-pdf-o ms-2"></i></button>
+
+					<button onclick="$('#impressao').val('Sim');" type="submit" class="btn btn-primary">Impressora Térmica<i class="fa fa-print ms-2"></i></button>
 				</div>
 			</form>
 
@@ -2024,6 +2129,14 @@ if (@count($res1) > 0) {
 <!-- CHAMAR O FORMULÁRIO DOS PEDIDOS DO BALCÃO -->
 <script>
 	function enviarFormulario() {
+		var caixa_aberto = "<?= $caixa_esta_aberto ?>";
+		var obrigatorio_caixa = "<?= $abertura_caixa ?>";
+		var nivel_usuario = "<?= $nivel_usuario ?>";
+		if(caixa_aberto != 'Sim' && obrigatorio_caixa == 'Sim' && nivel_usuario != 'Administrador'){
+			alert("Não possui caixa Aberto, abra o caixa!");
+			window.location="caixas";
+			return;
+		}
 		document.getElementById("meuFormulario").submit();
 	}
 </script>
@@ -2334,7 +2447,13 @@ if (@count($res1) > 0) {
 			dataType: "html",
 
 			success: function(result) {
-				alert(result)
+				//alert(result)
+
+				Swal.fire({
+					text: result,
+					icon: "success",
+					target: document.getElementById('modalConfig')
+				});
 			}
 		});
 	}

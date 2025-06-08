@@ -1,0 +1,228 @@
+[07-Mar-2025 16:33:10 America/Sao_Paulo] PHP Warning:  Undefined property: stdClass::$point_of_interaction in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/pix.php on line 55
+[07-Mar-2025 16:33:10 America/Sao_Paulo] PHP Warning:  Attempt to read property "transaction_data" on null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/pix.php on line 55
+[07-Mar-2025 16:33:10 America/Sao_Paulo] PHP Warning:  Attempt to read property "qr_code" on null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/pix.php on line 55
+[07-Mar-2025 16:33:10 America/Sao_Paulo] PHP Warning:  Undefined property: stdClass::$id in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/pix.php on line 57
+[07-Mar-2025 16:33:10 America/Sao_Paulo] PHP Warning:  Undefined property: stdClass::$point_of_interaction in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/pix.php on line 61
+[07-Mar-2025 16:33:10 America/Sao_Paulo] PHP Warning:  Attempt to read property "transaction_data" on null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/pix.php on line 61
+[07-Mar-2025 16:33:10 America/Sao_Paulo] PHP Warning:  Attempt to read property "qr_code_base64" on null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/pix.php on line 61
+[07-Mar-2025 17:15:14 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[07-Mar-2025 17:15:14 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[07-Mar-2025 17:15:14 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[07-Mar-2025 17:15:14 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[07-Mar-2025 17:15:14 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[07-Mar-2025 17:15:14 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[07-Mar-2025 17:15:14 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[07-Mar-2025 17:15:14 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[07-Mar-2025 17:15:33 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[07-Mar-2025 17:15:33 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[07-Mar-2025 17:15:33 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[07-Mar-2025 17:15:33 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[07-Mar-2025 17:15:33 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[07-Mar-2025 17:15:33 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[07-Mar-2025 17:15:33 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[07-Mar-2025 17:15:33 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[12-Mar-2025 07:12:21 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[12-Mar-2025 07:12:21 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[12-Mar-2025 07:12:21 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[12-Mar-2025 07:12:21 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[12-Mar-2025 07:12:22 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[12-Mar-2025 07:12:22 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[12-Mar-2025 07:12:22 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[12-Mar-2025 07:12:22 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[12-Mar-2025 07:13:00 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[12-Mar-2025 07:13:00 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[12-Mar-2025 07:13:00 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[12-Mar-2025 07:13:00 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[12-Mar-2025 07:13:00 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[12-Mar-2025 07:13:00 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[12-Mar-2025 07:13:00 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[12-Mar-2025 07:13:00 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[12-Mar-2025 07:13:13 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[12-Mar-2025 07:13:13 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[12-Mar-2025 07:13:13 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[12-Mar-2025 07:13:13 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[12-Mar-2025 07:13:13 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[12-Mar-2025 07:13:13 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[12-Mar-2025 07:13:13 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[12-Mar-2025 07:13:13 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[12-Mar-2025 07:13:15 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[12-Mar-2025 07:13:15 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[12-Mar-2025 07:13:15 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[12-Mar-2025 07:13:15 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[12-Mar-2025 07:13:29 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[12-Mar-2025 07:13:29 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[12-Mar-2025 07:13:29 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[12-Mar-2025 07:13:29 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[02-Apr-2025 20:52:59 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[02-Apr-2025 20:52:59 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[02-Apr-2025 20:52:59 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[02-Apr-2025 20:52:59 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[02-Apr-2025 20:53:01 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[02-Apr-2025 20:53:01 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[02-Apr-2025 20:53:01 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[02-Apr-2025 20:53:01 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[02-Apr-2025 20:54:10 America/Sao_Paulo] PHP Warning:  Undefined variable $total_carrinhoF in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/listar-itens-carrinho.php on line 264
+[02-Apr-2025 20:54:10 America/Sao_Paulo] PHP Warning:  Undefined variable $total_carrinhoF in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/listar-itens-carrinho.php on line 264
+[02-Apr-2025 20:54:10 America/Sao_Paulo] PHP Warning:  Undefined variable $total_carrinhoF in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/listar-itens-carrinho.php on line 264
+[02-Apr-2025 20:54:10 America/Sao_Paulo] PHP Warning:  Undefined variable $total_carrinhoF in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/listar-itens-carrinho.php on line 264
+[02-Apr-2025 20:54:10 America/Sao_Paulo] PHP Warning:  Undefined variable $total_carrinhoF in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/listar-itens-carrinho.php on line 264
+[08-Apr-2025 18:32:23 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[08-Apr-2025 18:32:23 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[08-Apr-2025 18:32:23 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[08-Apr-2025 18:32:23 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[12-Apr-2025 19:24:26 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[12-Apr-2025 19:24:26 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[12-Apr-2025 19:24:26 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[12-Apr-2025 19:24:26 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[13-Apr-2025 16:25:12 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[13-Apr-2025 16:25:12 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[13-Apr-2025 16:25:12 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[13-Apr-2025 16:25:12 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[13-Apr-2025 16:25:34 America/Sao_Paulo] PHP Warning:  Undefined variable $total_carrinhoF in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/listar-itens-carrinho.php on line 264
+[13-Apr-2025 16:25:37 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[13-Apr-2025 16:25:37 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[13-Apr-2025 16:25:37 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[13-Apr-2025 16:25:37 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[13-Apr-2025 16:25:53 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[13-Apr-2025 16:25:53 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[13-Apr-2025 16:25:53 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[13-Apr-2025 16:25:53 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[13-Apr-2025 16:25:55 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[13-Apr-2025 16:25:55 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[13-Apr-2025 16:25:55 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[13-Apr-2025 16:25:55 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[22-Apr-2025 06:00:45 America/Sao_Paulo] PHP Warning:  Undefined array key "id" in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/listar_status.php on line 4
+[04-May-2025 11:00:26 America/Sao_Paulo] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php:436
+Stack trace:
+#0 /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php(436): PDO->query('SELECT * FROM f...')
+#1 {main}
+  thrown in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php on line 436
+[04-May-2025 11:00:26 America/Sao_Paulo] PHP Warning:  Undefined variable $total_carrinhoF in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/listar-itens-carrinho.php on line 264
+[04-May-2025 11:03:18 America/Sao_Paulo] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php:436
+Stack trace:
+#0 /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php(436): PDO->query('SELECT * FROM f...')
+#1 {main}
+  thrown in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php on line 436
+[04-May-2025 11:07:05 America/Sao_Paulo] PHP Warning:  Undefined variable $total_carrinhoF in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/listar-itens-carrinho.php on line 264
+[04-May-2025 11:18:03 America/Sao_Paulo] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php:436
+Stack trace:
+#0 /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php(436): PDO->query('SELECT * FROM f...')
+#1 {main}
+  thrown in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php on line 436
+[04-May-2025 11:21:27 America/Sao_Paulo] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php:436
+Stack trace:
+#0 /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php(436): PDO->query('SELECT * FROM f...')
+#1 {main}
+  thrown in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php on line 436
+[04-May-2025 11:24:12 America/Sao_Paulo] PHP Warning:  Undefined variable $total_carrinhoF in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/listar-itens-carrinho.php on line 264
+[04-May-2025 11:45:29 America/Sao_Paulo] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php:436
+Stack trace:
+#0 /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php(436): PDO->query('SELECT * FROM f...')
+#1 {main}
+  thrown in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php on line 436
+[04-May-2025 11:54:50 America/Sao_Paulo] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php:436
+Stack trace:
+#0 /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php(436): PDO->query('SELECT * FROM f...')
+#1 {main}
+  thrown in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php on line 436
+[04-May-2025 12:00:06 America/Sao_Paulo] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php:436
+Stack trace:
+#0 /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php(436): PDO->query('SELECT * FROM f...')
+#1 {main}
+  thrown in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php on line 436
+[04-May-2025 12:00:06 America/Sao_Paulo] PHP Warning:  Undefined variable $total_carrinhoF in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/listar-itens-carrinho.php on line 264
+[04-May-2025 12:03:10 America/Sao_Paulo] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php:436
+Stack trace:
+#0 /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php(436): PDO->query('SELECT * FROM f...')
+#1 {main}
+  thrown in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php on line 436
+[04-May-2025 12:06:55 America/Sao_Paulo] PHP Warning:  Undefined variable $total_carrinhoF in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/listar-itens-carrinho.php on line 264
+[04-May-2025 12:09:27 America/Sao_Paulo] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php:436
+Stack trace:
+#0 /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php(436): PDO->query('SELECT * FROM f...')
+#1 {main}
+  thrown in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php on line 436
+[04-May-2025 14:10:01 America/Fortaleza] PHP Parse error:  syntax error, unexpected token "<", expecting end of file in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php on line 157
+[04-May-2025 17:21:20 America/Fortaleza] PHP Parse error:  syntax error, unexpected token "<", expecting end of file in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php on line 157
+[04-May-2025 17:22:57 America/Sao_Paulo] PHP Warning:  Undefined variable $total_carrinhoF in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/listar-itens-carrinho.php on line 264
+[04-May-2025 17:23:14 America/Fortaleza] PHP Parse error:  syntax error, unexpected token "<", expecting end of file in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php on line 157
+[04-May-2025 17:29:59 America/Fortaleza] PHP Parse error:  syntax error, unexpected token "<", expecting end of file in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php on line 157
+[04-May-2025 17:32:57 America/Fortaleza] PHP Parse error:  syntax error, unexpected token "<", expecting end of file in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php on line 157
+[04-May-2025 17:33:30 America/Fortaleza] PHP Parse error:  syntax error, unexpected token "<", expecting end of file in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php on line 157
+[04-May-2025 17:36:35 America/Sao_Paulo] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php:436
+Stack trace:
+#0 /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php(436): PDO->query('SELECT * FROM f...')
+#1 {main}
+  thrown in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php on line 436
+[04-May-2025 17:39:11 America/Sao_Paulo] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php:436
+Stack trace:
+#0 /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php(436): PDO->query('SELECT * FROM f...')
+#1 {main}
+  thrown in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php on line 436
+[04-May-2025 17:48:03 America/Sao_Paulo] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php:436
+Stack trace:
+#0 /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php(436): PDO->query('SELECT * FROM f...')
+#1 {main}
+  thrown in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php on line 436
+[04-May-2025 18:01:49 America/Sao_Paulo] PHP Warning:  Undefined variable $total_carrinhoF in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/listar-itens-carrinho.php on line 264
+[04-May-2025 18:15:13 America/Sao_Paulo] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php:440
+Stack trace:
+#0 /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php(440): PDO->query('SELECT * FROM f...')
+#1 {main}
+  thrown in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php on line 440
+[04-May-2025 18:39:36 America/Sao_Paulo] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php:440
+Stack trace:
+#0 /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php(440): PDO->query('SELECT * FROM f...')
+#1 {main}
+  thrown in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php on line 440
+[04-May-2025 18:42:19 America/Sao_Paulo] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php:440
+Stack trace:
+#0 /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php(440): PDO->query('SELECT * FROM f...')
+#1 {main}
+  thrown in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php on line 440
+[04-May-2025 18:47:32 America/Sao_Paulo] PHP Warning:  Undefined variable $total_carrinhoF in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/listar-itens-carrinho.php on line 264
+[04-May-2025 19:07:10 America/Sao_Paulo] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php:440
+Stack trace:
+#0 /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php(440): PDO->query('SELECT * FROM f...')
+#1 {main}
+  thrown in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php on line 440
+[04-May-2025 19:36:44 America/Sao_Paulo] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php:440
+Stack trace:
+#0 /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php(440): PDO->query('SELECT * FROM f...')
+#1 {main}
+  thrown in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php on line 440
+[05-May-2025 06:03:21 America/Sao_Paulo] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php:440
+Stack trace:
+#0 /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php(440): PDO->query('SELECT * FROM f...')
+#1 {main}
+  thrown in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/inserir-pedido.php on line 440
+[18-May-2025 12:11:01 America/Sao_Paulo] PHP Warning:  Undefined property: stdClass::$point_of_interaction in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/pix.php on line 55
+[18-May-2025 12:11:01 America/Sao_Paulo] PHP Warning:  Attempt to read property "transaction_data" on null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/pix.php on line 55
+[18-May-2025 12:11:01 America/Sao_Paulo] PHP Warning:  Attempt to read property "qr_code" on null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/pix.php on line 55
+[18-May-2025 12:11:01 America/Sao_Paulo] PHP Warning:  Undefined property: stdClass::$id in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/pix.php on line 57
+[18-May-2025 12:11:01 America/Sao_Paulo] PHP Warning:  Undefined property: stdClass::$point_of_interaction in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/pix.php on line 61
+[18-May-2025 12:11:01 America/Sao_Paulo] PHP Warning:  Attempt to read property "transaction_data" on null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/pix.php on line 61
+[18-May-2025 12:11:01 America/Sao_Paulo] PHP Warning:  Attempt to read property "qr_code_base64" on null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/pix.php on line 61
+[18-May-2025 12:11:15 America/Sao_Paulo] PHP Warning:  Undefined property: stdClass::$point_of_interaction in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/pix.php on line 55
+[18-May-2025 12:11:15 America/Sao_Paulo] PHP Warning:  Attempt to read property "transaction_data" on null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/pix.php on line 55
+[18-May-2025 12:11:15 America/Sao_Paulo] PHP Warning:  Attempt to read property "qr_code" on null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/pix.php on line 55
+[18-May-2025 12:11:15 America/Sao_Paulo] PHP Warning:  Undefined property: stdClass::$id in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/pix.php on line 57
+[18-May-2025 12:11:15 America/Sao_Paulo] PHP Warning:  Undefined property: stdClass::$point_of_interaction in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/pix.php on line 61
+[18-May-2025 12:11:15 America/Sao_Paulo] PHP Warning:  Attempt to read property "transaction_data" on null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/pix.php on line 61
+[18-May-2025 12:11:15 America/Sao_Paulo] PHP Warning:  Attempt to read property "qr_code_base64" on null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/pix.php on line 61
+[05-Jun-2025 23:00:23 America/Sao_Paulo] PHP Warning:  Undefined array key "buscar" in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 4
+[05-Jun-2025 23:00:23 America/Sao_Paulo] PHP Warning:  Undefined array key "buscar" in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 4
+[05-Jun-2025 23:00:23 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[05-Jun-2025 23:00:23 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[05-Jun-2025 23:00:23 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[05-Jun-2025 23:00:23 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[05-Jun-2025 23:00:23 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[05-Jun-2025 23:00:23 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[05-Jun-2025 23:00:23 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[05-Jun-2025 23:00:23 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[07-Jun-2025 12:21:07 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[07-Jun-2025 12:21:07 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 37
+[07-Jun-2025 12:21:07 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[07-Jun-2025 12:21:07 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/buscar_produtos.php on line 38
+[07-Jun-2025 13:14:21 America/Sao_Paulo] PHP Warning:  Undefined variable $total_carrinhoF in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/listar-itens-carrinho.php on line 264
+[07-Jun-2025 18:45:21 America/Sao_Paulo] PHP Warning:  Undefined variable $total_carrinhoF in /home2/wd2age71/public_html/dragaolanches/delivery/js/ajax/listar-itens-carrinho.php on line 264

@@ -1,0 +1,15 @@
+[04-May-2025 14:18:04 America/Sao_Paulo] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away in /home2/wd2age71/public_html/dragaolanches/delivery/sistema/painel/paginas/pedidos/mudar-status.php:17
+Stack trace:
+#0 /home2/wd2age71/public_html/dragaolanches/delivery/sistema/painel/paginas/pedidos/mudar-status.php(17): PDO->query('SELECT * FROM v...')
+#1 {main}
+  thrown in /home2/wd2age71/public_html/dragaolanches/delivery/sistema/painel/paginas/pedidos/mudar-status.php on line 17
+[04-May-2025 14:18:04 America/Sao_Paulo] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away in /home2/wd2age71/public_html/dragaolanches/delivery/sistema/painel/paginas/pedidos/mudar-status.php:17
+Stack trace:
+#0 /home2/wd2age71/public_html/dragaolanches/delivery/sistema/painel/paginas/pedidos/mudar-status.php(17): PDO->query('SELECT * FROM v...')
+#1 {main}
+  thrown in /home2/wd2age71/public_html/dragaolanches/delivery/sistema/painel/paginas/pedidos/mudar-status.php on line 17
+[04-May-2025 17:20:47 America/Sao_Paulo] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where id = '14'' at line 1 in /home2/wd2age71/public_html/dragaolanches/delivery/sistema/painel/paginas/pedidos/mudar-status.php:48
+Stack trace:
+#0 /home2/wd2age71/public_html/dragaolanches/delivery/sistema/painel/paginas/pedidos/mudar-status.php(48): PDO->query('UPDATE vendas S...')
+#1 {main}
+  thrown in /home2/wd2age71/public_html/dragaolanches/delivery/sistema/painel/paginas/pedidos/mudar-status.php on line 48

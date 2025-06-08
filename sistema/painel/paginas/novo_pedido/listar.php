@@ -39,7 +39,7 @@ if ($total_reg > 0) {
 
 			$query2 = $pdo->query("SELECT * FROM usuarios where id = '$garcon' ");
 			$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-			$nome_garcon = '(' . $res2[0]['nome'] . ')';
+			$nome_garcon = '(' . @$res2[0]['nome'] . ')';
 
 			$horario_aberturaF = date('H:i', @strtotime($horario_abertura));
 
@@ -64,6 +64,7 @@ if ($total_reg > 0) {
 		$ocultar_botoes = 'ocultar';
 		if ($ativo == 'Sim') {
 			$imagem_mesa = 'mesa_verde.png';
+			$ocultar_indisponivel = '';
 			if ($status == 'Aberta') {
 				$imagem_mesa = 'mesa_vermelha.png';
 				$ocultar_botoes = '';
@@ -71,6 +72,7 @@ if ($total_reg > 0) {
 				$imagem_mesa = 'mesa_verde.png';
 			}
 		} else {
+			$ocultar_indisponivel = 'ocultar';
 			$imagem_mesa = 'mesa_inativa.png';
 			$horario_aberturaF = "<span style='color:gray; font-size:10px'>(Inativa)</span>";
 		}
@@ -145,7 +147,7 @@ if ($total_reg > 0) {
 
 
 		echo <<<HTML
-			<div class="col-xs-12 col-md-3 widget cardTarefas " style="margin-right: 5px; margin-bottom: 5px; display: inline-block">
+			<div class="col-xs-12 col-md-3  widget cardTarefas " style="margin-right: 5px; margin-bottom: 5px; display: inline-block; width:100%">
         		<div class="r3_counter_box">
 
 				<span  class="{$mostrar_fechar}" style="position:absolute; top:5px; right:8px">
@@ -162,14 +164,14 @@ if ($total_reg > 0) {
         	
         		<div style="display:inline-block;">
 							
-        			<h5><span onclick="abrirMesa('{$id}', '{$status}', '{$nome}','{$obsF}', '{$id_abertura_mesa}','{$ativo}')" style="padding:23px; font-size: 28px; color:#FFF; background-image: url('../../img/{$imagem_mesa}'); width:80px; height:80px; background-size: 100%; cursor: pointer;">{$nome}</span>   
+        			<h5><span class="" onclick="abrirMesa('{$id}', '{$status}', '{$nome}','{$obsF}', '{$id_abertura_mesa}','{$ativo}')" style="padding:23px; font-size: 28px; color:#FFF; background-image: url('../../img/{$imagem_mesa}'); width:80px; height:80px; background-size: 100%; cursor: pointer;">{$nome}</span>   
 
         			
         			<a  class="{$ocultar_botoes}" href="#" onclick="editar('{$id_abertura_mesa}', '{$cliente}', '{$garcon}', '{$obs}', '{$pessoas}')" title="Editar Mesa" class=""> <img class="icon-rounded-vermelho" src="../../img/editar.png" width="20px" height="20px"></a>
 
         			<a class="{$ocultar_botoes}" href="rel/comprovante_mesa.php?id={$id_abertura_mesa}" title="Detalhamento da Mesa" target="_blank"><img class="icon-rounded-vermelho" src="../../img/pdf.png" width="20px" height="20px"></a>
 
-        			<a class="" href="#" onclick="abrirMesa('{$id}', '{$status}', '{$nome}', '{$obsF}', '{$id_abertura_mesa}','{$ativo}')" title="Adicionar Itens" class=""> <img class="icon-rounded-vermelho" src="../../img/plus.png" width="20px" height="20px"></a>
+        			<a class="$ocultar_indisponivel" href="#" onclick="abrirMesa('{$id}', '{$status}', '{$nome}', '{$obsF}', '{$id_abertura_mesa}','{$ativo}')" title="Adicionar Itens" class=""> <img class="icon-rounded-vermelho" src="../../img/plus.png" width="20px" height="20px"></a>
 
 							<a class="{$ocultar_botoes}" href="#" onclick="adiantamento('{$id}', '{$nome}', '{$id_abertura_mesa}')" title="Adiantamento" class=""> <img class="icon-rounded-vermelho" src="../../img/valor.png" width="20px" height="20px"></a>
 							
@@ -217,7 +219,13 @@ HTML;
 		$('#titulo_inserir').text('Abrir Mesa');
 
 		if (ativo != 'Sim') {
-			alert('Mesa Indiponível!!')
+			//alert('Mesa Indiponível!!')
+
+			Swal.fire({
+				text: "Mesa Indiponível!!!",
+				icon: "warning"
+			});
+
 			return;
 		}
 

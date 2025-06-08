@@ -64,15 +64,20 @@ HTML;
 <td style="color:{$classe_linha}">{$valor_item}</td>
 <td style="color:{$classe_linha}">{$limite}</td>
 <td>
-	
+
+
 <div class="dropdown" style="display: inline-block;">                      
-		<a class="btn btn-danger-light btn-sm" href="#" aria-expanded="false" aria-haspopup="true" data-bs-toggle="dropdown" class="dropdown"><i class="fa fa-trash-o"></i> </a>
+	<a href="#" aria-expanded="false" aria-haspopup="true" data-bs-toggle="dropdown" class="dropdown btn btn-danger-light btn-sm"><i class="fe fe-trash-2 text-danger"></i> 
+	</a>
 		<div  class="dropdown-menu tx-13">
-		<div class="dropdown-item-text botao_excluir">
-		<p>Confirmar Exclusão? <a href="#" onclick="excluirGrades('{$id}')"><span class="text-danger"><button class="btn-danger">Sim</button></span></a></p>
+			<div class="dropdown-item-text botao_excluir_listar">
+			<p>Confirmar Exclusão? <a href="#" onclick="excluirGrades('{$id}')"><span class="botao_excluir_listar_sim">Sim</span></a></p>
+			</div>
 		</div>
-		</div>
-		</div>
+</div>
+
+
+
 
 
 		<a class="btn btn-success-light btn-sm" href="#" onclick="ativarGrades('{$id}', '{$acao}')" title="{$titulo_link}"><i class="fa {$icone}"></i></a>

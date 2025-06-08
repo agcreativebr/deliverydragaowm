@@ -86,7 +86,7 @@ function excluir(id) {
         confirmButtonColor: '#d33', // Cor do botão de confirmação (vermelho)
         cancelButtonColor: '#3085d6', // Cor do botão de cancelamento (azul)
         confirmButtonText: "Sim, Excluir!",
-        cancelButtonText: "Cancel",
+        cancelButtonText: "Cancelar",
         reverseButtons: true
     }).then((result) => {
         if (result.isConfirmed) {
@@ -126,6 +126,60 @@ function excluir(id) {
 
 };
 
+
+
+
+function excluirBusca(id) {
+    //$('#mensagem-excluir').text('Excluindo...')
+
+    $('body').removeClass('timer-alert');
+    Swal.fire({
+        title: "Deseja Excluir?",
+        text: "Você não conseguirá recuperá-lo novamente!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33', // Cor do botão de confirmação (vermelho)
+        cancelButtonColor: '#3085d6', // Cor do botão de cancelamento (azul)
+        confirmButtonText: "Sim, Excluir!",
+        cancelButtonText: "Cancel",
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+
+
+            $.ajax({
+                url: 'paginas/' + pag + "/excluir.php",
+                method: 'POST',
+                data: { id },
+                dataType: "html",
+
+                success: function (mensagem) {
+                    if (mensagem.trim() == "Excluído com Sucesso") {
+
+                        // Ação de exclusão aqui
+                        Swal.fire({
+                            title: 'Excluido com Sucesso!',
+                            text: 'Fecharei em 1 segundo.',
+                            icon: "success",
+                            timer: 1000
+                        })
+                        //excluido();
+                        buscar();
+                        limparCampos();
+
+
+                    } else {
+                        $('#mensagem-excluir').addClass('text-danger')
+                        $('#mensagem-excluir').text(mensagem)
+                    }
+                }
+            });
+
+        }
+    });
+
+
+};
 
 
 
@@ -252,10 +306,6 @@ function deletarSel(id) {
         reverseButtons: true
     }).then((result) => {
         if (result.isConfirmed) {
-
-
-
-
             var ids = $('#ids').val();
             var id = ids.split("-");
 
@@ -283,3 +333,37 @@ function deletarSel(id) {
 
 
 };
+
+
+// ALERT SALVAR FINAL ##############
+function alertInformativoFechar(mensagem) {
+    $('body').removeClass('timer-alert');
+    Swal.fire({
+        title: mensagem,
+        text: 'Fecharei em 3 segundo.',
+        icon: "error",
+        timer: 3000,
+        timerProgressBar: true,
+        confirmButtonText: 'OK',
+         customClass: {
+            container: 'swal-whatsapp-container'
+        }
+    })
+}
+
+
+// ALERT SALVAR FINAL ##############
+function alertInformativo(mensagem) {
+    $('body').removeClass('timer-alert');
+    Swal.fire({
+        title: mensagem,
+        text: '',
+        icon: "error",
+      
+        timerProgressBar: true,
+        confirmButtonText: 'OK',
+         customClass: {
+            container: 'swal-whatsapp-container'
+        }
+    })
+}

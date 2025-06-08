@@ -10,6 +10,8 @@ if (@$_SESSION['id_ab_mesa'] != "") {
 	$id_mesa = $_SESSION['id_ab_mesa'];
 }
 
+
+
 $nome_produto2 = '';
 if ($id_mesa == "") {
 	$query = $pdo->query("SELECT * FROM carrinho where sessao = '$sessao'");
@@ -17,6 +19,14 @@ if ($id_mesa == "") {
 	$query = $pdo->query("SELECT * FROM carrinho where mesa = '$id_mesa'");
 }
 
+$id_edicao = "";
+if (@$_SESSION['id_edicao'] != "") {
+	$id_edicao = $_SESSION['id_edicao'];
+}
+
+if($id_edicao != ""){
+	$query = $pdo->query("SELECT * FROM carrinho where pedido = '$id_edicao'");
+}
 
 
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -88,6 +98,14 @@ if ($total_reg > 0) {
 		}
 
 
+		if($id_mesa > 0){
+			$ocultar_excluir = 'ocultar';
+		}else{
+			$ocultar_excluir = '';
+		}
+		
+
+
 
 		echo <<<HTML
 
@@ -108,7 +126,7 @@ if ($total_reg > 0) {
                   </div>
                 </div>
 								<div class="direita">
-                    <a href="#" onclick="excluirCarrinhoIcone('{$id}')" class="link-neutro"><i class="icon-x-circle text-warning"></i></a>
+                    <a href="#" onclick="excluirCarrinhoIcone('{$id}')" class="link-neutro {$ocultar_excluir}"><i class="icon-x-circle text-warning"></i></a>
                   </div>
               </div>
 							
@@ -148,7 +166,7 @@ HTML;
 			dataType: "text",
 
 			success: function(mensagem) {
-
+				
 				if (mensagem.trim() == "Excluido com Sucesso") {
 					listarCarrinhoIcone();
 				}

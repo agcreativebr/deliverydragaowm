@@ -55,13 +55,14 @@ echo <<<HTML
 				<td>
 
 					<div class="dropdown" style="display: inline-block;">                      
-                        <a href="#" aria-expanded="false" aria-haspopup="true" data-bs-toggle="dropdown" class="dropdown"><i class="fe fe-trash-2 text-danger"></i> </a>
-                        <div  class="dropdown-menu tx-13">
-                        <div class="dropdown-item-text botao_excluir_listar">
-                        <p>Confirmar Exclusão? <a href="#" onclick="excluirArquivo('{$id}', '{$nome}')"><span class="text-danger">Sim</span></a></p>
-                        </div>
-                        </div>
-                        </div>
+						<a href="#" aria-expanded="false" aria-haspopup="true" data-bs-toggle="dropdown" class="dropdown"><i class="fe fe-trash-2 text-danger"></i> 
+						</a>
+							<div  class="dropdown-menu tx-13">
+								<div class="dropdown-item-text botao_excluir_listar">
+								<p>Confirmar Exclusão? <a href="#" onclick="excluirArquivo('{$id}', '{$nome}')"><span class="botao_excluir_listar_sim">Sim</span></a></p>
+								</div>
+							</div>
+					</div>
 					
 				</td>  
 			</tr> 

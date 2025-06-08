@@ -38,21 +38,21 @@ $pag = 'cupons';
 					<div class="row">
 						<div class="col-md-4 needs-validation was-validated">
 							<div class="form-group">
-								<label for="exampleInputEmail1">Código <span class="text-danger" style="font-size: 9px">(Obrigatório)</span></label>
+								<label>Código <span class="text-danger" style="font-size: 9px">(Obrigatório)</span></label>
 								<input type="text" class="form-control" id="codigo" name="codigo" placeholder="Código do Cupom" required>
 							</div>
 						</div>
 
 						<div class="col-md-4 needs-validation was-validated">
 							<div class="form-group">
-								<label for="exampleInputEmail1">Valor <span class="text-danger" style="font-size: 9px">(Obrigatório)</span></label>
+								<label>Valor <span class="text-danger" style="font-size: 9px">(Obrigatório)</span></label>
 								<input type="text" class="form-control" id="valor" name="valor" placeholder="Valor" required>
 							</div>
 						</div>
 
 						<div class="col-md-4">
 							<div class="form-group">
-								<label for="exampleInputEmail1">Tipo Valor</label>
+								<label>Tipo Valor</label>
 								<select class="form-select" id="tipo" name="tipo">
 									<option value="R$">Em Reais</option>
 									<option value="%">Porcentagem</option>
@@ -65,22 +65,22 @@ $pag = 'cupons';
 					<div class="row">
 						<div class="col-md-4">
 							<div class="form-group">
-								<label for="exampleInputEmail1">Quantidade</label>
+								<label>Quantidade</label>
 								<input type="number" class="form-control" id="quantidade" name="quantidade" placeholder="Quantidade" value="1">
 							</div>
 						</div>
 
 						<div class="col-md-4">
 							<div class="form-group">
-								<label for="exampleInputEmail1">Data Validade</label>
-								<input type="date" class="form-control" id="data" name="data" placeholder="Data de Validade">
+								<label>Data Validade</label>
+								<input type="date" class="form-control" id="data_validade" name="data" placeholder="Data de Validade">
 							</div>
 						</div>
 
 
 						<div class="col-md-4">
 							<div class="form-group">
-								<label for="exampleInputEmail1">Valor Mínimo</label>
+								<label>Valor Mínimo</label>
 								<input type="text" class="form-control" id="valor_minimo" name="valor_minimo" placeholder="Valor Mínimo">
 							</div>
 						</div>

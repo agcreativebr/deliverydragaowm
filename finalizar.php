@@ -87,11 +87,12 @@ $complemento = "";
       <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
         data-bs-parent="#accordionExample">
         <div class="accordion-body" align="center">
+          <input onkeyup="" type="tel" class="input telefone_user" name="telefone" id="telefone" required value=""
+            placeholder="(00) 00000-0000" style="width:200px; text-align: center; border:0; margin-top: -15px; font-size: 19px">
           <img src="img/user.jpg" width="50px" height="50px">
 
           <div class="nome_user"> <input onclick="" type="text" class="input" name="nome" id="nome" required value="" placeholder="Seu Nome" style="width:200px; text-align: center; border:0"></div>
-          <input onkeyup="" type="tel" class="input telefone_user" name="telefone" id="telefone" required value=""
-            placeholder="(00) 00000-0000" style="width:150px; text-align: center; border:0; margin-top: -15px">
+          
 
 
           <hr>
@@ -328,16 +329,16 @@ $complemento = "";
 
           <div class="row" style="font-size:14px">
 
-            <div class="col-2 form-check">
-              <small>Pix
-                <input onchange="pix()" class="form-check-input" type="radio" name="radio_pix" id="radio_pix">
-              </small>
-            </div>
-
             <div class="col-3 form-check">
               <small>Dinheiro
                 <input onchange="dinheiro()" class="form-check-input" type="radio" name="racio_dinheiro"
                   id="radio_dinheiro">
+              </small>
+            </div>
+
+            <div class="col-2 form-check">
+              <small>Pix
+                <input onchange="pix()" class="form-check-input" type="radio" name="radio_pix" id="radio_pix">
               </small>
             </div>
 
@@ -356,6 +357,16 @@ $complemento = "";
             </div>
 
           </div>
+
+          <?php if($sessao_pedido_balcao == 'BALCÃO' ){ ?>
+          <div>
+            <br>
+            <select class="form-select form-select-sm" name="esta_pago" id="esta_pago" style="width:200px">
+              <option value="Não">Não está Pago</option>
+              <option value="Sim">Já está Pago</option>
+            </select>
+          </div>
+        <?php } ?>
 
           <div id="pagar_pix" style="margin-top: 15px">
             <div id="listar_pix">
@@ -477,13 +488,30 @@ $complemento = "";
 
 
 <!-- jQery -->
-<script src="js/jquery-3.4.1.min.js"></script>
+<!-- <script src="js/jquery-3.4.1.min.js"></script> -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <!-- Mascaras JS -->
 <script type="text/javascript" src="js/mascaras.js"></script>
 
 <!-- Ajax para funcionar Mascaras JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <!-- SweetAlert2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- SweetAlert JS -->
+<script src="sistema/painel/js/sweetalert2.all.min.js"></script>
+<link rel="stylesheet" src="sistema/painel/js/sweetalert1.min.css"></link>
+<script src="sistema/painel/js/alertas.js"></script>
+
+<!-- Alertas -->
+<script src="sistema/assets/plugins/sweet-alert/sweetalert.min.js"></script>
+<script src="sistema/assets/plugins/sweet-alert/jquery.sweet-alert.js"></script>
+
+
 
 <script>
   function copiar() {
@@ -595,6 +623,7 @@ $complemento = "";
 <script type="text/javascript">
   function pix() {
 
+
     var total_compra = "<?= $total_carrinho ?>";
     total_compra = total_compra.replace(",", ".");
     var taxa_entrega = $('#taxa-entrega-input').val();
@@ -637,6 +666,28 @@ $complemento = "";
     document.getElementById('pagar_credito').style.display = "none";
     document.getElementById('pagar_dinheiro').style.display = "none";
     document.getElementById('area-obs').style.display = "block";
+
+    verficarpgto()
+  }
+
+  //VERIFICAR SE FOI PAGO NO PIX
+  function verficarpgto() {
+
+    var pgto = $('#pagamento').val();
+    
+
+    setInterval(function() {
+
+        var pedidoauto = 'Sim';
+
+        if(pgto == "Pix"){
+          finalizarPedido(pedidoauto)
+        }
+        
+
+      },
+      180000);
+
   }
 
   function dinheiro() {
@@ -688,7 +739,9 @@ $complemento = "";
 
 
 <script type="text/javascript">
-  function finalizarPedido() {
+  function finalizarPedido(pedidoauto) {
+
+
 
     $('#botao_finalizar').hide();
     $('#div_img').show();
@@ -706,6 +759,9 @@ $complemento = "";
     localStorage.setItem('nome_cli_del', nome);
     localStorage.setItem('telefone_cli_del', telefone);
 
+
+
+    if(pedido_balcao == ""){
 
     if (telefone.length < 15) {
       alert("Coloque o número de telefone completo");
@@ -733,6 +789,8 @@ $complemento = "";
       return;
     }
 
+  }
+
     var modo = $('#radio_retirar').val();
 
     if (modo == "") {
@@ -758,6 +816,8 @@ $complemento = "";
     var taxa_entrega = $('#taxa-entrega-input').val();
     var pedido_whatsapp = "<?= $api_whatsapp ?>";
     var cupom = $('#valor-cupom').val();
+
+    var esta_pago = $('#esta_pago').val();
 
 
 
@@ -889,100 +949,55 @@ $complemento = "";
     var abrir_comprovante = "<?= $abrir_comprovante ?>";
 
     $.ajax({
-      
-      url: 'js/ajax/inserir-pedido.php',
-      method: 'POST',
-      data: {
-        pagamento,
-        entrega,
-        rua,
-        numero,
-        bairro,
-        complemento,
-        troco,
-        obs,
-        nome_cliente,
-        tel_cliente,
-        id_cliente,
-        mesa,
-        cupom,
-        codigo_pix,
-        cep,
-        cidade,
-        taxa_entrega
-      },
-      dataType: "html",
+  url: 'js/ajax/inserir-pedido.php',
+  method: 'POST',
+  data: {
+    pagamento, entrega, rua, numero, bairro, complemento,
+    troco, obs, nome_cliente, tel_cliente, id_cliente,
+    mesa, cupom, codigo_pix, cep, cidade, taxa_entrega, esta_pago
+  },
+  dataType: "html",
+  success: function(mensagem) {
+    $('#mensagem').text('').removeClass();
 
+    if (mensagem === 'Pagamento nao realizado!!') {
+      if (pedidoauto !== 'Sim') alert('Realize o Pagamento antes de Prosseguir!!');
+      $('#botao_finalizar').show();
+      $('#div_img').hide();
+      return;
+    }
 
-      success: function(mensagem) {
-        //alert(mensagem)      
+    const msg = mensagem.split("*");
+    const previsao = msg[0]?.trim() || '';
+    const msg1 = msg[1]?.trim() || '';
+    const msg2 = msg[2]?.trim() || '';
 
-        if (mensagem == 'Pagamento nao realizado!!') {
-          alert('Realize o Pagamento antes de Prosseguir!!');
-          $('#botao_finalizar').show();
-          $('#div_img').hide();
-          return;
-        }
+    if (msg1 === "Pedido Finalizado") {
+      if (pedido_balcao === 'BALCÃO') {
+        window.close();
+      } else {
+        setTimeout(() => {
+          if (pedidoauto !== 'Sim') finalizado();
 
-        var msg = mensagem.split("*")
-
-
-
-
-        $('#mensagem').text('');
-        $('#mensagem').removeClass()
-
-        var msg1 = msg[1].trim();
-        var msg2 = msg[2].trim();
-        var previsao = msg[0].trim();
-
-
-        if (msg1 == "Pedido Finalizado") {
-
-
-          if (pedido_balcao == 'BALCÃO') {
-            window.close();
-          } else {
-
-            setTimeout(() => {
-              alert('Pedido Finalizado!');
-
-
-              //chamar o comprovante 
-              var id = msg2;
-              if (abrir_comprovante != 'Não') {
-                window.open("sistema/painel/rel/comprovante2_class.php?id=" + id + "&enviar=sim");
-              }
-
-              window.location = 'pedido/' + id;
-
-
-            }, 500);
-
+          const id = msg2;
+          if (abrir_comprovante !== 'Não') {
+            window.open(`sistema/painel/rel/comprovante2_class.php?id=${id}&enviar=sim`);
           }
 
-
-
-        } else {
-
-        }
-
-
-
-        if (pedido_whatsapp == 'manual') {
-          let a = document.createElement('a');
-          //a.target= '_blank';
-          a.href = 'http://api.whatsapp.com/send?1=pt_BR&phone=<?= $tel_whats ?>&text= *Novo Pedido*  %0A%0A Hora: *' + hora + '* %0A Total: R$ *' + total_compra_finalF + '* %0A Entrega: *' + entrega + '* %0A Pagamento: *' + pagamento + '* %0A Cliente: *' + nome_cliente + '* %0A Previsão de Entrega: *' + previsao + '*';
-          a.click();
-        }
-
-
-
-        $('#botao_finalizar').show();
-        $('#div_img').hide();
-
+          setTimeout(() => window.location = `pedido/${id}`, 2000);
+        }, 500);
       }
-    });
+    }
+
+    if (pedido_whatsapp === 'manual') {
+      const url = `http://api.whatsapp.com/send?1=pt_BR&phone=<?= $tel_whats ?>&text=*Novo Pedido*%0A%0A Hora: *${hora}* %0A Total: R$ *${total_compra_finalF}* %0A Entrega: *${entrega}* %0A Pagamento: *${pagamento}* %0A Cliente: *${nome_cliente}* %0A Previsão de Entrega: *${previsao}*`;
+      window.open(url, '_blank');
+    }
+
+    $('#botao_finalizar').show();
+    $('#div_img').hide();
+  }
+});
 
 
 
@@ -1075,26 +1090,28 @@ $complemento = "";
     var telefone = $('#telefone').val();
     var id_usuario = "";
 
+     var pedido_balcao = "<?= $sessao_pedido_balcao ?>";
 
-    if (telefone.length < 15) {
-      alert("Coloque o número de telefone completo");
-      return;
-    }
+    if(pedido_balcao == ""){
+
+      if (telefone.length < 15) {
+        alert("Coloque o número de telefone completo");
+        return;
+      }
+
+      if (telefone == "") {
+        alert('Preencha seu Telefone');
+        $('#telefone').focus();
+        return;
+      }
 
 
+      if (nome == "") {
+        alert('Preencha seu Nome');
+        $('#telefone').focus();
+        return;
+      }
 
-
-    if (telefone == "") {
-      alert('Preencha seu Telefone');
-      $('#telefone').focus();
-      return;
-    }
-
-
-    if (nome == "") {
-      alert('Preencha seu Nome');
-      $('#telefone').focus();
-      return;
     }
 
     $('#colapse-2').click();
@@ -1108,6 +1125,7 @@ $complemento = "";
   function cupom() {
     var total_compra = "<?= $total_carrinho ?>";
     var taxa_entrega = $('#taxa-entrega-input').val();
+    var telefone_cliente = $('#telefone').val();
     if (taxa_entrega == "") {
       taxa_entrega = 0;
     }
@@ -1123,7 +1141,8 @@ $complemento = "";
       method: 'POST',
       data: {
         total_final,
-        codigo_cupom
+        codigo_cupom,
+        telefone_cliente
       },
       dataType: "text",
 
@@ -1150,6 +1169,7 @@ $complemento = "";
 
 
           alert('Cupom Inserido!');
+          pix();
         }
 
       },
@@ -1167,13 +1187,20 @@ $complemento = "";
   };
 
 
-  document.getElementById('cep').addEventListener('input', function(event) {
-    var cep = event.target.value.replace(/\D/g, '');
+  //document.getElementById('cep').addEventListener('input', function(event) {
+   // var cep = event.target.value.replace(/\D/g, '');
 
-    if (cep.length === 8) {
-      fetchAddressData(cep);
-    }
-  });
+  //  if (cep.length === 8) {
+  //    fetchAddressData(cep);
+  //  }
+//  });
+
+
+
+function initMap() {
+  // Pode deixar vazio, ou chamar sua função principal aqui se quiser
+}
+
 
   function calcularFreteDistancia() {
 
@@ -1295,7 +1322,16 @@ $complemento = "";
 
 
 
-<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<!-- <script src="https://maps.google.com/maps/api/js?sensor=false"></script> -->
+
+
+
+<script async defer 
+  src="https://maps.googleapis.com/maps/api/js?key=<?= $chave_api_maps ?>&callback=initMap">
+</script>
+
+
+
 <script>
   var x = document.getElementById("demo");
 
@@ -1384,3 +1420,7 @@ $complemento = "";
     });
   };
 </script>
+
+
+
+

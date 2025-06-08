@@ -34,6 +34,7 @@ if($filtro_data == "data_lanc"){
 	$filtro_dataF = "DATA DE PAGAMENTO";
 }
 
+$filtro_delivery = '';
 
 $filtro_lancamentoF = "";
 if($filtro_lancamento != ""){
@@ -62,6 +63,11 @@ if($filtro_lancamento != ""){
 	}else if($filtro_lancamento == 'Serviço'){
 		$filtro_tipoF = 'SERVIÇOS';
 		$classe_entradas = '';
+
+	}else if($filtro_lancamento == 'Delivery' || $filtro_lancamento == 'Retirar' || $filtro_lancamento == 'Consumir Local'){
+		$filtro_tipoF = 'VENDAS DELIVERY';
+		$classe_entradas = '';
+		$filtro_delivery = 'Sim';
 	}
 	
 	
@@ -196,7 +202,11 @@ $pendentes = 0;
 $pagas = 0;
 
 
+if($filtro_delivery == 'Sim'){
+	$query = $pdo->query("SELECT * from $filtro_tipo where $filtro_data >= '$dataInicial' and $filtro_data <= '$dataFinal' and pago LIKE '%$filtro_pendentes%' and (referencia = 'Delivery' or referencia = 'Retirar' or referencia = 'Consumir Local') order by $filtro_data asc");
+}else{
 	$query = $pdo->query("SELECT * from $filtro_tipo where $filtro_data >= '$dataInicial' and $filtro_data <= '$dataFinal' and pago LIKE '%$filtro_pendentes%' and referencia LIKE '%$filtro_lancamento%' order by $filtro_data asc");
+}
 
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 $linhas = @count($res);

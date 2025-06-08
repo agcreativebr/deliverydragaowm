@@ -24,6 +24,19 @@ $linhas = @count($res);
 if ($linhas > 0) {
 } else {
 	if ($abertura_caixa == 'Sim' and $nome_usuario != 'Administrador') {
+		//echo '<script>alert("Não possui caixa Aberto, abra o caixa!")</script>';
+		//echo '<script>window.location="caixas"</script>';
+	}
+}
+
+
+//verificar se o caixa está aberto
+$query = $pdo->query("SELECT * from caixas where operador = '$id_usuario' and data_fechamento is null");
+$res = $query->fetchAll(PDO::FETCH_ASSOC);
+$linhas = @count($res);
+if ($linhas > 0) {
+} else {
+	if ($abertura_caixa == 'Sim' and $nome_usuario != 'Administrador') {
 		echo '<script>alert("Não possui caixa Aberto, abra o caixa!")</script>';
 		echo '<script>window.location="caixas"</script>';
 	}
@@ -128,7 +141,7 @@ if ($linhas > 0) {
 				</div>
 
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-primary">Salvar</button>
+					<button type="submit" class="btn btn-primary">Salvar <i class="fa fa-check ms-2"></i></button>
 				</div>
 			</form>
 
@@ -170,7 +183,7 @@ if ($linhas > 0) {
 				<form method="POST" action="../../index" target="_blank">
 					<input type="hidden" name="id_mesa" id="id_itens">
 					<input type="hidden" name="id_abertura_mesa" id="id_abertura_mesa">
-					<button type="submit" class="btn btn-primary">Adicionar Itens</button>
+					<button type="submit" class="btn btn-primary">Adicionar Itens<i class="fa fa-check ms-2"></i></button>
 
 				</form>
 			</div>
@@ -283,7 +296,7 @@ if ($linhas > 0) {
 									if ($total_reg > 0) {
 										for ($i = 0; $i < $total_reg; $i++) {
 
-											echo '<option value="' . $res[$i]['nome'] . '">' . $res[$i]['nome'] . '</option>';
+											echo '<option value="' . $res[$i]['id'] . '">' . $res[$i]['nome'] . '</option>';
 										}
 									} else {
 										echo '<option value="0">Cadastre uma Forma de Pagamento</option>';
@@ -327,7 +340,7 @@ if ($linhas > 0) {
 				</div>
 
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-primary">Salvar</button>
+					<button type="submit" class="btn btn-primary">Salvar<i class="fa fa-check ms-2"></i></button>
 				</div>
 			</form>
 
@@ -344,8 +357,8 @@ if ($linhas > 0) {
 
 <!-- Modal VALORES-->
 <div class="modal fade" id="modalValores" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-	aria-hidden="true" data-bs-backdrop="static">
-	<div class="modal-dialog" role="document">
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header bg-primary text-white">
 				<h4 class="modal-title">Mesa <span id="nome_valor"></span></h4>
@@ -355,24 +368,44 @@ if ($linhas > 0) {
 			<form id="form-valor" method="post">
 				<div class="modal-body">
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-4">
 							<div class="form-group">
 								<label>Nome</label>
-								<input class="form-control" type="text" name="nome" id="nome_ad" placeholder="Nome">
+								<input class="form-control" type="text" name="nome" id="nome_ad" placeholder="Nome" required>
 							</div>
 						</div>
-						<div class="col-md-3">
+						<div class="col-md-2">
 							<div class="form-group">
 								<label>Valor</label>
-								<input class="form-control" type="text" name="valor" id="valor_ad" placeholder="R$ 0,00">
+								<input class="form-control" type="text" name="valor" id="valor_ad" placeholder="R$ 0,00" required>
 							</div>
 						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Forma de Pagamento</label>
+								<select class="form-select" id="forma_pgto" name="forma_pgto">
+									<?php
+									$query = $pdo->query("SELECT * FROM formas_pgto ORDER BY id asc");
+									$res = $query->fetchAll(PDO::FETCH_ASSOC);
+									$total_reg = @count($res);
+									if ($total_reg > 0) {
+										for ($i = 0; $i < $total_reg; $i++) {
 
-						<div class="col-md-3" style="margin-top:25px">
-							<button type="submit" class="btn btn-primary">Inserir</button>
+											echo '<option value="' . $res[$i]['id'] . '">' . $res[$i]['nome'] . '</option>';
+										}
+									} else {
+										echo '<option value="0">Cadastre uma Forma de Pagamento</option>';
+									}
+									?>
+
+
+								</select>
+							</div>
+
 						</div>
-
-
+						<div class="col-md-2" style="margin-top:25px">
+							<button type="submit" class="btn btn-primary">Inserir<i class="fa fa-check ms-2"></i></button>
+						</div>
 					</div>
 
 

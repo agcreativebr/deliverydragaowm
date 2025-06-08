@@ -64,6 +64,8 @@ $total_couvertF = @number_format($total_couvert, 2, ',', '.');
 $subtotal = $total_mesa + $total_comissao + $total_couvert;
 $subtotalF = @number_format($subtotal, 2, ',', '.');
 
+$total_por_pessoa = $subtotal / $pessoas;
+$total_por_pessoaF = @number_format($total_por_pessoa, 2, ',', '.');
 ?>
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -445,6 +447,15 @@ $total_item_final = $total_item * $quantidade;
 	<div class="row valores">
 		<div class="col-6">SubTotal</div>
 		<div class="col-6" align="right">R$ <b><?php echo @$subtotalF ?></b></div>
+	</div>
+
+
+	<div class="th" style="margin-bottom: 7px"></div>
+
+
+	<div class="row valores" style="font-size: 12px">
+		<div class="col-6">Total por Pessoa / (<?php echo $pessoas ?> Pessoas)</div>
+		<div class="col-6" align="right">R$ <b><?php echo @$total_por_pessoaF ?></b></div>
 	</div>
 
 	</tr>

@@ -19,8 +19,8 @@ $obs = $res[0]['obs'];
 
 $dataF = implode('/', array_reverse(@explode('-', $data)));
 
-$subtotalF = number_format($subtotal, 2, ',', '.');
-$valorF = number_format($valor, 2, ',', '.');
+$subtotalF = @number_format($subtotal, 2, ',', '.');
+$valorF = @number_format($valor, 2, ',', '.');
 $multaF = @number_format($multa, 2, ',', '.');
 $jurosF = @number_format($juros, 2, ',', '.');
 $descontoF = @number_format($desconto, 2, ',', '.');
@@ -51,7 +51,7 @@ if($fornecedor != 0 || $funcionario != 0){
 	if($total_reg2 > 0){
 		$nome_pessoa = $res2[0]['nome'];
 		$telefone_pessoa = $res2[0]['telefone'];
-		$pix_pessoa = $res2[0]['chave_pix'];
+		$pix_pessoa = @$res2[0]['chave_pix'];
 
 	}else{
 		$nome_pessoa = '';

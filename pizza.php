@@ -4,6 +4,11 @@ require_once("cabecalho.php");
 
 $url = $_GET['url'];
 $id_usuario = @$_SESSION['id'];
+$pedido_balcao = @$_SESSION['pedido_balcao'];
+// Formatando a data e hora para exibir apenas horas e minutos
+$horario_aberturaF = date('H:i', strtotime($horario_abertura));
+// Formatando a data e hora para exibir apenas horas e minutos
+$horario_fechamentoF = date('H:i', strtotime($horario_fechamento));
 
 
 if (@$_SESSION['sessao_usuario'] == "") {
@@ -40,58 +45,7 @@ if ($total_reg > 0) {
 
 	$pdo->query("DELETE FROM temp where carrinho = 0 and sessao = '$sessao'");
 
-	if (@$id_usuario == "") {
 
-		if ($status_estabelecimento == "Fechado") {
-			echo "<script>window.alert('$texto_fechamento')</script>";
-			echo "<script>window.location='index.php'</script>";
-			exit();
-		}
-
-
-		$data = date('Y-m-d');
-		//verificar se está aberto hoje
-		$diasemana = array("Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado");
-		$diasemana_numero = date('w', strtotime($data));
-		$dia_procurado = $diasemana[$diasemana_numero];
-
-		//percorrer os dias da semana que ele trabalha
-		$query = $pdo->query("SELECT * FROM dias where dia = '$dia_procurado'");
-		$res = $query->fetchAll(PDO::FETCH_ASSOC);
-		if (@count($res) > 0) {
-			echo "<script>window.alert('Estamos Fechados! Não funcionamos Hoje!')</script>";
-			echo "<script>window.location='index.php'</script>";
-			exit();
-		}
-
-		$hora_atual = date('H:i:s');
-
-		//nova verificação de horarios
-		$start = strtotime(date('Y-m-d' . $horario_abertura));
-		$end = strtotime(date('Y-m-d' . $horario_fechamento));
-		$now = time();
-
-		if ($start <= $now && $now <= $end) {
-		} else {
-
-			if ($end < $start) {
-
-				if ($now > $start) {
-				} else {
-					if ($now < $end) {
-					} else {
-						echo "<script>window.alert('$texto_fechamento_horario')</script>";
-						echo "<script>window.location='index.php'</script>";
-						exit();
-					}
-				}
-			} else {
-				echo "<script>window.alert('$texto_fechamento_horario')</script>";
-				echo "<script>window.location='index.php'</script>";
-				exit();
-			}
-		}
-	}
 }
 
 
@@ -187,9 +141,7 @@ if ($total_reg > 0) {
 			echo '</ul>';
 		} ?>
 
-		<span class="titulo-itens-pizza"><span
-				style="margin-left:20px">Escolha <span id="quant_sabores"> os </span> sabores</span></span>;
-
+		<span class="titulo-itens-pizza"><span style="margin-left:20px">Escolha <span id="quant_sabores"> os </span> sabores</span></span>
 		<?php
 		$query = $pdo->query("SELECT * FROM produtos where categoria = '$id' and ativo = 'Sim'");
 		$res = $query->fetchAll(PDO::FETCH_ASSOC);

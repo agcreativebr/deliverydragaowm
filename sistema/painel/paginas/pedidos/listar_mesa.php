@@ -83,6 +83,10 @@ if ($total_reg > 0) {
     $mesa = $res2[0]['mesa'];
 
 
+    $query2 = $pdo->query("SELECT * FROM mesas where id = '$mesa'");
+    $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+    $nome_mesa = @$res2[0]['nome'];
+
 
     $query2 = $pdo->query("SELECT * FROM usuarios where id = '$garcon'");
     $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
@@ -183,12 +187,13 @@ if ($total_reg > 0) {
 <div class="col-md-4 widget d-inline-block" style="width: 30%">
 			<div class="" style="padding:4px; min-height: 100px; height: 200px; overflow: scroll; scrollbar-width: thin; background: #ffffff;">
 				<div style="border-bottom: 1px solid #000">
-					<span style="color:{$classe_alerta}"> <i class="fa fa-square"></i></span> Mesa <b>{$mesa}</b>
+					<span style="color:{$classe_alerta}"> <i class="fa fa-square"></i></span> Mesa <b>{$nome_mesa}</b> 
 					<span style="position:absolute; right:20px"><i>{$horaF}</i></span>
 				</div>
 
 				<div style="margin-top: 5px">
-					<span><small><i><span style="color:#000">{$nome_garcon} </span></i></small></span>					
+					<span><small><i><span style="color:#000">{$nome_garcon} </span></i></small></span>	
+          <a style="position:absolute; right:20px" class="btn btn-dark-light btn-sm" href="#" onclick="gerarComprovante('{$id}')" title="Gerar Comprovante"><i class="fa fa-file-pdf-o"></i></a>				
 				</div>
 
 				<div style="border-bottom: 1px solid #000">
@@ -506,5 +511,17 @@ $total_dos_itens_pedidos = @count($res);
       });
 
     }, 1000);
+  }
+</script>
+
+
+<script type="text/javascript">
+  function gerarComprovante(id) {
+
+
+    let a = document.createElement('a');
+    a.target = '_blank';
+    a.href = 'rel/comprovante_item_mesa.php?id=' + id;
+    a.click();
   }
 </script>

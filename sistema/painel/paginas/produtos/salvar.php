@@ -20,10 +20,6 @@ $val_promocional = @$_POST['val_promocional'];
 $val_promocional = str_replace(',', '.', $val_promocional);
 
 
-if($valor_venda <= 0 and $val_promocional <= 0){
-	echo 'Adicione um valor de venda ou um valor Pormocional!';
-	die;
-}
 
 if($promocao == 'Sim' and $val_promocional <= 0){
 	echo 'Você precisa adicionar um valor Promocional ou desativar o campo Pormoção!';
@@ -39,6 +35,7 @@ $url = preg_replace('/[ -]+/' , '-' , $nome_novo);
 $url = str_replace('+', '-', $url);
 $url = str_replace('/', '-', $url);
 $url = str_replace('"', '-', $url);
+$url = str_replace('%', '', $url);
 
 
 if($categoria == 0 || $categoria == ""){

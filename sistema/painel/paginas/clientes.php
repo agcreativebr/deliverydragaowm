@@ -523,8 +523,6 @@ if (@$clientes == 'ocultar') {
 
 
 
-
-
 <script type="text/javascript">
 	$("#form-arquivos").submit(function() {
 		event.preventDefault();

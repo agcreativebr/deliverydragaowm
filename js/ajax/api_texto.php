@@ -39,7 +39,7 @@ if ($api_whatsapp == 'wm') {
     'instance' => $instancia_whatsapp,
     'to' => $telefone_envio,
     'token' => $token_whatsapp,
-    'message' => $mensagem_whatsapp
+    'message' => $mensagem
   );
 
   $options = array(

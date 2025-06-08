@@ -1,5 +1,5 @@
 <?php
-require_once ("../../../conexao.php");
+require_once("../../../conexao.php");
 $tabela = 'bordas';
 
 $id = $_POST['id'];
@@ -29,6 +29,7 @@ HTML;
 		$nome = $res[$i]['nome'];
 		$valor = $res[$i]['valor'];
 		$ativo = $res[$i]['ativo'];
+		$categoria = $res[$i]['categoria'];
 
 
 
@@ -52,28 +53,29 @@ HTML;
 <td style="color:{$classe_linha}">{$valor}</td>
 <td>
 	
-		<div class="dropdown" style="display: inline-block;">                      
-		<a class="btn btn-danger-light btn-sm" href="#" aria-expanded="false" aria-haspopup="true" data-bs-toggle="dropdown" class="dropdown"><i class="fa fa-trash-o"></i> </a>
-		<div  class="dropdown-menu tx-13">
-		<div class="dropdown-item-text botao_excluir">
-		<p>Confirmar Exclusão? <a href="#" onclick="excluirBordas('{$id}')"><span class="text-danger"><button class="btn-danger">Sim</button></span></a></p>
-		</div>
-		</div>
-		</div>
 
+
+<div class="dropdown" style="display: inline-block;">                      
+	<a href="#" aria-expanded="false" aria-haspopup="true" data-bs-toggle="dropdown" class="dropdown btn btn-danger-light btn-sm"><i class="fe fe-trash-2 text-danger"></i> 
+	</a>
+		<div  class="dropdown-menu tx-13">
+			<div class="dropdown-item-text botao_excluir_listar">
+			<p>Confirmar Exclusão? <a href="#" onclick="excluirBordas('{$id}', '{$nome}')"><span class="botao_excluir_listar_sim">Sim</span></a></p>
+			</div>
+		</div>
+</div>
 
 
 	<a class="btn btn-success-light btn-sm" href="#" onclick="ativarBordas('{$id}', '{$acao}')" title="{$titulo_link}"><i class="fa {$icone}"></i></a>
 
 
-	<a class="btn btn-info-light btn-sm" href="#" onclick="editarBordas('{$id}', '{$nome}', '{$valor}')" title="Editar Variações"><i class="fa fa-edit"></i></a>
+	<a class="btn btn-info-light btn-sm" href="#" onclick="editarBordas('{$id}', '{$nome}', '{$valor}', '{$categoria}')" title="Editar Variações"><i class="fa fa-edit"></i></a>
 
 
 
 </td>
 </tr>
 HTML;
-
 	}
 
 	echo <<<HTML
@@ -82,8 +84,6 @@ HTML;
 	</table>
 	</small>
 HTML;
-
-
 } else {
 	echo '<small>Não possui nenhum Adicional cadastrado!</small>';
 }
@@ -93,12 +93,12 @@ HTML;
 
 
 <script>
-	function editarBordas(id, nome, valor) {
+	function editarBordas(id, nome, valor, categoria) {
 
 		$('#id_borda_editar').val(id);
 		$('#nome_bordas').val(nome);
 		$('#valor_bordas').val(valor);
-
+		$('#id_categoria').val(categoria);
 
 		$('#btn_borda').text('Editar');
 

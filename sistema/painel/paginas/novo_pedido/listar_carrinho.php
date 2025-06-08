@@ -112,9 +112,9 @@ HTML;
 
 
 
-<a class="" href="#" onclick="excluirModal('{$id}', '{$nome_produto}')" title="Excluir Item" class=""><big><i class="fa fa-trash-o text-danger"></i></big></a>
+<a class="btn btn-danger btn-sm" href="#" onclick="excluirModal('{$id}', '{$nome_produto}')" title="Excluir Item" class=""><big><i class="fa fa-trash-o "></i></big></a>
 
-
+	 <a style="" class="btn btn-info btn-sm" href="#" onclick="gerarComprovante('{$id}')" title="Gerar Comprovante"><i class="fa fa-file-pdf-o"></i></a>		
 
 
 </td>
@@ -193,4 +193,16 @@ HTML;
 		$('#modalExcluir').modal('show');
 
 	}
+</script>
+
+
+<script type="text/javascript">
+  function gerarComprovante(id) {
+
+
+    let a = document.createElement('a');
+    a.target = '_blank';
+    a.href = 'rel/comprovante_item_mesa.php?id=' + id;
+    a.click();
+  }
 </script>

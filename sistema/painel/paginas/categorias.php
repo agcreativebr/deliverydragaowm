@@ -42,14 +42,14 @@ $pag = 'categorias';
 					<div class="row">
 						<div class="col-md-6 needs-validation was-validated">
 							<div class="form-group">
-								<label for="exampleInputEmail1">Categoria</label>
+								<label>Categoria</label>
 								<input type="text" class="form-control" id="nome" name="nome" placeholder="Categoria" required>
 							</div>
 						</div>
 
 						<div class="col-md-3">
 							<div class="form-group">
-								<label for="exampleInputEmail1">Mais Sabores</label>
+								<label>Mais Sabores</label>
 								<select class="form-select" id="mais_sabores" name="mais_sabores">
 									<option value="Não">Não</option>
 									<option value="Sim">Sim</option>
@@ -60,7 +60,7 @@ $pag = 'categorias';
 
 						<div class="col-md-3">
 							<div class="form-group">
-								<label for="exampleInputEmail1">Delivery</label>
+								<label>Delivery</label>
 								<select class="form-select" id="delivery" name="delivery">
 									<option value="Sim">Sim</option>
 									<option value="Não">Não</option>
@@ -76,7 +76,7 @@ $pag = 'categorias';
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group">
-								<label for="exampleInputEmail1">Descrição</label>
+								<label>Descrição</label>
 								<input maxlength="255" type="text" class="form-control" id="descricao" name="descricao" placeholder="Pequena Descrição">
 							</div>
 						</div>
@@ -131,7 +131,7 @@ $pag = 'categorias';
 
 <!-- Modal Variações-->
 <div class="modal fade" id="modalVariacoes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
+	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header bg-primary text-white">
 				<h4 class="modal-title" id="exampleModalLabel"><span id="titulo_nome_var"></span> - Variações</h4>
@@ -145,21 +145,21 @@ $pag = 'categorias';
 					<div class="row">
 						<div class="col-md-3">
 							<div class="form-group">
-								<label for="exampleInputEmail1">Sigla</label>
+								<label>Sigla</label>
 								<input maxlength="5" type="text" class="form-control" id="sigla" name="sigla" placeholder="P / M / G">
 							</div>
 						</div>
 
 						<div class="col-md-6">
 							<div class="form-group">
-								<label for="exampleInputEmail1">Nome</label>
-								<input maxlength="35" type="text" class="form-control" id="nome_var" name="nome" placeholder="Pequena / Média ..." required>
+								<label>Nome</label>
+								<input maxlength="35" type="text" class="form-control" id="nome_var" name="nome" placeholder="Pequena / Média /Grande ..." required>
 							</div>
 						</div>
 
 						<div class="col-md-3">
 							<div class="form-group">
-								<label for="exampleInputEmail1">Máx Sabores</label>
+								<label>Máx Sabores</label>
 								<input type="number" class="form-control" id="sabores" name="sabores" value="0" placeholder="1">
 							</div>
 						</div>
@@ -171,13 +171,13 @@ $pag = 'categorias';
 
 						<div class="col-md-9">
 							<div class="form-group">
-								<label for="exampleInputEmail1">Descrição</label>
+								<label>Descrição</label>
 								<input maxlength="50" type="text" class="form-control" id="descricao_var" name="descricao" placeholder="8 Fatias">
 							</div>
 						</div>
 
 						<div class="col-md-3" style="margin-top: 25px">
-							<button id="btn_var" type="submit" class="btn btn-primary">Salvar</button>
+							<button id="btn_var" type="submit" class="btn btn-primary">Salvar<i class="fa fa-check ms-2"></i></button>
 
 						</div>
 					</div>
@@ -493,7 +493,6 @@ $pag = 'categorias';
 		$('#sabores').val('');
 		$('#id_var_editar').val('');
 		$('#btn_var').text('Salvar');
-
 
 	}
 

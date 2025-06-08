@@ -184,7 +184,8 @@ if ($linhas > 0) {
 	<thead> 
 	<tr> 
 	<th align="center" width="5%" class="text-center">Selecionar</th>
-	<th>Descrição</th>	
+	<th>Descrição</th>
+	<th>Favoreciso</th>
 	<th>Valor</th>	
 	<th>Vencimento</th>	
 	<th>Pagamento</th>	
@@ -219,6 +220,8 @@ HTML;
 		$usuario_lanc = $res[$i]['usuario_lanc'];
 		$usuario_pgto = $res[$i]['usuario_pgto'];
 		$pago = $res[$i]['pago'];
+
+
 
 		$vencimentoF = implode('/', array_reverse(@explode('-', $vencimento)));
 		$data_pgtoF = implode('/', array_reverse(@explode('-', $data_pgto)));
@@ -399,7 +402,7 @@ HTML;
 				$telefone_pessoa = $res2[0]['telefone'];
 				$pix_pessoa = $res2[0]['pix'];
 			} else {
-				$nome_pessoa = '';
+				$nome_pessoa = 'Nenhum';
 				$telefone_pessoa = '';
 				$pix_pessoa = '';
 			}
@@ -408,6 +411,7 @@ HTML;
 		if ($valor_finalF < $subtotal) {
 			$valor_finalF = $subtotal;
 		}
+
 
 
 		echo <<<HTML
@@ -419,27 +423,28 @@ HTML;
 </div>
 </td>
 <td><i class="fa fa-square {$classe_pago} mr-1"></i> {$descricao}</td>
+<td> {$nome_pessoa}</td>
 <td class="">R$ {$valor_finalF} <small><a href="#" onclick="mostrarResiduos('{$id}')" class="text-danger" title="Ver Resíduos">{$vlr_antigo_conta}</a></small></td>	
 <td class="esc {$classe_venc}">{$vencimentoF}</td>
 <td class="esc">{$data_pgtoF}</td>
 
 <td class="text-center"><a href="images/contas/{$arquivo}" target="_blank">
-	<img alt="avatar" class="rounded-circle" src="images/contas/{$tumb_arquivo}" width="30px" height="30px"></a>
+	<img class="rounded-circle" src="images/contas/{$tumb_arquivo}" width="30px" height="30px"></a>
 	</td>
 
 <td>
-	<big><a href="#" onclick="editar('{$id}','{$descricao}','{$valor}','{$fornecedor}','{$funcionario}','{$vencimento}','{$data_pgto}','{$forma_pgto}','{$frequencia}','{$obs}','{$tumb_arquivo}')" title="Editar Dados"><i class="fa fa-edit text-info"></i></a></big>
+	<big><a class="{$ocultar}" href="#" onclick="editar('{$id}','{$descricao}','{$valor}','{$fornecedor}','{$funcionario}','{$vencimento}','{$data_pgto}','{$forma_pgto}','{$frequencia}','{$obs}','{$tumb_arquivo}')" title="Editar Dados"><i class="fa fa-edit text-info"></i></a></big>
 
 
 
-	<big><a href="#" onclick="excluirConta('{$id}')" title="Excluir"><i class="fa fa-trash-can text-danger"></i></a></big>
+	<big><a class="{$ocultar}" href="#" onclick="excluirConta('{$id}')" title="Excluir"><i class="fa fa-trash-can text-danger"></i></a></big>
 
 <big><a href="#" onclick="mostrar('{$descricao}','{$valorF}','{$nome_pessoa}','{$vencimentoF}','{$data_pgtoF}','{$nome_pgto}','{$nome_frequencia}','{$obs}','{$tumb_arquivo}','{$multaF}','{$jurosF}','{$descontoF}','{$subtotalF}','{$nome_usu_lanc}','{$nome_usu_pgto}', '{$pago}', '{$arquivo}','{$telefone_pessoa}','{$pix_pessoa}','{$tipo_pessoa}')" title="Mostrar Dados"><i class="fa fa-info-circle text-primary"></i></a></big>
 
 
 <big><a class="{$ocultar}" href="#" onclick="baixar('{$id}', '{$valor}', '{$descricao}', '{$forma_pgto}', '{$valor_multa}', '{$valor_juros}')" title="Baixar Conta"><i class="fa fa-check-square" style="color:#079934"></i></a>
 
-	<big><a href="#" onclick="parcelar('{$id}', '{$valor}', '{$descricao}')" title="Parcelar Conta"><i class="fa fa-calendar-o" style="color:#7f7f7f"></i></a></big>
+	<big><a class="{$ocultar}" href="#" onclick="parcelar('{$id}', '{$valor}', '{$descricao}')" title="Parcelar Conta"><i class="fa fa-calendar-o" style="color:#7f7f7f"></i></a></big>
 
 		<big><a href="#" onclick="arquivo('{$id}', '{$descricao}')" title="Inserir / Ver Arquivos"><i class="fa fa-file-o taxt-danger"></i></a></big>
 

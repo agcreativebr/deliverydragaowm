@@ -1,0 +1,2 @@
+[13-Apr-2025 16:41:50 America/Sao_Paulo] PHP Warning:  Undefined array key 0 in /home2/wd2age71/public_html/dragaolanches/delivery/sistema/painel/paginas/produtos/excluir.php on line 10
+[13-Apr-2025 16:41:50 America/Sao_Paulo] PHP Warning:  Trying to access array offset on value of type null in /home2/wd2age71/public_html/dragaolanches/delivery/sistema/painel/paginas/produtos/excluir.php on line 10

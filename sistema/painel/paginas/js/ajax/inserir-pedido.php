@@ -42,8 +42,6 @@ for ($i = 0; $i < $total_reg; $i++) {
 }
 
 
-
-
 $total_com_frete = $total_carrinho + $taxa_entrega;
 if ($total_pago == "") {
   $total_pago = $total_com_frete;

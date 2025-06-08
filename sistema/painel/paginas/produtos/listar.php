@@ -2,7 +2,16 @@
 require_once("../../../conexao.php");
 $tabela = 'produtos';
 
-$query = $pdo->query("SELECT * FROM $tabela order by id desc");
+$categoria = @$_POST['p1'];
+
+
+if ($categoria != "") {
+	$query = $pdo->query("SELECT * from $tabela where categoria = '$categoria' order by id desc");
+} else {
+	$query = $pdo->query("SELECT * from $tabela order by id desc");
+}
+
+
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_reg = @count($res);
 if ($total_reg > 0) {
@@ -48,9 +57,9 @@ HTML;
 
 		$nomeF = mb_strimwidth($nome, 0, 25, "...");
 
-		$valor_vendaF = number_format($valor_venda, 2, ',', '.');
-		$valor_compraF = number_format($valor_compra, 2, ',', '.');
-		$val_promocionalF = number_format($val_promocional, 2, ',', '.');
+		$valor_vendaF = @number_format($valor_venda, 2, ',', '.');
+		$valor_compraF = @number_format($valor_compra, 2, ',', '.');
+		$val_promocionalF = @number_format($val_promocional, 2, ',', '.');
 
 
 		if ($ativo == 'Sim') {
@@ -128,7 +137,7 @@ HTML;
 </div>
 </td>
 <td style="color:{$classe_linha}">
-<img src="images/produtos/{$foto}" width="27px" class="mr-2">
+<img class="rounded-circle mr-2" src="images/produtos/{$foto}" width="30px" height="30px">
 {$nomeF} <span class="{$classe_promo} text-primary" style="font-size: 10px">(Promoção)</span>
 </td>
 <td style="color:{$classe_linha}">{$nome_cat}</td>
@@ -232,6 +241,7 @@ HTML;
 		$('#preparado').val('Sim').change();
 		$('#delivery').val('Sim').change();
 		$('#target').attr('src', 'images/produtos/sem-foto.jpg');
+		$('#id_it_var').val('');
 	}
 </script>
 

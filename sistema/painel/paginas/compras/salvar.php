@@ -91,7 +91,7 @@ if (@count($res1) > 0) {
 
 
 if($id == ""){
-	$query = $pdo->prepare("INSERT INTO $tabela SET descricao = :descricao, tipo = 'Compra', valor = :valor, data_lanc = curDate(), vencimento = '$data_venc', data_pgto = '$data_pgto', usuario_lanc = '$id_usuario', usuario_pgto = '$usuario_pgto', foto = '$foto', arquivo = '$foto', pessoa = '$pessoa', pago = '$pago', produto = '$produto', quantidade = '$quantidade', forma_pgto = '$forma_pgto', obs = '$obs', referencia = 'Compra', caixa = '$id_caixa'");
+	$query = $pdo->prepare("INSERT INTO $tabela SET descricao = :descricao, tipo = 'Compra', valor = :valor, data_lanc = curDate(), vencimento = '$data_venc', data_pgto = '$data_pgto', usuario_lanc = '$id_usuario', usuario_pgto = '$usuario_pgto', foto = '$foto', arquivo = '$foto', pessoa = '$pessoa', pago = '$pago', produto = '$produto', quantidade = '$quantidade', forma_pgto = '$forma_pgto', obs = '$obs', referencia = 'Compra', caixa = '$id_caixa', subtotal = :valor");
 
 
 }else{

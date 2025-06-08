@@ -17,6 +17,15 @@ if ($id_mesa == "") {
 	$query = $pdo->query("SELECT * FROM carrinho where mesa = '$id_mesa'");
 }
 
+$id_edicao = "";
+if (@$_SESSION['id_edicao'] != "") {
+	$id_edicao = $_SESSION['id_edicao'];
+}
+
+if($id_edicao != ""){
+	$query = $pdo->query("SELECT * FROM carrinho where pedido = '$id_edicao'");
+}
+
 
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_reg = @count($res);
@@ -113,6 +122,13 @@ if($total_reg > 0){
 		}else{
 			$sigla_grade = '';
 		}
+
+
+		if($id_mesa > 0){
+			$ocultar_excluir = 'ocultar';
+		}else{
+			$ocultar_excluir = '';
+		}
 		
 
 
@@ -173,7 +189,7 @@ echo <<<HTML
 
 
 			
-			<a href="#" onclick="excluir('{$id}')" class="link-neutro"><i class="bi bi-x-lg direita"></i></a>
+			<a href="#" onclick="excluir('{$id}')" class="link-neutro {$ocultar_excluir}"><i class="bi bi-x-lg direita"></i></a>
 
 			<div id="popup-excluir{$id}" class="overlay-excluir">
 			<div class="popup">

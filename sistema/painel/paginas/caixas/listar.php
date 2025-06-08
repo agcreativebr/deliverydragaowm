@@ -161,11 +161,16 @@ HTML;
 		}
 
 
+		//pegar a forma de pagamento dinheiro
+		$query2 = $pdo->query("SELECT * FROM formas_pgto where nome LIKE '%Dinheiro%'");
+		$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+		$pgto_dinheiro = $res2[0]['id'];
+
 
 		//buscar total movimentado pelo caixa
 		//totalizar recebimentos
 		$total_recebido = 0;
-		$query2 = $pdo->query("SELECT * FROM receber where usuario_pgto = '$operador' and data_pgto >= '$data_abertura' and data_pgto <= '$data_fechamento_consulta' and caixa = '$id'");
+		$query2 = $pdo->query("SELECT * FROM receber where usuario_pgto = '$operador' and data_pgto >= '$data_abertura' and data_pgto <= '$data_fechamento_consulta' and caixa = '$id' and forma_pgto = '$pgto_dinheiro'");
 		$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 		if (@count($res2) > 0) {
 			for ($i2 = 0; $i2 < @count($res2); $i2++) {
@@ -177,7 +182,7 @@ HTML;
 
 		//totalizar saidas
 		$total_saidas = 0;
-		$query2 = $pdo->query("SELECT * FROM pagar where usuario_pgto = '$operador' and data_pgto >= '$data_abertura' and data_pgto <= '$data_fechamento_consulta' and caixa = '$id'");
+		$query2 = $pdo->query("SELECT * FROM pagar where usuario_pgto = '$operador' and data_pgto >= '$data_abertura' and data_pgto <= '$data_fechamento_consulta' and caixa = '$id' and forma_pgto = '$pgto_dinheiro'");
 		$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
 		if (@count($res2) > 0) {
 			for ($i2 = 0; $i2 < @count($res2); $i2++) {
@@ -221,13 +226,13 @@ HTML;
 		<big><a class="{$ocultar} btn btn-info-light btn-sm" href="#" onclick="editar('{$id}', '{$operador}', '{$data_abertura}','{$valor_abertura}','{$obs}')" title="Editar Dados"><i class="fa fa-edit "></i></a></big>
 
 
-		<big><a href="#" class="btn btn-danger-light btn-sm" onclick="excluir('{$id}')" title="Excluir"><i class="fa fa-trash-can text-danger"></i></a></big>
+		<big><a href="#" class="btn btn-danger-light btn-sm {$ocultar}" onclick="excluirBusca('{$id}')" title="Excluir"><i class="fa fa-trash-can text-danger"></i></a></big>
 
 
-		<big><a class="{$ocultar} btn btn-success-light btn-sm" href="#" onclick="fechamento('{$id}', '{$nome_operador}', '{$valor_abertura}', '{$total_caixa}')" title="Fechar Caixa"><i class="fa-solid fa-hand-holding-dollar"></i></a></big>
+		<big><a class="{$ocultar} btn btn-success-light btn-sm" href="#" onclick="fechamento('{$id}', '{$nome_operador}', '{$valor_abertura}', '{$total_caixa}')" title="Fechar Caixa"><i class="fa fa-check-square"></i></a></big>
 
 
-		<big><a class="{$ocultar} btn btn-success-light btn-sm" href="#" onclick="sangria('{$id}', '{$nome_operador}')" title="Sangria"><i class="fa fa-money  "></i></a></big>
+		<big><a class="{$ocultar} btn btn-success-light btn-sm" href="#" onclick="sangria('{$id}')" title="Sangria"><i class="fa fa-money  "></i></a></big>
 
 
 
@@ -308,10 +313,10 @@ HTML;
 
 
 
-	function sangria(id, operador) {
+	function sangria(id) {
 
 		$('#id_sangria').val(id);
-		$('#nome_operador_sangria').val(operador);
+		//$('#nome_operador_sangria').val(operador);
 		$('#tituloModalSangria').text('Efetuar Sangria');
 
 		$('#modalSangria').modal('show');

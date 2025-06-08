@@ -54,14 +54,17 @@ echo <<<HTML
 				<td><a href="images/arquivos/{$arquivo}" target="_blank"><img src="images/arquivos/{$tumb_arquivo}" width="18px" height="18px"></a></td>
 				<td>
 
-					<div class="dropdown" style="display: inline-block;">                      
-                        <a href="#" aria-expanded="false" aria-haspopup="true" data-bs-toggle="dropdown" class="dropdown"><i class="fe fe-trash-2 text-danger"></i> </a>
-                        <div  class="dropdown-menu tx-13">
-                        <div style="width: 240px; padding:15px 5px 0 10px;" class="dropdown-item-text">
-                        <p>Confirmar Exclusão? <a href="#" onclick="excluirArquivo('{$id}', '{$nome}')"><span class="text-danger">Sim</span></a></p>
-                        </div>
-                        </div>
-                        </div>
+
+				<div class="dropdown" style="display: inline-block;">                      
+	<a href="#" aria-expanded="false" aria-haspopup="true" data-bs-toggle="dropdown" class="dropdown btn btn-danger-light btn-sm"><i class="fe fe-trash-2 text-danger"></i> 
+	</a>
+		<div  class="dropdown-menu tx-13">
+			<div class="dropdown-item-text botao_excluir_listar">
+			<p>Confirmar Exclusão? <a href="#" onclick="excluirArquivo('{$id}', '{$nome}')"><span class="botao_excluir_listar_sim">Sim</span></a></p>
+			</div>
+		</div>
+</div>
+
 					
 				</td>  
 			</tr> 

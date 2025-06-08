@@ -12,6 +12,149 @@ $nome_mesa = @$_SESSION['nome_mesa'];
 $id_ab_mesa = @$_SESSION['id_ab_mesa'];
 $id_mesa = @$_SESSION['id_mesa'];
 $pedido_balcao = @$_SESSION['pedido_balcao'];
+// Formatando a data e hora para exibir apenas horas e minutos
+$horario_aberturaF = date('H:i', strtotime($horario_abertura));
+// Formatando a data e hora para exibir apenas horas e minutos
+$horario_fechamentoF = date('H:i', strtotime($horario_fechamento));
+
+
+// VERFICAR SE ESTÁ ABERTO O ESTABELICMENTO
+
+if ($nome_mesa == '' and $pedido_balcao == "") {
+    if ($status_estabelecimento == "Fechado") {
+
+        echo "<script>
+        window.onload = function() {
+            Swal.fire({
+                title: 'Bem-vindo!',
+                text: '$texto_fechamento',
+                icon: 'info',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Ação a ser realizada após o clique no botão de confirmação
+                    console.log('Botão OK clicado!');
+                    // Você pode redirecionar para outra página, se necessário
+                    window.location.href = 'index.php';
+                }
+            });
+        };
+    </script>";
+
+
+
+        //echo "<script>window.alert('$texto_fechamento')</script>";
+        //echo "<script>window.location='index.php'</script>";
+        exit();
+    }
+
+
+    $data = date('Y-m-d');
+    //verificar se está aberto hoje
+    $diasemana = array("Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado");
+    $diasemana_numero = date('w', strtotime($data));
+    $dia_procurado = $diasemana[$diasemana_numero];
+
+    //percorrer os dias da semana que ele trabalha
+    $query = $pdo->query("SELECT * FROM dias where dia = '$dia_procurado'");
+    $res = $query->fetchAll(PDO::FETCH_ASSOC);
+    if (@count($res) > 0) {
+
+        echo "<script>
+        window.onload = function() {
+            Swal.fire({
+                title: 'Bem-vindo!',
+                text: 'Estamos Fechados! Não funcionamos Hoje!',
+                icon: 'info',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Ação a ser realizada após o clique no botão de confirmação
+                    console.log('Botão OK clicado!');
+                    // Você pode redirecionar para outra página, se necessário
+                    window.location.href = 'index.php';
+                }
+            });
+        };
+    </script>";
+
+        //echo "<script>window.alert('Estamos Fechados! Não funcionamos Hoje!')</script>";
+        //echo "<script>window.location='index.php'</script>";
+        exit();
+    }
+
+
+    $hora_atual = date('H:i:s');
+
+    //nova verificação de horarios
+    $start = strtotime(date('Y-m-d' . $horario_abertura));
+    $end = strtotime(date('Y-m-d' . $horario_fechamento));
+    $now = time();
+
+    if ($start <= $now && $now <= $end) {
+    } else {
+
+        if ($end < $start) {
+
+            if ($now > $start) {
+            } else {
+                if (
+                    $now < $end
+                ) {
+                } else {
+
+                    echo "<script>
+        window.onload = function() {
+            Swal.fire({
+                title: 'Bem-vindo!',
+                text: '$texto_fechamento_horario $horario_aberturaF às $horario_fechamentoF',
+                icon: 'info',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Ação a ser realizada após o clique no botão de confirmação
+                    console.log('Botão OK clicado!');
+                    // Você pode redirecionar para outra página, se necessário
+                    window.location.href = 'index.php';
+                }
+            });
+        };
+    </script>";
+
+                    //echo "<script>window.alert('$texto_fechamento_horario')</script>";
+                    //echo "<script>window.location='index.php'</script>";
+                    exit();
+                }
+            }
+        } else {
+
+
+            echo "<script>
+        window.onload = function() {
+            Swal.fire({
+                title: 'Bem-vindo!',
+                text: '$texto_fechamento_horario $horario_aberturaF às $horario_fechamentoF',
+                icon: 'info',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Ação a ser realizada após o clique no botão de confirmação
+                    console.log('Botão OK clicado!');
+                    // Você pode redirecionar para outra página, se necessário
+                    window.location.href = 'index.php';
+                }
+            });
+        };
+    </script>";
+
+
+
+            //echo "<script>window.alert('$texto_fechamento_horario')</scripwindow.location=>";
+            //echo "<script>window.location='index.php'</script>";
+            exit();
+        }
+    }
+}
 
 
 if (@$_SESSION['sessao_usuario'] == "") {
@@ -39,8 +182,17 @@ if ($total_reg > 0) {
     $foto = $res[0]['foto'];
     $id_prod = $res[0]['id'];
     $valor = $res[0]['valor_venda'];
-    $valorF = number_format($valor, 2, ',', '.');
+    
     $categoria = $res[0]['categoria'];
+    $val_promocional = $res[0]['val_promocional'];
+    $promocao = $res[0]['promocao'];
+
+    if($promocao == 'Sim'){
+         $valor = $val_promocional;
+    }
+
+    $valorF = number_format($valor, 2, ',', '.');
+
 
     $query2 = $pdo->query("SELECT * FROM categorias where id = '$categoria'");
     $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);

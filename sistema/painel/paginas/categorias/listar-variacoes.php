@@ -17,6 +17,7 @@ if ($total_reg > 0) {
 	<th>Nome</th>	
 	<th>Sigla</th> 	
 	<th>Sabores</th> 		
+	<th>Descrição</th> 		
 	<th>Ações</th>
 	</tr> 
 	</thead> 
@@ -40,17 +41,19 @@ HTML;
 </td>
 <td>{$sigla}</td>
 <td>{$sabores}</td>
+<td>{$descricao}</td>
 
 <td>
 	
-	<div class="dropdown" style="display: inline-block;">                      
-		<a class="btn btn-danger-light btn-sm" href="#" aria-expanded="false" aria-haspopup="true" data-bs-toggle="dropdown" class="dropdown"><i class="fa fa-trash-o"></i> </a>
+<div class="dropdown" style="display: inline-block;">                      
+	<a href="#" aria-expanded="false" aria-haspopup="true" data-bs-toggle="dropdown" class="dropdown btn btn-danger-light btn-sm"><i class="fe fe-trash-2 text-danger"></i> 
+	</a>
 		<div  class="dropdown-menu tx-13">
-		<div class="dropdown-item-text botao_excluir">
-		<p>Confirmar Exclusão? <a href="#" onclick="excluirVar('{$id}')"><span class="text-danger"><button class="btn-danger">Sim</button></span></a></p>
+			<div class="dropdown-item-text botao_excluir_listar">
+			<p>Confirmar Exclusão? <a href="#" onclick="excluirVar('{$id}', '{$nome}')"><span class="botao_excluir_listar_sim">Sim</span></a></p>
+			</div>
 		</div>
-		</div>
-		</div>
+</div>
 
 
 		<a class="btn btn-info-light btn-sm" href="#" onclick="editarVar('{$id}', '{$nome}', '{$sigla}', '{$descricao}', '{$sabores}')" title="Editar Variações"><i class="fa fa-edit"></i></a>

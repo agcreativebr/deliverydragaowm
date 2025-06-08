@@ -20,13 +20,13 @@ echo <<<HTML
 	<table class="table table-hover table-bordered text-nowrap border-bottom dt-responsive" id="tabela">
 	<thead> 
 	<tr> 
-	<th>Cliente</th>	
-	<th>Valor</th> 	
-	<th>Total Pago</th> 
-	<th>Troco</th>	
-	<th>Forma PGTO</th> 	
-	<th>Data</th>	 	
-	<th>Hora</th>		
+	<th>Cliente</th>
+	<th>Valor</th> 
+	<th>Total Pago</th>
+	<th>Troco</th>
+	<th>Forma PGTO</th>
+	<th>Data</th>
+	<th>Hora</th>
 	<th>Ações</th>
 	</tr> 
 	</thead> 

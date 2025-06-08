@@ -470,6 +470,7 @@ HTML;
 
 			$msgF = mb_strimwidth($msg, 0, 250, "...");
 
+
 			echo <<<HTML
 <tr>
 
@@ -477,7 +478,7 @@ HTML;
 			<div class="card sales-card border border-white" style="box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.1);">
 			
 
-<div style="font-size: 12px; padding: 4px"><b>{$titulo}:</b> {$msg}</div>
+<div style="font-size: 12px; padding: 4px"><b>{$titulo}:</b> {$msgF}</div>
 				
 			</div>
 

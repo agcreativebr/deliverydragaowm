@@ -15,6 +15,9 @@ $anotacoes = 'ocultar';
 $configuracoes = 'ocultar';
 $pedidos_mesa = 'ocultar';
 $pedido_site = 'ocultar';
+$minhas_comissoes = 'ocultar';
+$marketing = 'ocultar';
+$dispositivos = 'ocultar';
 
 //grupo pessoas
 $usuarios = 'ocultar';
@@ -49,6 +52,7 @@ $pagar = 'ocultar';
 $vendas = 'ocultar';
 $compras = 'ocultar';
 $lista_pedidos_mesas = 'ocultar';
+$comissoes = 'comissoes';
 
 // Relatórios
 $rel_produtos = 'ocultar';
@@ -113,6 +117,22 @@ if($total_reg > 0){
 		if ($chave == 'anotacoes') {
 			$anotacoes = '';
 		}
+
+		if ($chave == 'minhas_comissoes') {
+			$minhas_comissoes = '';
+		}
+
+		if ($chave == 'marketing') {
+			$marketing = '';
+		}
+
+		if ($chave == 'dispositivos') {
+			$dispositivos = '';
+		}
+
+
+
+
 
 
 
@@ -275,6 +295,12 @@ if($total_reg > 0){
 		if ($chave == 'pedidos_mesa') {
 			$pedidos_mesa = '';
 		}
+
+
+		if ($chave == 'comissoes') {
+			$comissoes = '';
+		}
+
 		
 
 
@@ -335,7 +361,7 @@ if ($produtos == 'ocultar' and $categorias == 'ocultar' and $estoque == 'ocultar
 }
 
 
-if($compras == 'ocultar' and $vendas == 'ocultar' and $receber == 'ocultar' and $pagar == 'ocultar' and $rel_balanco == 'ocultar' and $rel_sintetico_despesas == 'ocultar' and $rel_sintetico_receber == 'ocultar' and $rel_financeiro =='ocultar' and $lista_pedidos_mesas == 'ocultar'){
+if($compras == 'ocultar' and $vendas == 'ocultar' and $receber == 'ocultar' and $pagar == 'ocultar' and $rel_balanco == 'ocultar' and $rel_sintetico_despesas == 'ocultar' and $rel_sintetico_receber == 'ocultar' and $rel_financeiro =='ocultar' and $lista_pedidos_mesas == 'ocultar' and $comissoes == 'ocultar'){
 	$menu_financeiro = 'ocultar';
 }else{
 	$menu_financeiro = '';

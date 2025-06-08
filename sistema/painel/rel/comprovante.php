@@ -1,6 +1,6 @@
 <?php
-include ('../../conexao.php');
-include ('data_formatada.php');
+include('../../conexao.php');
+include('data_formatada.php');
 
 $id = $_GET['id'];
 
@@ -83,9 +83,9 @@ if ($entrega == 'Consumir Local') {
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<?php if (@$_GET['imp'] != 'Não') { ?>
+<?php if (@$impressao_automatica != 'Não') { ?>
 	<script type="text/javascript">
-		$(document).ready(function () {
+		$(document).ready(function() {
 			window.print();
 			window.close();
 		});
@@ -128,8 +128,7 @@ if ($entrega == 'Consumir Local') {
 
 		/*tamanho da Fonte do Texto*/
 		font-size:
-			<?php echo $fonte_comprovante ?>
-			px;
+			<?php echo $fonte_comprovante ?>px;
 
 
 
@@ -182,12 +181,12 @@ if ($entrega == 'Consumir Local') {
 
 
 <div class="printer-ticket">
-	  <div align="center">
-    <td>
-      <img style="margin: 12px; margin-left: 50px;" id="imag" src="<?php echo $url_sistema ?>sistema/img/logo.jpg"
-					width="110px">
-			</td>
-		</div>
+	<div align="center">
+		<td>
+			<img style="margin: 12px; margin-left: 50px;" id="imag" src="<?php echo $url_sistema ?>sistema/img/logo.jpg"
+				width="110px">
+		</td>
+	</div>
 
 	<div class="th">
 		<?php echo $endereco_sistema ?> <br />
@@ -211,7 +210,7 @@ if ($entrega == 'Consumir Local') {
 
 	<div class="th title">Comprovante de Venda</div>
 
-	<div class="th">CUMPOM NÃO FISCAL</div>
+	<div class="th">CUPOM NÃO FISCAL</div>
 
 	<?php
 
@@ -235,6 +234,8 @@ if ($entrega == 'Consumir Local') {
 		$sabores = $dados[$i]['sabores'];
 		$borda = $dados[$i]['borda'];
 		$categoria = $dados[$i]['categoria'];
+
+		$total_item = $total_item * $quantidade;
 
 
 		$query2 = $pdo->query("SELECT * FROM variacoes where id = '$variacao'");
@@ -291,21 +292,21 @@ if ($entrega == 'Consumir Local') {
 
 
 
-		?>
+	?>
 
 		<div class="row itens">
 
 			<div align="left" class="col-9"> <?php echo $quantidade ?> - <?php echo $nome_produto ?>
-				<?php echo $sigla_variacao ?> 	<?php echo $sigla_grade ?>
+				<?php echo $sigla_variacao ?> <?php echo $sigla_grade ?>
 
 			</div>
 
 			<div align="right" class="col-3">
 				R$ <?php
-				$total_itemF = number_format($total_item, 2, ',', '.');
-				// $total = number_format( $cp1 , 2, ',', '.');
-				echo $total_itemF;
-				?>
+						$total_itemF = number_format($total_item, 2, ',', '.');
+						// $total = number_format( $cp1 , 2, ',', '.');
+						echo $total_itemF;
+						?>
 			</div>
 
 
@@ -330,7 +331,7 @@ if ($entrega == 'Consumir Local') {
 				} else {
 					$texto_adicional = '(' . $total_reg2 . ') Tipo de Adicional';
 				}
-				?>
+			?>
 
 				<div align="left" style="margin-left: 15px">
 					<small><b><?php echo $texto_adicional ?> : </b>
@@ -382,8 +383,7 @@ if ($entrega == 'Consumir Local') {
 					$total_reg2 = @count($res2);
 					if ($total_reg2 > 0) {
 						echo '<div>';
-						echo '<b><small>' . $nome_da_grade . '</small></b>';
-						;
+						echo '<b><small>' . $nome_da_grade . '</small></b>';;
 
 						for ($i2 = 0; $i2 < $total_reg2; $i2++) {
 							foreach ($res2[$i2] as $key => $value) {
@@ -414,9 +414,7 @@ if ($entrega == 'Consumir Local') {
 
 						echo '<br>';
 						echo '</div>';
-
 					}
-
 				}
 			}
 			?>
@@ -425,7 +423,7 @@ if ($entrega == 'Consumir Local') {
 			<?php
 
 			if ($obs_item != "") {
-				?>
+			?>
 				<div align="left" style="margin-left: 15px">
 					<small><b>Observação : </b>
 						<?php echo $obs_item ?>
@@ -457,7 +455,7 @@ if ($entrega == 'Consumir Local') {
 
 	<?php if ($cupom > 0) { ?>
 		<div class="row valores">
-			<div class="col-6">Cupom de Desconto</div>
+			<div class="col-6">Desconto</div>
 			<div class="col-6" align="right">R$ <?php echo @$cupomF ?></div>
 		</div>
 	<?php } ?>
@@ -471,7 +469,7 @@ if ($entrega == 'Consumir Local') {
 	</tr>
 
 
-	<?php if ($total_pago != $valor) { ?>
+	<?php if ($pago == 'Sim') { ?>
 		<div class="row valores">
 			<div class="col-6">Valor Recebido</div>
 			<div class="col-6" align="right">R$ <?php echo @$total_pagoF ?></div>
@@ -510,8 +508,8 @@ if ($entrega == 'Consumir Local') {
 		<div class="valores" align="center">
 			<b>Endereço para Entrega</b>
 			<br>
-			<?php echo $rua_cliente ?>, 	<?php echo $numero_cliente ?> 	<?php echo $complemento_cliente ?>
-			<?php echo $bairro_cliente ?>	<?php echo $cidade_cliente ?>
+			<?php echo $rua_cliente ?>, <?php echo $numero_cliente ?> <?php echo $complemento_cliente ?>
+			<?php echo $bairro_cliente ?> <?php echo $cidade_cliente ?>
 		</div>
 		<div class="th" style="margin-bottom: 10px"></div>
 	<?php } ?>

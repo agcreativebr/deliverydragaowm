@@ -15,7 +15,8 @@ if ($total_reg > 0) {
 	<table class="table table-hover table-bordered text-nowrap border-bottom dt-responsive" id="">
 	<thead> 
 	<tr> 
-	<th width="60%">Nome</th>	
+	<th width="40%">Nome</th>
+	<th>Forma de pagamanto</th>
 	<th>Valor</th>		
 	<th>Excluir</th>
 	</tr> 
@@ -28,6 +29,13 @@ HTML;
 		$id = $res[$i]['id'];
 		$nome = $res[$i]['nome'];
 		$valor = $res[$i]['valor'];
+		$forma_pgto = $res[$i]['forma_pgto'];
+
+
+		$query2 = $pdo->query("SELECT * FROM formas_pgto where id = '$forma_pgto'");
+		$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+		$nome_pgto = @$res2[0]['nome'];
+
 
 		$valorF = number_format($valor, 2, ',', '.');
 
@@ -37,20 +45,20 @@ HTML;
 		echo <<<HTML
 <tr>
 <td>{$nome}</td>
+<td>{$nome_pgto}</td>
 <td>{$valorF}</td>
 <td>
 
 
 
-													<div class="dropdown" style="display: inline-block;">                      
-                        <a href="#" aria-expanded="false" aria-haspopup="true" data-bs-toggle="dropdown" class="dropdown"><i class="fe fe-trash-2 text-danger"></i> </a>
-                        <div  class="dropdown-menu tx-13">
-                        <div style="width: 240px; padding:15px 5px 0 10px;" class="dropdown-item-text">
-                        <p>Confirmar Exclusão? <a href="#" onclick="excluirValor('{$id}')"><span class="text-danger">Sim</span></a></p>
-                        </div>
-                        </div>
-                        </div>
-
+<div class="dropdown" style="display: inline-block;">                      
+<a href="#" aria-expanded="false" aria-haspopup="true" data-bs-toggle="dropdown" class="dropdown"><i class="fe fe-trash-2 text-danger"></i> </a>
+<div  class="dropdown-menu tx-13">
+<div style="width: 180px; padding:10px;" class="dropdown-item-text">
+<p>Confirmar Exclusão? <a href="#" onclick="excluirValor('{$id}')"><span class="botao-excluir" style="background: red; border-radius: 3px; color: #ffffff; padding: 3px;"> Sim</span></a></p>
+</div>
+</div>
+</div>
 
 
 

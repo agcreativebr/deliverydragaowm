@@ -6,12 +6,11 @@ require_once("../../../conexao.php");
 $id_usuario = @$_SESSION['id'];
 
 
-$titulo = filter_input(INPUT_POST, 'titulo', FILTER_SANITIZE_SPECIAL_CHARS);
-$msg = filter_input(INPUT_POST, 'msg', FILTER_SANITIZE_SPECIAL_CHARS);
 $id = @$_POST['id'];
+$titulo = @$_POST['titulo'];
+$msg = @$_POST['msg'];
 $mostrar_home = @$_POST['mostrar_home'];
 $privado = @$_POST['privado'];
-
 
 
 if ($id == "") {

@@ -3221,7 +3221,7 @@ input::placeholder {
 .category__item {
   text-align: center;
   background-color: var(--tp-common-white);
-  border-radius: 10px;
+  border-radius: 3px;
   padding: 30px 10px 25px 10px;
 }
 .category__item:hover .category__thumb::after {

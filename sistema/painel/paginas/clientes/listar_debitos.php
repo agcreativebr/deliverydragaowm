@@ -18,7 +18,7 @@ $linhas = @count($res);
 if ($linhas > 0) {
 	echo <<<HTML
 <small><small>
-	<table class="table table-striped table-hover table-bordered text-nowrap border-bottom dt-responsive" id="tabela3">
+	<table class="table table-striped table-hover table-bordered text-nowrap border-bottom dt-responsive" id="">
 	<thead> 
 	<tr> 
 	<th>Descrição</th>
@@ -242,6 +242,7 @@ HTML;
 
 			success: function(result) {
 				alert(result);
+				
 			}
 		});
 	}

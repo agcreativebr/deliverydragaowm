@@ -117,7 +117,20 @@ $valor_borda = $res[0]['valor'];
 $valor_produto_final += $valor_borda;
 
 
-$query = $pdo->prepare("INSERT INTO carrinho SET sessao = '$sessao', cliente = '0', produto = '$primeiro_id_produto', quantidade = '1', total_item = '$valor_produto_final', obs = :obs, pedido = '0', id_sabor = '0', data = curDate(), variacao = '$id_variacao', mesa = '$mesa', nome_cliente = '', sabores = '$quantidade_sabores', nome_produto = '$nome_produto', borda = '$borda', categoria = '$categoria', status = '$status', hora = curTime()");
+$id_edicao = 0;
+if (@$_SESSION['id_edicao'] != "") {
+	$id_edicao = $_SESSION['id_edicao'];
+
+	//adicionar o total item na tabela de vendas
+	$query = $pdo->query("SELECT * FROM vendas where id = '$id_edicao'");
+	$res = $query->fetchAll(PDO::FETCH_ASSOC);
+	$valor_venda = $res[0]['valor'];
+
+	$total_venda = $valor_venda + ($valor_produto_final * $quantidade);
+	$pdo->query("UPDATE vendas SET valor = '$total_venda' where id = '$id_edicao'");
+}
+
+$query = $pdo->prepare("INSERT INTO carrinho SET sessao = '$sessao', cliente = '0', produto = '$primeiro_id_produto', quantidade = '1', total_item = '$valor_produto_final', obs = :obs, pedido = '$id_edicao', id_sabor = '0', data = curDate(), variacao = '$id_variacao', mesa = '$mesa', nome_cliente = '', sabores = '$quantidade_sabores', nome_produto = '$nome_produto', borda = '$borda', categoria = '$categoria', status = '$status', hora = curTime()");
 $query->bindValue(":obs", "$obs");
 $query->execute();
 $id_carrinho = $pdo->lastInsertId();

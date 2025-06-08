@@ -85,7 +85,7 @@ if ($api_whatsapp != 'Não' and $telefone_usuario != '' and $hora_alerta != '') 
 
 	$mensagem_whatsapp = '*' . $nome_sistema . '*%0A';
 
-	$mensagem_whatsapp .= $saudacao . ' * 😀*%0A%0A';
+	$mensagem_whatsapp .= $saudacao . ' 😀%0A%0A';
 
 	$mensagem_whatsapp .= '_Lembrete de Tarefa Agendada_ %0A';
 	$mensagem_whatsapp .= '*Hora:* ' . $horaF . ' %0A';

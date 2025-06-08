@@ -71,8 +71,11 @@ if (@$anotacoes == 'ocultar') {
 						</div>
 					</div>
 
-					<div class="col-md-1 mb-2" style="margin-top: 26px">
-						<button type="submit" id="btn_salvar" class="btn btn-primary">Salvar <i class="fa-solid fa-check"></i></button>
+					<div class="col-md-4 mb-2" style="margin-top: 26px">
+						<button type="submit" id="btn_salvar" class="btn btn-primary">Salvar<i class="fa fa-check ms-2"></i></button>
+						<button class="btn btn-primary" type="button" id="btn_carregando" style="display: none">
+							<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Carregando...
+						</button>
 						<small>
 							<div id="mensagem" align="center"></div>
 						</small>
@@ -90,12 +93,7 @@ if (@$anotacoes == 'ocultar') {
 					</div>
 
 				</div>
-
-
-
 				<input type="hidden" class="form-control" id="id" name="id">
-
-
 
 			</div>
 
@@ -184,9 +182,8 @@ if (@$anotacoes == 'ocultar') {
 		var formData = new FormData(this);
 
 
-
-		$('#mensagem').text('Salvando...')
 		$('#btn_salvar').hide();
+		$('#btn_carregando').show();
 
 		$.ajax({
 			url: 'paginas/' + pag + "/salvar.php",
@@ -210,6 +207,7 @@ if (@$anotacoes == 'ocultar') {
 				}
 
 				$('#btn_salvar').show();
+				$('#btn_carregando').hide();
 
 			},
 
