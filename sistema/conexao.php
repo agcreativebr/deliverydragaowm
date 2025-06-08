@@ -28,9 +28,9 @@ try {
 
 
 //variaveis globais
-$nome_sistema = 'Nome do Sistema';
-$email_sistema = 'contato@hugocursos.com.br';
-$telefone_sistema = '(31)97527-5084';
+$nome_sistema = 'Dragão Lanches';
+$email_sistema = 'agcreativebr@gmail.com';
+$telefone_sistema = '(79)98121-0784';
 $instagram_sistema = 'portalhugocursos';
 
 
@@ -102,6 +102,7 @@ if ($linhas == 0) {
 	$mensagem_retorno = $res[0]['mensagem_retorno'];
 	$total_cartoes_config = $res[0]['total_cartoes'];
 	$valor_cupom_config = $res[0]['valor_cupom'];
+	$taxa_cartao = $res[0]['taxa_cartao'];
 
 	$tel_whats = '55' . preg_replace('/[ ()-]+/', '', $telefone_sistema);
 

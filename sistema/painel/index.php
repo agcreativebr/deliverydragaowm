@@ -14,6 +14,8 @@ $data_ontem = date('Y-m-d', strtotime("-1 days", strtotime($data_atual)));
 $data_amanha = date('Y-m-d', strtotime("+1 days", strtotime($data_atual)));
 
 
+
+
 if ($mes_atual == '04' || $mes_atual == '06' || $mes_atual == '09' || $mes_atual == '11') {
 	$data_final_mes = $ano_atual . '-' . $mes_atual . '-30';
 } else if ($mes_atual == '02') {
@@ -1538,15 +1540,14 @@ if (@count($res1) > 0) {
                             
                                 <div class="col-md-3">
                                     <label>Taxa Cartão de Crédito (%)</label>
-                                    <input type="number" class="form-control" name="taxa_cartao_percentual" id="taxa_cartao_percentual" 
-                                           value="<?php echo $taxa_cartao_percentual ?? 5.00; ?>" step="0.01" min="0" max="100" required>
+                                    <input type="number" class="form-control" name="taxa_cartao" id="taxa_cartao" 
+                                           value="<?php echo @$taxa_cartao ?>" step="0.01" min="0" max="100" required>
                                     <small class="text-muted">Taxa adicional para pagamentos no cartão de crédito</small>
                                 </div>
                             
                         
 
 					</div>
-					
 					
 					
 
