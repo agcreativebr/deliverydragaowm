@@ -39,6 +39,18 @@ if ($total_reg == 0) {
 }
 
 
+
+// --- INSERIR ESTE BLOCO ---
+$_SESSION['total_carrinho'] = $total_carrinho; // Salva o subtotal puro para o backend
+
+// Busca a taxa configurável do banco para ser usada no JavaScript.
+$query_taxa = $pdo->query("SELECT taxa_cartao FROM config WHERE id = 1");
+$dados_taxa = $query_taxa->fetch(PDO::FETCH_ASSOC);
+$taxa_cartao_db = $dados_taxa['taxa_cartao'] ?? 0;
+// --- FIM DO BLOCO ---
+
+
+
 $esconder_opc_delivery = '';
 $valor_entrega = '';
 $clicar_sim = '#collapseTwo';
@@ -398,6 +410,7 @@ $complemento = "";
           <div id="pagar_credito" style="margin-top: 15px">
             <b>Pagar com Cartão de Crédito </b><br>
             <small>O Pagamento será efetuado no ato da entrega com cartão de crédito</small>
+            <div id="mensagem-taxa-cartao" class="text-danger small mt-1"></div>
           </div>
 
           <div id="pagar_debito" style="margin-top: 15px">
@@ -465,6 +478,12 @@ $complemento = "";
       <span><b>Desconto do Cupom</b></span>
       <span class="direita"> <b>R$ <span id="total_cupom"></span></b></span>
     </div>
+    <div id="taxa_cartao_div" style="display:none;">
+    
+    <span><b>Taxa do Cartão</b></span>
+    <span class="direita"> <b>R$ <span id="valor_taxa_cartao"></span></b></span>
+    </div>
+    
     <br>
     <big>
       <span><b>TOTAL À PAGAR</b></span>
@@ -666,6 +685,7 @@ $complemento = "";
     document.getElementById('pagar_credito').style.display = "none";
     document.getElementById('pagar_dinheiro').style.display = "none";
     document.getElementById('area-obs').style.display = "block";
+    atualizarTotalGeral(); // <-- ADICIONAR ESTA LINHA NO FINAL
 
     verficarpgto()
   }
@@ -703,6 +723,7 @@ $complemento = "";
     document.getElementById('pagar_credito').style.display = "none";
     document.getElementById('pagar_dinheiro').style.display = "block";
     document.getElementById('area-obs').style.display = "block";
+    atualizarTotalGeral(); // <-- ADICIONAR ESTA LINHA NO FINAL
   }
 
   function debito() {
@@ -718,6 +739,7 @@ $complemento = "";
     document.getElementById('pagar_credito').style.display = "none";
     document.getElementById('pagar_dinheiro').style.display = "none";
     document.getElementById('area-obs').style.display = "block";
+    atualizarTotalGeral(); // <-- ADICIONAR ESTA LINHA NO FINAL
   }
 
 
@@ -734,6 +756,7 @@ $complemento = "";
     document.getElementById('pagar_credito').style.display = "block";
     document.getElementById('pagar_dinheiro').style.display = "none";
     document.getElementById('area-obs').style.display = "block";
+    atualizarTotalGeral(); // <-- ADICIONAR ESTA LINHA NO FINAL
   }
 </script>
 
@@ -1030,7 +1053,10 @@ $complemento = "";
       success: function(result) {
         var split = result.split("-");
         $('#taxa-entrega').text(split[0]);
-        $('#total-carrinho-finalizar').text(split[1]);
+        //$('#total-carrinho-finalizar').text(split[1]);
+
+        atualizarTotalGeral(); // <-- ADICIONAR ESTA LINHA NO FINAL
+        
         $('#taxa-entrega-input').val(split[0]);
 
 
@@ -1419,8 +1445,42 @@ function initMap() {
 
     });
   };
-</script>
 
+// --- INSERIR ESTA NOVA FUNÇÃO ---
+function atualizarTotalGeral() {
+    // Busca os valores da página
+    var subtotal = parseFloat('<?php echo $total_carrinho; ?>');
+    var taxa_entrega = ($('#taxa-entrega-input').val() != "" && $('#taxa-entrega-input').val() != undefined) ? parseFloat($('#taxa-entrega-input').val().replace(",", ".")) : 0;
+    var cupom = ($('#valor-cupom').val() != "" && $('#valor-cupom').val() != undefined) ? parseFloat($('#valor-cupom').val()) : 0;
+    var pagamento = $('#pagamento').val();
+    var taxa_cartao_percentual = parseFloat('<?php echo $taxa_cartao_db; ?>');
+    var valor_taxa_cartao = 0;
+
+    // Calcula a taxa do cartão, se aplicável
+    if (pagamento === 'Cartão de Crédito' && taxa_cartao_percentual > 0) {
+        valor_taxa_cartao = subtotal * (taxa_cartao_percentual / 100);
+        $('#valor_taxa_cartao').text(valor_taxa_cartao.toFixed(2).replace(".", ","));
+        $('#taxa_cartao_div').show();
+        $('#mensagem-taxa-cartao').text('Taxa de ' + taxa_cartao_percentual.toFixed(2).replace(",",".") + '% aplicada.');
+    } else {
+        valor_taxa_cartao = 0;
+        $('#taxa_cartao_div').hide();
+        $('#mensagem-taxa-cartao').text('');
+    }
+
+    // Calcula o total final
+    var total_final = subtotal + taxa_entrega - cupom + valor_taxa_cartao;
+
+    // Atualiza o total visível para o cliente
+    $('#total-carrinho-finalizar').text(total_final.toFixed(2).replace(".", ","));
+    
+    // Atualiza um campo oculto com o valor final para ser enviado ao backend
+    $('#valor_total_final').val(total_final.toFixed(2));
+}
+
+
+
+</script>
 
 
 
