@@ -546,6 +546,91 @@ if ($id_mesa == "" and $sessão_balcao == "") {
   <?php } ?>
 
 
+  <!-- NOVA SEÇÃO DE LISTA DE CATEGORIAS -->
+  <?php
+  $query_lista_cat = $pdo->query("SELECT * FROM categorias where ativo = 'Sim'");
+  $res_lista_cat = $query_lista_cat->fetchAll(PDO::FETCH_ASSOC);
+  $total_lista_cat = @count($res_lista_cat);
+
+  if ($total_lista_cat > 0) {
+  ?>
+    <section class="elegant-category-list pt-50 pb-20" id="todas-categorias">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 text-center mb-40">
+            <div class="tpsection">
+              <h4 class="tpsection__sub-title">~~~~~~~~ Explore por Categoria ~~~~~~~~</h4>
+              <h3 class="tpsection__title">Navegue por Nossas Opções</h3>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <?php
+          $animation_delay = 0.1;
+          for ($i_lc = 0; $i_lc < $total_lista_cat; $i_lc++) {
+            $cat_lc_id = $res_lista_cat[$i_lc]['id'];
+            $cat_lc_nome = $res_lista_cat[$i_lc]['nome'];
+            $cat_lc_foto = $res_lista_cat[$i_lc]['foto'];
+            $cat_lc_url = $res_lista_cat[$i_lc]['url'];
+            $cat_lc_mais_sabores = $res_lista_cat[$i_lc]['mais_sabores'];
+            $cat_lc_delivery = $res_lista_cat[$i_lc]['delivery'];
+
+            if ($id_mesa == "" and $cat_lc_delivery == 'Não' and $sessão_balcao == '') {
+              continue;
+            }
+
+            // Contar produtos ativos na categoria
+            $query_prod_count = $pdo->query("SELECT COUNT(id) as count_prod FROM produtos where categoria = '$cat_lc_id' and ativo = 'Sim'");
+            $res_prod_count = $query_prod_count->fetch(PDO::FETCH_ASSOC);
+            $count_produtos_na_categoria = $res_prod_count['count_prod'];
+
+            if ($count_produtos_na_categoria == 0) {
+                //continue; // Pula categorias sem produtos ativos
+            }
+
+            if ($cat_lc_mais_sabores == 'Sim') {
+              $link_cat_lc =  "categoria-sabores-" . $cat_lc_url;
+            } else {
+              $link_cat_lc =  "categoria-" . $cat_lc_url;
+            }
+          ?>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-6 mb-30">
+              <div class="category-card-animated" style="animation-delay: <?php echo $animation_delay; ?>s;">
+                <a href="<?php echo $link_cat_lc; ?>" class="elegant-category-item-link">
+                  <div class="elegant-category-item text-center">
+                    <div class="elegant-category-thumb mb-20">
+                      <img src="sistema/painel/images/categorias/<?php echo $cat_lc_foto; ?>" alt="<?php echo htmlspecialchars($cat_lc_nome); ?>">
+                    </div>
+                    <div class="elegant-category-content">
+                      <h5 class="elegant-category-title"><?php echo htmlspecialchars($cat_lc_nome); ?></h5>
+                      <span class="elegant-category-count"><?php echo $count_produtos_na_categoria; ?> Itens</span>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          <?php
+            $animation_delay += 0.05; // Incrementa o delay para a próxima animação
+          }
+          ?>
+        </div>
+      </div>
+    </section>
+    <style>
+      .elegant-category-list .elegant-category-item { background-color: #fff; border-radius: 10px; padding: 25px 20px; box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08); transition: all 0.3s ease-in-out; height: 100%; display: flex; flex-direction: column; justify-content: center; }
+      .elegant-category-list .elegant-category-item:hover { transform: translateY(-8px); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12); }
+      .elegant-category-list .elegant-category-thumb img { width: 100px; height: 100px; border-radius: 8px; /* Cantos levemente arredondados */ object-fit: cover; border: 3px solid #f0f0f0; }
+      .elegant-category-list .elegant-category-title { font-size: 1.1em; color: #333; margin-bottom: 5px; font-weight: 600; }
+      .elegant-category-list .elegant-category-count { font-size: 0.85em; color: #777; }
+      .elegant-category-list .elegant-category-item-link { text-decoration: none; }
+      .category-card-animated { opacity: 0; transform: translateY(30px); animation: fadeInUpStaggered 0.6s ease-out forwards; }
+      @keyframes fadeInUpStaggered { to { opacity: 1; transform: translateY(0); } }
+    </style>
+  <?php
+  }
+  ?>
+  <!-- FIM DA NOVA SEÇÃO DE LISTA DE CATEGORIAS -->
+
 
 
 
