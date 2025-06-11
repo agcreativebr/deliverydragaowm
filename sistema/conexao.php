@@ -14,7 +14,7 @@ $senha = '';
 $url_sistema = "https://$_SERVER[HTTP_HOST]/delivery/";
 $url = explode("//", $url_sistema);
 if ($url[1] == 'localhost/') {
-	$url_sistema = "https://$_SERVER[HTTP_HOST]/delivery/";
+	$url_sistema = "https://localhost/delivery/";
 }
 
 
@@ -118,9 +118,8 @@ if ($linhas == 0) {
 		<div style="text-align: center; margin-top: 100px">
 			<img src="<?php echo $url_sistema ?>img/bloqueio.png" class="imgsistema_mobile">
 		</div>
-		<?php
+<?php
 		exit();
 	}
-
 }
 ?>

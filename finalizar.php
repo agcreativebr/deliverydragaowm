@@ -623,6 +623,30 @@ $complemento = "";
 
 
 <script type="text/javascript">
+  function verificarCamposMinimosParaFinalizacao() {
+    var nome = $('#nome').val();
+    var telefone = $('#telefone').val().replace(/\D/g, '');
+    var pedido_balcao = "<?= $sessao_pedido_balcao ?>";
+    var modo_entrega_selecionado = ($('#radio_retirar').is(':checked') || $('#radio_local').is(':checked') || $('#radio_entrega').is(':checked'));
+
+    if (pedido_balcao === "") { // Não é balcão, validações mais estritas
+        if (nome === "") return { valido: false, mensagem: "Preencha seu Nome." };
+        if (telefone.length < 10) return { valido: false, mensagem: "Preencha um Telefone válido (com DDD)." };
+        if (!modo_entrega_selecionado) return { valido: false, mensagem: "Escolha um Modo de Entrega." };
+
+        var entrega_val = $('#entrega').val();
+        if (entrega_val === "Delivery") {
+            if ($('#rua').val() === "") return { valido: false, mensagem: "Preencha a Rua para entrega." };
+            if ($('#numero').val() === "") return { valido: false, mensagem: "Preencha o Número para entrega." };
+            if ($('#bairro').val() === "" || $('#bairro').val() === null) return { valido: false, mensagem: "Escolha o Bairro para entrega." };
+            // A taxa de entrega é validada dentro de finalizarPedido, mas o bairro é crucial para o cálculo.
+        }
+    }
+    // Para balcão, as validações são mais flexíveis e tratadas em finalizarPedido.
+    return { valido: true, mensagem: "" };
+  }
+
+
   function pix() {
     document.getElementById('radio_credito').checked = false;
     document.getElementById('radio_debito').checked = false;
@@ -643,20 +667,29 @@ $complemento = "";
         dataType: "json",
         success: function(response_direto) {
           if (response_direto.status === 'approved') {
-            $('#esta_pago').val('Sim');
-            Swal.fire({
-              title: 'Pagamento Confirmado!',
-              text: 'Seu pagamento PIX foi confirmado. Finalizando pedido...',
-              icon: 'success',
-              showConfirmButton: false,
-              timer: 3000
-            }).then(() => {
-              finalizarPedido('Sim');
-            });
+            $('#esta_pago').val('Sim'); // Marca que o PIX está pago
+            var validacaoCampos = verificarCamposMinimosParaFinalizacao();
+            if (validacaoCampos.valido) {
+                Swal.fire({
+                    title: 'Pagamento Confirmado!',
+                    text: 'Seu pagamento PIX foi confirmado. Finalizando pedido...',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 2500
+                }).then(() => { finalizarPedido('Sim'); });
+            } else {
+                Swal.fire({
+                    title: 'Pagamento Confirmado!',
+                    html: 'Seu PIX foi pago com sucesso!<br>Por favor, <b>' + validacaoCampos.mensagem + '</b><br>E clique em "Concluir Pedido".',
+                    icon: 'info'
+                });
+                $('#listar_pix').html('<p class="text-success text-center fw-bold my-3">Pagamento PIX já realizado e confirmado!</p>');
+                $('#botao_finalizar').show(); 
+                $('#div_img').hide();
+            }
           } else {
-            // PIX existente não foi pago ou erro, exibir QR Code novamente (ou gerar novo se necessário)
-            // Se o QR Code já está na tela, apenas inicia a verificação periódica.
-            // Se o #listar_pix estiver vazio, significa que precisamos gerar.
+            // PIX existente não foi pago ou erro.
+            // Se o QR Code já está na tela e não foi pago, apenas inicia a verificação periódica.
             if ($('#listar_pix').html().trim() === "") {
               gerarNovoQrCodePix();
             } else {
@@ -665,13 +698,11 @@ $complemento = "";
           }
         },
         error: function() {
-          // Erro ao verificar, talvez gerar novo QR Code
+          // Erro ao verificar, gera novo QR Code
           gerarNovoQrCodePix();
         }
       });
     } else {
-      // Nenhum código PIX na página, tenta verificar se há um PIX pago associado à sessão no backend
-      // Esta lógica pode ser menos prioritária se a verificação direta acima for suficiente.
       // Por ora, vamos direto para gerar um novo QR Code se não houver um na página.
       gerarNovoQrCodePix();
     }
@@ -735,9 +766,29 @@ $complemento = "";
           success: function(response) {
             if (response.status === 'approved') {
               // Não precisa preencher $('#codigo_pix').val() pois já está lá
-              $('#esta_pago').val('Sim');
-              finalizarPedido('Sim');
               clearInterval(intervalVerificarPgto); // Para a verificação após o pagamento
+              $('#esta_pago').val('Sim'); // Marca que o PIX está pago
+
+              var validacaoCampos = verificarCamposMinimosParaFinalizacao();
+              if (validacaoCampos.valido) {
+                  // Não precisa de SweetAlert aqui, pois é uma verificação em background.
+                  // Apenas finaliza. O SweetAlert de "Pedido Finalizado" virá do success do inserir-pedido.php
+                  finalizarPedido('Sim');
+              } else {
+                  // PIX pago, mas campos não preenchidos. O usuário precisa finalizar manualmente.
+                  Swal.fire({
+                      title: 'Pagamento PIX Confirmado!',
+                      html: 'Detectamos que seu pagamento PIX foi aprovado.<br>Por favor, complete seus dados e clique em <b>Concluir Pedido</b>.',
+                      icon: 'success',
+                      toast: true,
+                      position: 'top-end',
+                      showConfirmButton: false,
+                      timer: 7000, // Tempo maior para o usuário ler
+                      timerProgressBar: true
+                  });
+                  $('#botao_finalizar').show(); // Garante que o botão esteja visível
+                  $('#div_img').hide();
+              }
             }
             // Se não for 'approved', continua verificando
           },
