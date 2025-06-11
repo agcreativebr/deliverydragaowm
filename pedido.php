@@ -52,7 +52,7 @@ if ($pago == 'Sim') {
 $query = $pdo->query("SELECT * FROM clientes where id = '$cliente' ");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 $cartoes = @$res[0]['cartoes'];
-   
+
 
 ?>
 
@@ -63,12 +63,12 @@ $cartoes = @$res[0]['cartoes'];
 		<span style="font-size: 18px; margin-top: 5px"><b>Nº PEDIDO <?php echo $n_pedido ?></b></span>
 		<br>
 		<span style="font-size: 12px; margin-top: -5px">Ficamos gratos por realizar essa compra!</span><br>
-	<!--	<span style="font-size: 12px; margin-top: -5px">Você ganhou mais um cartão Fidelidade</span><br>
+		<!--	<span style="font-size: 12px; margin-top: -5px">Você ganhou mais um cartão Fidelidade</span><br>
 
 		<span style="font-size: 12px; margin-top: -5px">Você possui <b><?php echo $cartoes ?> 
-		<?php if($cartoes == 1) {
+		<?php if ($cartoes == 1) {
 			echo 'Cartão';
-		} else { 
+		} else {
 			echo 'Cartões';
 		} ?>
 		 Fidelidade </b></span><br> -->
@@ -154,10 +154,10 @@ $cartoes = @$res[0]['cartoes'];
 
 				<div align="right" class="col-3">
 					R$ <?php
-							$total_itemF = number_format($total_item, 2, ',', '.');
-							// $total = number_format( $cp1 , 2, ',', '.');
-							echo $total_itemF;
-							?>
+						$total_itemF = number_format($total_item, 2, ',', '.');
+						// $total = number_format( $cp1 , 2, ',', '.');
+						echo $total_itemF;
+						?>
 				</div>
 
 				<hr style="margin:2px">
@@ -176,35 +176,41 @@ $cartoes = @$res[0]['cartoes'];
 
 		<br>
 
-		<?php if($total_cartoes_config == $cartoes){ ?>
+		<?php if ($total_cartoes_config == $cartoes) { ?>
 
-			<span style="font-size: 12px; margin-top: -5px">Você completou <b><?php echo $total_cartoes_config ?> cartões fidelidades </b>, em sua próxima compra digite a palavra cartao no campo de cupom de desconto para ganhar um desconto de  <b><?php echo $valor_cupom_config ?> Reais!</b></span><br>
+			<span style="font-size: 12px; margin-top: -5px">Você completou <b><?php echo $total_cartoes_config ?> cartões fidelidades </b>, em sua próxima compra digite a palavra cartao no campo de cupom de desconto para ganhar um desconto de <b><?php echo $valor_cupom_config ?> Reais!</b></span><br>
 
-		<?php }else{ ?>
+		<?php } else { ?>
 
-		<!--	<span style="font-size: 12px; margin-top: -5px">Após completar <b><?php echo $total_cartoes_config ?> cartões </b>, você poderá trocar por um cupom de <b>desconto de <?php echo $valor_cupom_config ?> Reais!</b></span><br> -->
-		
+			<!--	<span style="font-size: 12px; margin-top: -5px">Após completar <b><?php echo $total_cartoes_config ?> cartões </b>, você poderá trocar por um cupom de <b>desconto de <?php echo $valor_cupom_config ?> Reais!</b></span><br> -->
+
 		<?php } ?>
 
-<br>
-<div class="row" style="display: flex; justify-content: center; flex-wrap: wrap;">
- <?php 
-for($i=1; $i<=$total_cartoes_config; $i++){ 
-		if($cartoes >= $i){
-			$valor = 0;
-			$opacity = 1;
-		}else{
-			$valor = 1;
-			$opacity = 0.3;		}
-	?>
+		<br>
+		<div class="row" style="display: flex; justify-content: center; flex-wrap: wrap;">
+			<?php
+			for ($i = 1; $i <= $total_cartoes_config; $i++) {
+				if ($cartoes >= $i) {
+					$valor = 0;
+					$opacity = 1;
+				} else {
+					$valor = 1;
+					$opacity = 0.3;
+				}
+			?>
 
-<div class="col-md-1 col-2" align="center">
-<img src="<?php echo $url_sistema ?>img/cartao.png" width="100%" style="filter: grayscale(<?php echo $valor ?>); filter: opacity(<?php echo $opacity ?>)">
-</div>
-<?php } ?>
-</div>
-<br>
+				<div class="col-md-1 col-2" align="center">
+					<img src="<?php echo $url_sistema ?>img/cartao.png" width="100%" style="filter: grayscale(<?php echo $valor ?>); filter: opacity(<?php echo $opacity ?>)">
+				</div>
+			<?php } ?>
+		</div>
+		<br>
 
+		<div style="margin-top: 20px; margin-bottom: 25px;">
+			<a href="../index.php" class="btn btn-success btn-lg" style="padding: 10px 25px; font-size: 1.1em;">
+				<i class="bi bi-bag-plus-fill"></i> Fazer Novo Pedido
+			</a>
+		</div>
 
 
 		<div style="margin-top: 25px">
