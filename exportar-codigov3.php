@@ -22,7 +22,8 @@ class CodeExporter {
         ];
 
         $this->excludePaths = [
-            'vendor/', 'node_modules/', '.git/', 'storage/', 'temp/', 'tmp/', 'backup/',
+            'vendor/', 'node_modules/', '.git/', 'storage/', 'temp/', 'tmp/', 'backup/', '.idea/',
+            'assets/', 'cron/', 'css/', 'exportadores/',  'fonts/', 'img/',
             'public/build/', '.env', 'composer.lock', 'package-lock.json', basename(__FILE__),
         ];
         $this->excludePaths[] = basename($this->logFile);
@@ -92,9 +93,9 @@ class CodeExporter {
 
     private function generateProjectOverview() {
         $overview = "\n## 🎯 Objetivo do Projeto\n\n";
-        $overview .= "*(ROJETO: Controle de combustível
-CONTEXTO: Será para órgão pulico, para manter o controle de combustível.
-PROBLEMA: Atualmente temos um problema onde o controle de combustível é feito através de uma planinha e eventualmente ocorre problemas como não sincronizção dos dados, perda de dados, falta de anexos dos comprovantes e afins. Esse sistema seria de forma simples para controle de veiculos, motoristas e combustível principalmente, com dashboard com métricas e relatórios completos dos abastecimentos.)*\n\n";
+        $overview .= "*(ROJETO: delivery
+CONTEXTO: Será para uma lanchonete ou restaurante.
+PROBLEMA: atender os pedidos delivery e atender os clientes presenciais de forma digital.)*\n\n";
         $overview .= "## 🏛️ Arquitetura Geral\n\n";
         $overview .= "*(🛠️ STACK TECNOLÓGICA CONFIRMADA
 Backend
@@ -106,137 +107,13 @@ APIs RESTful para comunicação
 
 PDO com prepared statements
 
-Composer para autoload
 
-Frontend
-JavaScript Vanilla (zero dependências)
 
-Chart.js para gráficos e dashboards
-
-TailwindCSS para estilização
-
-Interface minimalista e profissional
-
-Temas claro e escuro
-
-Infraestrutura
-Nginx como servidor web
-
-Host compartilhado (economia para órgão público)
+Host compartilhado 
 
 Git para versionamento
 
-📄 ESTRUTURA DE PÁGINAS DEFINIDAS
-1. Autenticação
-✅ Login (login.php)
-
-✅ Recuperar senha (recuperar-senha.php)
-
-2. Dashboard
-✅ Dashboard principal (index.php)
-
-3. Gestão de Veículos
-✅ Lista (veiculos/index.php)
-
-✅ Cadastro (veiculos/criar.php)
-
-✅ Edição (veiculos/editar.php)
-
-✅ Detalhes (veiculos/detalhes.php)
-
-4. Gestão de Motoristas
-✅ Lista (motoristas/index.php)
-
-✅ Cadastro (motoristas/criar.php)
-
-✅ Edição (motoristas/editar.php)
-
-✅ Detalhes (motoristas/detalhes.php)
-
-5. Controle de Abastecimentos ⭐ CORE
-✅ Lista (abastecimentos/index.php)
-
-✅ Novo (abastecimentos/criar.php)
-
-✅ Edição (abastecimentos/editar.php)
-
-✅ Detalhes (abastecimentos/detalhes.php)
-
-6. Fornecedores/Postos
-✅ Lista (postos/index.php)
-
-✅ Cadastro (postos/criar.php)
-
-✅ Edição (postos/editar.php)
-
-7. Relatórios ⭐ CRÍTICO
-✅ Central (relatorios/index.php)
-
-✅ Consumo (relatorios/consumo.php)
-
-✅ Custos (relatorios/custos.php)
-
-✅ Eficiência (relatorios/eficiencia.php)
-
-✅ Sintético (relatorios/sintetico.php)
-
-8. Configurações
-✅ Geral (configuracoes/geral.php)
-
-✅ Usuários (configuracoes/usuarios.php)
-
-✅ Combustíveis (configuracoes/combustiveis.php)
-
-✅ Departamentos (configuracoes/departamentos.php)
-
-9. Páginas de Apoio
-✅ Perfil (perfil.php)
-
-✅ Ajuda (ajuda.php)
-
-✅ Sobre (sobre.php)
-
-10. Páginas de Erro
-✅ 404, 403, 500
-
-)*\n\n";
-        $overview .= "## ✨ Principais Funcionalidades\n\n";
-        $overview .= "*(🔑 FUNCIONALIDADES PRINCIPAIS
-Controle de Abastecimentos ⭐
-Campo	Tipo	Formato	Validação
-Nº Nota Fiscal	String	Livre	Obrigatório, único
-Nº da Ordem	String	Livre	Obrigatório, 50 chars
-Data Abastecimento	Date	DD/MM/AAAA	Não futuro, max 30 dias
-Veículo	Select	Autocomplete	Ativo, existe
-Motorista	Select	Autocomplete	CNH válida, autorizado
-Posto	Select	Autocomplete	Ativo, conveniado
-Combustível	Enum	Dropdown	Gasolina/Etanol/Diesel
-Litros	Decimal	999,999	> 0, max tanque
-Valor/Litro	Decimal	R$ 9,999	> 0, range válido
-Valor Total	Calculated	R$ 99.999,99	Auto: litros × preço
-Quilometragem	Integer	999.999	> anterior
-Comprovante	File	PDF/PNG/JPG/XML	Obrigatório, max 5MB
-Filtros Avançados
-✅ Período (data início/fim)
-
-✅ Veículo, Motorista, Posto
-
-✅ Nota Fiscal, Número da Ordem
-
-✅ Tipo de combustível
-
-✅ Status (pendente/aprovado/rejeitado)
-
-Relatórios Completos
-✅ Consumo por veículo/período
-
-✅ Custos por departamento
-
-✅ Ranking de eficiência
-
-✅ Relatório executivo
-
-✅ Exportação PDF/Excel/CSV)*\n\n";
+*\n\n";
         $overview .= "---\n";
         return $overview;
     }

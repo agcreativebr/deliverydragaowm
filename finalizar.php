@@ -34,21 +34,17 @@ if ($total_reg == 0) {
     $total_item = $total_item * $quantidade_it;
 
     $total_carrinho += $total_item;
-    $total_carrinhoF = number_format($total_carrinho, 2, ',', '.');
   }
+  $total_carrinhoF = number_format($total_carrinho, 2, ',', '.');
 }
 
 
-
-// --- INSERIR ESTE BLOCO ---
 $_SESSION['total_carrinho'] = $total_carrinho; // Salva o subtotal puro para o backend
 
 // Busca a taxa configurável do banco para ser usada no JavaScript.
 $query_taxa = $pdo->query("SELECT taxa_cartao FROM config WHERE id = 1");
 $dados_taxa = $query_taxa->fetch(PDO::FETCH_ASSOC);
 $taxa_cartao_db = $dados_taxa['taxa_cartao'] ?? 0;
-// --- FIM DO BLOCO ---
-
 
 
 $esconder_opc_delivery = '';
@@ -65,9 +61,6 @@ $rua = "";
 $numero = "";
 $bairro = "";
 $complemento = "";
-
-
-
 
 ?>
 
@@ -104,7 +97,7 @@ $complemento = "";
           <img src="img/user.jpg" width="50px" height="50px">
 
           <div class="nome_user"> <input onclick="" type="text" class="input" name="nome" id="nome" required value="" placeholder="Seu Nome" style="width:200px; text-align: center; border:0"></div>
-          
+
 
 
           <hr>
@@ -343,42 +336,42 @@ $complemento = "";
 
             <div class="col-3 form-check">
               <small>Dinheiro
-                <input onchange="dinheiro()" class="form-check-input" type="radio" name="racio_dinheiro"
+                <input onchange="dinheiro()" class="form-check-input" type="radio" name="forma_pgto_radio"
                   id="radio_dinheiro">
               </small>
             </div>
 
             <div class="col-2 form-check">
               <small>Pix
-                <input onchange="pix()" class="form-check-input" type="radio" name="radio_pix" id="radio_pix">
+                <input onchange="pix()" class="form-check-input" type="radio" name="forma_pgto_radio" id="radio_pix">
               </small>
             </div>
 
 
             <div class="col-3 form-check">
               <small>Crédito
-                <input onchange="credito()" class="form-check-input" type="radio" name="radio_credito"
+                <input onchange="credito()" class="form-check-input" type="radio" name="forma_pgto_radio"
                   id="radio_credito">
               </small>
             </div>
 
             <div class="col-3 form-check">
               <small>Débito
-                <input onchange="debito()" class="form-check-input" type="radio" name="radio_debito" id="radio_debito">
+                <input onchange="debito()" class="form-check-input" type="radio" name="forma_pgto_radio" id="radio_debito">
               </small>
             </div>
 
           </div>
 
-          <?php if($sessao_pedido_balcao == 'BALCÃO' ){ ?>
-          <div>
-            <br>
-            <select class="form-select form-select-sm" name="esta_pago" id="esta_pago" style="width:200px">
-              <option value="Não">Não está Pago</option>
-              <option value="Sim">Já está Pago</option>
-            </select>
-          </div>
-        <?php } ?>
+          <?php if ($sessao_pedido_balcao == 'BALCÃO') { ?>
+            <div>
+              <br>
+              <select class="form-select form-select-sm" name="esta_pago" id="esta_pago" style="width:200px">
+                <option value="Não">Não está Pago</option>
+                <option value="Sim">Já está Pago</option>
+              </select>
+            </div>
+          <?php } ?>
 
           <div id="pagar_pix" style="margin-top: 15px">
             <div id="listar_pix">
@@ -463,6 +456,9 @@ $complemento = "";
 <input type="hidden" id="taxa-entrega-input">
 <input type="hidden" id="id_cliente">
 <input type="hidden" id="valor-cupom">
+<input type="hidden" id="codigo_pix" value="">
+<input type="hidden" id="valor_total_final" value="">
+<input type="hidden" id="esta_pago" value="Não"> <!-- Campo para controle do PIX pago no balcão -->
 
 
 <div class="total-finalizar">
@@ -479,11 +475,11 @@ $complemento = "";
       <span class="direita"> <b>R$ <span id="total_cupom"></span></b></span>
     </div>
     <div id="taxa_cartao_div" style="display:none;">
-    
-    <span><b>Taxa do Cartão</b></span>
-    <span class="direita"> <b>R$ <span id="valor_taxa_cartao"></span></b></span>
+
+      <span><b>Taxa do Cartão</b></span>
+      <span class="direita"> <b>R$ <span id="valor_taxa_cartao"></span></b></span>
     </div>
-    
+
     <br>
     <big>
       <span><b>TOTAL À PAGAR</b></span>
@@ -507,7 +503,6 @@ $complemento = "";
 
 
 <!-- jQery -->
-<!-- <script src="js/jquery-3.4.1.min.js"></script> -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <!-- Mascaras JS -->
@@ -518,18 +513,8 @@ $complemento = "";
 
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-  <!-- SweetAlert2 JS -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<!-- SweetAlert JS -->
-<script src="sistema/painel/js/sweetalert2.all.min.js"></script>
-<link rel="stylesheet" src="sistema/painel/js/sweetalert1.min.css"></link>
-<script src="sistema/painel/js/alertas.js"></script>
-
-<!-- Alertas -->
-<script src="sistema/assets/plugins/sweet-alert/sweetalert.min.js"></script>
-<script src="sistema/assets/plugins/sweet-alert/jquery.sweet-alert.js"></script>
-
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 <script>
@@ -537,7 +522,6 @@ $complemento = "";
     document.querySelector("#chave_pix_copia").select();
     document.querySelector("#chave_pix_copia").setSelectionRange(0, 99999); /* Para mobile */
     document.execCommand("copy");
-    //$("#chave_pix_copia").hide();
     alert('Chave Pix Copiada! Use a opção Copie e Cole para Pagar')
   }
 </script>
@@ -555,7 +539,8 @@ $complemento = "";
     document.getElementById('area-endereco').style.display = "none";
 
     document.getElementById('area-taxa').style.display = "none";
-    calcularFrete()
+    calcularFrete();
+    atualizarTotalGeral();
   }
 </script>
 
@@ -565,10 +550,7 @@ $complemento = "";
 
     var pedido_balcao = "<?= $sessao_pedido_balcao ?>";
 
-
-
     if (pedido_balcao != 'BALCÃO') {
-      //recuperar variaveis de sesssao
       var nome_cl = localStorage.nome_cli_del;
       var tel_cl = localStorage.telefone_cli_del;
       $('#telefone').val(tel_cl);
@@ -587,6 +569,7 @@ $complemento = "";
     document.getElementById('pagar_debito').style.display = "none";
     document.getElementById('pagar_credito').style.display = "none";
     document.getElementById('pagar_dinheiro').style.display = "none";
+    atualizarTotalGeral();
   });
 
 
@@ -603,7 +586,8 @@ $complemento = "";
     document.getElementById('area-endereco').style.display = "none";
 
     document.getElementById('area-taxa').style.display = "none";
-    calcularFrete()
+    calcularFrete();
+    atualizarTotalGeral();
   }
 
 
@@ -630,91 +614,153 @@ $complemento = "";
 
     var access_token = "<?= $access_token ?>";
     if (access_token != "") {
-      setTimeout(pix, 1000);
+      setTimeout(pix, 1000); // Chama a função pix
       document.getElementById('radio_pix').checked = true;
     }
-
-
+    atualizarTotalGeral();
   }
 </script>
 
 
 <script type="text/javascript">
   function pix() {
-
-
-    var total_compra = "<?= $total_carrinho ?>";
-    total_compra = total_compra.replace(",", ".");
-    var taxa_entrega = $('#taxa-entrega-input').val();
-    taxa_entrega = taxa_entrega.replace(",", ".");
-    var cupom = $('#valor-cupom').val();
-
-    if (taxa_entrega == "") {
-      taxa_entrega = 0;
-    }
-
-    if (cupom == "") {
-      cupom = 0;
-    }
-
-    var total_compra_final = parseFloat(total_compra) + parseFloat(taxa_entrega) - parseFloat(cupom);
-
-    var valor = total_compra_final.toFixed(2)
-
-    $.ajax({
-      url: 'js/ajax/pix.php',
-      method: 'POST',
-      data: {
-        valor
-      },
-      dataType: "html",
-
-      success: function(result) {
-        $('#listar_pix').html(result);
-      }
-    });
-
     document.getElementById('radio_credito').checked = false;
     document.getElementById('radio_debito').checked = false;
     document.getElementById('radio_dinheiro').checked = false;
-
     $('#pagamento').val('Pix');
+    atualizarTotalGeral();
+
+    var codigo_pix_existente_na_pagina = $('#codigo_pix').val();
+
+    if (codigo_pix_existente_na_pagina) {
+      // Verifica diretamente o PIX ID que já está na página
+      $.ajax({
+        url: 'js/ajax/verificar_pgto_api.php',
+        method: 'POST',
+        data: {
+          codigo_pix: codigo_pix_existente_na_pagina
+        },
+        dataType: "json",
+        success: function(response_direto) {
+          if (response_direto.status === 'approved') {
+            $('#esta_pago').val('Sim');
+            Swal.fire({
+              title: 'Pagamento Confirmado!',
+              text: 'Seu pagamento PIX foi confirmado. Finalizando pedido...',
+              icon: 'success',
+              showConfirmButton: false,
+              timer: 3000
+            }).then(() => {
+              finalizarPedido('Sim');
+            });
+          } else {
+            // PIX existente não foi pago ou erro, exibir QR Code novamente (ou gerar novo se necessário)
+            // Se o QR Code já está na tela, apenas inicia a verificação periódica.
+            // Se o #listar_pix estiver vazio, significa que precisamos gerar.
+            if ($('#listar_pix').html().trim() === "") {
+              gerarNovoQrCodePix();
+            } else {
+              verficarpgto(); // Inicia a verificação para o QR Code já exibido
+            }
+          }
+        },
+        error: function() {
+          // Erro ao verificar, talvez gerar novo QR Code
+          gerarNovoQrCodePix();
+        }
+      });
+    } else {
+      // Nenhum código PIX na página, tenta verificar se há um PIX pago associado à sessão no backend
+      // Esta lógica pode ser menos prioritária se a verificação direta acima for suficiente.
+      // Por ora, vamos direto para gerar um novo QR Code se não houver um na página.
+      gerarNovoQrCodePix();
+    }
+  }
+
+  function gerarNovoQrCodePix() {
+    var total_compra = parseFloat("<?= $_SESSION['total_carrinho'] ?>");
+    var taxa_entrega = parseFloat($('#taxa-entrega-input').val().replace(",", ".")) || 0;
+    var cupom_val = parseFloat($('#valor-cupom').val()) || 0;
+    var total_compra_final = total_compra + taxa_entrega - cupom_val;
+    var valor_a_cobrar = total_compra_final.toFixed(2);
+
+    $('#listar_pix').html('<div class="text-center"><img src="img/loading.gif" width="80px"></div>'); // Mostra loading
+
+    $.ajax({
+      url: 'js/ajax/pix.php', // Script que gera o QR Code e o ID da transação
+      method: 'POST',
+      data: {
+        valor: valor_a_cobrar
+      },
+      dataType: "html",
+      success: function(result_qr) {
+        $('#listar_pix').html(result_qr);
+        // O input #codigo_pix é preenchido pelo HTML retornado por pix.php
+        verficarpgto(); // Inicia a verificação periódica para o novo QR Code
+      },
+      error: function() {
+        $('#listar_pix').html('<p class="text-danger text-center">Erro ao gerar QR Code. Tente novamente.</p>');
+      }
+    });
 
     document.getElementById('pagar_pix').style.display = "block";
     document.getElementById('pagar_debito').style.display = "none";
     document.getElementById('pagar_credito').style.display = "none";
     document.getElementById('pagar_dinheiro').style.display = "none";
     document.getElementById('area-obs').style.display = "block";
-    atualizarTotalGeral(); // <-- ADICIONAR ESTA LINHA NO FINAL
-
-    verficarpgto()
+    atualizarTotalGeral();
   }
 
-  //VERIFICAR SE FOI PAGO NO PIX
+  var intervalVerificarPgto; // Variável para controlar o setInterval
+
   function verficarpgto() {
+    // Limpa qualquer intervalo anterior para evitar múltiplas verificações simultâneas
+    if (intervalVerificarPgto) {
+      clearInterval(intervalVerificarPgto);
+    }
 
-    var pgto = $('#pagamento').val();
-    
+    intervalVerificarPgto = setInterval(function() {
+      var codigo_pix_atual_na_pagina = $('#codigo_pix').val(); // Pega o ID da transação do MP da página
 
-    setInterval(function() {
-
-        var pedidoauto = 'Sim';
-
-        if(pgto == "Pix"){
-          finalizarPedido(pedidoauto)
-        }
-        
-
-      },
-      180000);
-
+      // Verifica se o PIX ainda é a forma de pagamento selecionada
+      // E se existe um código PIX no input oculto (ou seja, QR Code foi gerado)
+      if ($('#pagamento').val() === "Pix" && codigo_pix_atual_na_pagina) {
+        $.ajax({
+          url: 'js/ajax/verificar_pgto_api.php', // Usa o novo script de verificação direta
+          method: 'POST',
+          data: {
+            codigo_pix: codigo_pix_atual_na_pagina
+          },
+          dataType: "json",
+          success: function(response) {
+            if (response.status === 'approved') {
+              // Não precisa preencher $('#codigo_pix').val() pois já está lá
+              $('#esta_pago').val('Sim');
+              finalizarPedido('Sim');
+              clearInterval(intervalVerificarPgto); // Para a verificação após o pagamento
+            }
+            // Se não for 'approved', continua verificando
+          },
+          error: function() {
+            // Erro na verificação, talvez parar ou logar
+            // clearInterval(intervalVerificarPgto); // Opcional: parar em caso de erro
+          }
+        });
+      } else {
+        // Se o PIX não for mais a forma de pagamento ou o QR Code sumiu, para de verificar
+        clearInterval(intervalVerificarPgto);
+      }
+    }, 7000); // Verifica a cada 7 segundos (ajuste conforme necessário)
   }
 
   function dinheiro() {
-
+    if (intervalVerificarPgto) clearInterval(intervalVerificarPgto); // Para verificação PIX
     document.getElementById('radio_credito').checked = false;
     document.getElementById('radio_debito').checked = false;
     document.getElementById('radio_pix').checked = false;
+    $('#listar_pix').html(''); // Limpa a área do QR Code
+    $('#codigo_pix').val('');
+    $('#esta_pago').val('Não');
 
     $('#pagamento').val('Dinheiro');
 
@@ -723,14 +769,17 @@ $complemento = "";
     document.getElementById('pagar_credito').style.display = "none";
     document.getElementById('pagar_dinheiro').style.display = "block";
     document.getElementById('area-obs').style.display = "block";
-    atualizarTotalGeral(); // <-- ADICIONAR ESTA LINHA NO FINAL
+    atualizarTotalGeral();
   }
 
   function debito() {
-
+    if (intervalVerificarPgto) clearInterval(intervalVerificarPgto); // Para verificação PIX
     document.getElementById('radio_credito').checked = false;
     document.getElementById('radio_pix').checked = false;
     document.getElementById('radio_dinheiro').checked = false;
+    $('#listar_pix').html('');
+    $('#codigo_pix').val('');
+    $('#esta_pago').val('Não');
 
     $('#pagamento').val('Cartão de Débito');
 
@@ -739,15 +788,18 @@ $complemento = "";
     document.getElementById('pagar_credito').style.display = "none";
     document.getElementById('pagar_dinheiro').style.display = "none";
     document.getElementById('area-obs').style.display = "block";
-    atualizarTotalGeral(); // <-- ADICIONAR ESTA LINHA NO FINAL
+    atualizarTotalGeral();
   }
 
 
   function credito() {
-
+    if (intervalVerificarPgto) clearInterval(intervalVerificarPgto); // Para verificação PIX
     document.getElementById('radio_pix').checked = false;
     document.getElementById('radio_debito').checked = false;
     document.getElementById('radio_dinheiro').checked = false;
+    $('#listar_pix').html('');
+    $('#codigo_pix').val('');
+    $('#esta_pago').val('Não');
 
     $('#pagamento').val('Cartão de Crédito');
 
@@ -756,183 +808,121 @@ $complemento = "";
     document.getElementById('pagar_credito').style.display = "block";
     document.getElementById('pagar_dinheiro').style.display = "none";
     document.getElementById('area-obs').style.display = "block";
-    atualizarTotalGeral(); // <-- ADICIONAR ESTA LINHA NO FINAL
+    atualizarTotalGeral();
   }
 </script>
 
 
 <script type="text/javascript">
   function finalizarPedido(pedidoauto) {
-
-
-
     $('#botao_finalizar').hide();
     $('#div_img').show();
 
     var pedido_balcao = "<?= $sessao_pedido_balcao ?>";
-
-    var codigo_pix = $('#codigo_pix').val();
-
+    var codigo_pix_val = $('#codigo_pix').val();
     var nome = $('#nome').val();
-    var telefone = $('#telefone').val();
-    var mesa = $('#mesa').val();
-    var id_usuario = "";
-
+    var telefone = $('#telefone').val().replace(/\D/g, '');
+    var mesa = $('#mesa').val(); // Se houver campo mesa
+    var id_usuario = ""; // Se houver lógica de usuário logado
 
     localStorage.setItem('nome_cli_del', nome);
-    localStorage.setItem('telefone_cli_del', telefone);
+    localStorage.setItem('telefone_cli_del', $('#telefone').val()); // Salva com máscara
 
-
-
-    if(pedido_balcao == ""){
-
-    if (telefone.length < 15) {
-      alert("Coloque o número de telefone completo");
-      $('#telefone').focus();
-      $('#botao_finalizar').show();
-      $('#div_img').hide();
-      return;
+    if (pedido_balcao == "") {
+      if (telefone.length < 10) { // Validação básica de telefone
+        alert("Coloque o número de telefone completo (DDD + número).");
+        $('#telefone').focus();
+        $('#botao_finalizar').show();
+        $('#div_img').hide();
+        return;
+      }
+      if (nome == "") {
+        alert('Preencha seu Nome');
+        $('#nome').focus();
+        $('#botao_finalizar').show();
+        $('#div_img').hide();
+        return;
+      }
     }
 
-
-    if (telefone == "") {
-      alert('Preencha seu Telefone');
-      $('#telefone').focus();
-      $('#botao_finalizar').show();
-      $('#div_img').hide();
-      return;
+    var modo_entrega_selecionado = false;
+    if ($('#radio_retirar').is(':checked') || $('#radio_local').is(':checked') || $('#radio_entrega').is(':checked')) {
+      modo_entrega_selecionado = true;
     }
 
-
-    if (nome == "") {
-      alert('Preencha seu Nome');
-      $('#nome').focus();
-      $('#botao_finalizar').show();
-      $('#div_img').hide();
-      return;
-    }
-
-  }
-
-    var modo = $('#radio_retirar').val();
-
-    if (modo == "") {
+    if (!modo_entrega_selecionado && pedido_balcao == "") {
       alert('Escolha um modo de entrega');
       $('#botao_finalizar').show();
       $('#div_img').hide();
+      $('#colapse-2').click();
       return;
     }
 
     var nome_cliente = $('#nome').val();
-    var tel_cliente = $('#telefone').val();
+    var tel_cliente = $('#telefone').val(); // Para envio, pode ser com máscara
     var id_cliente = $('#id_cliente').val();
-
-
     var pagamento = $('#pagamento').val();
-    var entrega = $('#entrega').val();
-    var rua = $('#rua').val();
-    var numero = $('#numero').val();
-    var complemento = $('#complemento').val();
-    var bairro = $('#bairro').val();
-    var troco = $('#troco').val();
-    var obs = $('#obs').val();
-    var taxa_entrega = $('#taxa-entrega-input').val();
-    var pedido_whatsapp = "<?= $api_whatsapp ?>";
-    var cupom = $('#valor-cupom').val();
+    var entrega_val = $('#entrega').val();
+    var rua_val = $('#rua').val();
+    var numero_val = $('#numero').val();
+    var complemento_val = $('#complemento').val();
+    var bairro_val = $('#bairro').val();
+    var troco_val = $('#troco').val();
+    var obs_val = $('#obs').val();
+    var taxa_entrega_val = $('#taxa-entrega-input').val();
+    var cupom_val = $('#valor-cupom').val();
 
-    var esta_pago = $('#esta_pago').val();
-
-
+    var esta_pago_val = (pedidoauto === 'Sim') ? 'Sim' : ($('#esta_pago').val() || 'Não');
 
     var chave_api_maps = "<?= $chave_api_maps ?>";
     var entrega_distancia = "<?= $entrega_distancia ?>";
+    var cep_val = (chave_api_maps == "" || entrega_distancia != "Sim") ? "" : $('#cep').val();
+    var cidade_val = (chave_api_maps == "" || entrega_distancia != "Sim") ? "" : $('#cidade').val();
 
-    if (chave_api_maps == "" || entrega_distancia != "Sim") {
-      var cep = "";
-      var cidade = "";
-    } else {
-      var cep = $('#cep').val();
-      var cidade = $('#cidade').val();
-    }
-
-
-    if (entrega == "Delivery" && entrega_distancia == 'Sim') {
-      if (cep == "") {
-        alert("Preencha o CEP");
-        $('#cep').focus();
-        $('#botao_finalizar').show();
-        $('#div_img').hide();
-        return;
-      }
-    }
-
-
-
-    if (taxa_entrega == "") {
-      alert("Digite um CEP válido para receber seu Pedido, ou atualize a chave da api do google maps para o calculo de frete por distância!");
-      $('#botao_finalizar').show();
-      $('#div_img').hide();
-      $('#colapse-').click();
-      return;
-    }
-
-
-
-    if (cupom == "") {
-      cupom = 0;
-    }
-
-    if (taxa_entrega == "") {
-      taxa_entrega = 0;
-    }
-
-    var dataAtual = new Date();
-    var horas = dataAtual.getHours();
-    var minutos = dataAtual.getMinutes();
-    var hora = horas + ':' + minutos;
-
-
-    var total_compra = "<?= $total_carrinho ?>";
-    var pedido_minimo = "<?= $pedido_minimo ?>";
-
-
-    if (pedido_minimo > 0) {
-      if (parseFloat(total_compra) < parseFloat(pedido_minimo)) {
-        alert('Seu pedido precisar ser superior a R$' + pedido_minimo);
-        $('#botao_finalizar').show();
-        $('#div_img').hide();
-        return;
-      }
-    }
-
-    if (entrega == "") {
-      alert('Selecione uma forma de entrega');
-      $('#colapse-2').click();
+    if (entrega_val == "Delivery" && entrega_distancia == 'Sim' && cep_val == "") {
+      alert("Preencha o CEP");
+      $('#cep').focus();
       $('#botao_finalizar').show();
       $('#div_img').hide();
       return;
     }
 
+    if (entrega_val == "Delivery" && taxa_entrega_val == "" && pedido_balcao == "") {
+      alert("Taxa de entrega não calculada. Verifique o CEP ou bairro.");
+      $('#botao_finalizar').show();
+      $('#div_img').hide();
+      $('#colapse-3').click();
+      return;
+    }
 
+    if (cupom_val == "") cupom_val = 0;
+    if (taxa_entrega_val == "") taxa_entrega_val = 0;
 
-    if (entrega == "Delivery" && rua == "") {
+    var total_compra_php = parseFloat("<?= $_SESSION['total_carrinho'] ?>");
+    var pedido_minimo = parseFloat("<?= $pedido_minimo ?>");
+
+    if (pedido_minimo > 0 && total_compra_php < pedido_minimo && pedido_balcao == "") {
+      alert('Seu pedido precisar ser superior a R$' + pedido_minimo.toFixed(2).replace('.', ','));
+      $('#botao_finalizar').show();
+      $('#div_img').hide();
+      return;
+    }
+
+    if (entrega_val == "Delivery" && rua_val == "" && pedido_balcao == "") {
       alert('Preencha o Campo Rua');
       $('#colapse-3').click();
       $('#botao_finalizar').show();
       $('#div_img').hide();
-
       return;
     }
-
-    if (entrega == "Delivery" && numero == "") {
+    if (entrega_val == "Delivery" && numero_val == "" && pedido_balcao == "") {
       alert('Preencha o Campo Número');
       $('#colapse-3').click();
       $('#botao_finalizar').show();
       $('#div_img').hide();
       return;
     }
-
-    if (entrega == "Delivery" && bairro == "") {
+    if (entrega_val == "Delivery" && bairro_val == "" && pedido_balcao == "") {
       alert('Escolha um Bairro');
       $('#colapse-3').click();
       $('#botao_finalizar').show();
@@ -940,9 +930,7 @@ $complemento = "";
       return;
     }
 
-
-
-    if (pagamento == "") {
+    if (pagamento == "" && pedido_balcao == "") {
       alert('Selecione uma forma de pagamento');
       $('#botao_finalizar').show();
       $('#div_img').hide();
@@ -950,94 +938,112 @@ $complemento = "";
       return;
     }
 
-    if (pagamento == "Dinheiro" && troco == "") {
-      //alert('Digite o total a ser pago para o troco');
-      // $('#botao_finalizar').show(); 
-      //$('#div_img').hide();
-      //return;
+    // Recalcula o total final para consistência, incluindo taxa do cartão se houver
+    var taxa_cartao_percentual_js = parseFloat('<?php echo $taxa_cartao_db; ?>') || 0;
+    var valor_taxa_cartao_js = 0;
+    if (pagamento === 'Cartão de Crédito' && taxa_cartao_percentual_js > 0) {
+      valor_taxa_cartao_js = total_compra_php * (taxa_cartao_percentual_js / 100);
     }
+    var total_compra_final_js = total_compra_php + parseFloat(taxa_entrega_val) - parseFloat(cupom_val) + valor_taxa_cartao_js;
 
-    var total_compra_final = parseFloat(total_compra) + parseFloat(taxa_entrega) - parseFloat(cupom);
-
-    var total_compra_finalF = total_compra_final.toFixed(2)
-
-    if (pagamento == "Dinheiro" && troco < total_compra_final && troco != "") {
-      alert('Digite um valor maior que o total da compra!');
+    if (pagamento == "Dinheiro" && troco_val != "" && parseFloat(troco_val.replace(',', '.')) < total_compra_final_js) {
+      alert('O valor do troco precisa ser maior ou igual ao total da compra!');
+      $('#troco').focus();
       $('#botao_finalizar').show();
       $('#div_img').hide();
       return;
     }
-
 
     var abrir_comprovante = "<?= $abrir_comprovante ?>";
 
     $.ajax({
-  url: 'js/ajax/inserir-pedido.php',
-  method: 'POST',
-  data: {
-    pagamento, entrega, rua, numero, bairro, complemento,
-    troco, obs, nome_cliente, tel_cliente, id_cliente,
-    mesa, cupom, codigo_pix, cep, cidade, taxa_entrega, esta_pago
-  },
-  dataType: "html",
-  success: function(mensagem) {
-    $('#mensagem').text('').removeClass();
+      url: 'js/ajax/inserir-pedido.php',
+      method: 'POST',
+      data: {
+        pagamento: pagamento,
+        entrega: entrega_val,
+        rua: rua_val,
+        numero: numero_val,
+        bairro: bairro_val,
+        complemento: complemento_val,
+        troco: troco_val,
+        obs: obs_val,
+        nome_cliente: nome_cliente,
+        tel_cliente: tel_cliente,
+        id_cliente: id_cliente,
+        mesa: mesa,
+        cupom: cupom_val,
+        codigo_pix: codigo_pix_val,
+        cep: cep_val,
+        cidade: cidade_val,
+        taxa_entrega: taxa_entrega_val,
+        esta_pago: esta_pago_val
+      },
+      dataType: "html",
+      success: function(mensagem) {
+        $('#mensagem').text('').removeClass(); // Limpa mensagens anteriores
 
-    if (mensagem === 'Pagamento nao realizado!!') {
-      if (pedidoauto !== 'Sim') alert('Realize o Pagamento antes de Prosseguir!!');
-      $('#botao_finalizar').show();
-      $('#div_img').hide();
-      return;
-    }
-
-    const msg = mensagem.split("*");
-    const previsao = msg[0]?.trim() || '';
-    const msg1 = msg[1]?.trim() || '';
-    const msg2 = msg[2]?.trim() || '';
-
-    if (msg1 === "Pedido Finalizado") {
-      if (pedido_balcao === 'BALCÃO') {
-        window.close();
-      } else {
-        setTimeout(() => {
-          if (pedidoauto !== 'Sim') finalizado();
-
-          const id = msg2;
-          if (abrir_comprovante !== 'Não') {
-            window.open(`sistema/painel/rel/comprovante2_class.php?id=${id}&enviar=sim`);
+        if (mensagem.includes('Pagamento nao realizado!!')) {
+          if (pedidoauto !== 'Sim') {
+            Swal.fire('Pagamento Pendente', 'Realize o Pagamento PIX antes de Prosseguir!', 'warning');
           }
+          $('#botao_finalizar').show();
+          $('#div_img').hide();
+          return;
+        }
 
-          setTimeout(() => window.location = `pedido/${id}`, 2000);
-        }, 500);
+        const msg_parts = mensagem.split("*");
+        const previsao_entrega_msg = msg_parts[0]?.trim() || '';
+        const status_pedido_msg = msg_parts[1]?.trim() || '';
+        const id_pedido_msg = msg_parts[2]?.trim() || '';
+
+        if (status_pedido_msg === "Pedido Finalizado") {
+          localStorage.removeItem('nome_cli_del');
+          localStorage.removeItem('telefone_cli_del');
+
+          if (pedido_balcao === 'BALCÃO') {
+            // Para balcão, pode apenas fechar ou redirecionar para uma página de sucesso simples
+            Swal.fire('Pedido Finalizado!', 'Seu pedido foi registrado com sucesso!', 'success').then(() => {
+              window.location = 'index.php'; // Ou outra página de agradecimento
+            });
+          } else {
+            if (pedidoauto !== 'Sim') {
+              Swal.fire('Pedido Finalizado!', 'Seu pedido foi enviado com sucesso! Previsão de entrega: ' + previsao_entrega_msg, 'success');
+            }
+
+            if (abrir_comprovante !== 'Não' && id_pedido_msg) {
+              window.open(`sistema/painel/rel/comprovante2_class.php?id=${id_pedido_msg}&enviar=sim`);
+            }
+
+            setTimeout(() => {
+              if (id_pedido_msg) window.location = `pedido/${id_pedido_msg}`;
+              else window.location = 'index.php'; // Fallback
+            }, pedidoauto === 'Sim' ? 500 : 2000);
+          }
+        } else if (mensagem.trim() === "0") {
+          Swal.fire('Carrinho Vazio', 'Seu carrinho está vazio, adicione itens antes de finalizar.', 'error');
+          $('#botao_finalizar').show();
+          $('#div_img').hide();
+        } else {
+          // Outras mensagens de erro do backend
+          Swal.fire('Erro', mensagem, 'error');
+          $('#botao_finalizar').show();
+          $('#div_img').hide();
+        }
+      },
+      error: function(xhr, status, error) {
+        Swal.fire('Erro na comunicação', 'Ocorreu um erro ao tentar finalizar o pedido. Tente novamente.', 'error');
+        $('#botao_finalizar').show();
+        $('#div_img').hide();
       }
-    }
-
-    if (pedido_whatsapp === 'manual') {
-      const url = `http://api.whatsapp.com/send?1=pt_BR&phone=<?= $tel_whats ?>&text=*Novo Pedido*%0A%0A Hora: *${hora}* %0A Total: R$ *${total_compra_finalF}* %0A Entrega: *${entrega}* %0A Pagamento: *${pagamento}* %0A Cliente: *${nome_cliente}* %0A Previsão de Entrega: *${previsao}*`;
-      window.open(url, '_blank');
-    }
-
-    $('#botao_finalizar').show();
-    $('#div_img').hide();
-  }
-});
-
-
-
+    });
   }
 </script>
 
-
-
-
-
-
-
 <script type="text/javascript">
   function calcularFrete() {
-
     var bairro = $('#bairro').val();
-    var total_compra = "<?= $total_carrinho ?>";
+    var total_compra = "<?= $_SESSION['total_carrinho'] ?>"; // Usar subtotal puro
     var entrega = $('#entrega').val();
 
     $.ajax({
@@ -1049,33 +1055,21 @@ $complemento = "";
         entrega
       },
       dataType: "html",
-
       success: function(result) {
         var split = result.split("-");
-        $('#taxa-entrega').text(split[0]);
-        //$('#total-carrinho-finalizar').text(split[1]);
-
-        atualizarTotalGeral(); // <-- ADICIONAR ESTA LINHA NO FINAL
-        
-        $('#taxa-entrega-input').val(split[0]);
-
-
+        $('#taxa-entrega').text(split[0].replace('.', ',')); // Formata para exibição
+        $('#taxa-entrega-input').val(split[0].replace(',', '.')); // Guarda com ponto para cálculos
+        atualizarTotalGeral();
       }
     });
   }
 </script>
 
-
-
-
-
-
-
-
 <script type="text/javascript">
   function buscarNome() {
+    var tel = $('#telefone').val().replace(/\D/g, ''); // Limpa máscara
 
-    var tel = $('#telefone').val();
+    if (tel.length < 10) return; // Não busca se o telefone for muito curto
 
     $.ajax({
       url: 'js/ajax/listar-nome.php',
@@ -1084,80 +1078,56 @@ $complemento = "";
         tel
       },
       dataType: "text",
-
       success: function(result) {
-
         var split = result.split("**");
-
+        // Só preenche o nome se o AJAX retornar um nome não vazio.
+        if (split[0].trim() !== "") {
+          $('#nome').val(split[0]);
+        }
         $('#rua').val(split[1]);
         $('#numero').val(split[2]);
-        $('#bairro').val(split[3]).change();
+        $('#bairro').val(split[3]).change(); // .change() para acionar calcularFrete se necessário
         $('#complemento').val(split[4]);
-        $('#taxa-entrega-input').val(split[5]);
-        $('#taxa-entrega').text(split[6]);
-        $('#id_cliente').text(split[7]);
+        $('#id_cliente').val(split[7]); // Corrigido para pegar o ID do cliente
         $('#cep').val(split[8]);
         $('#cidade').val(split[9]);
+        atualizarTotalGeral();
       }
     });
   }
 </script>
 
-
-
 <script type="text/javascript">
   function dados() {
-
-    //buscarNome()
-
     $('#nome').show();
-
     var nome = $('#nome').val();
     var telefone = $('#telefone').val();
-    var id_usuario = "";
+    var pedido_balcao = "<?= $sessao_pedido_balcao ?>";
 
-     var pedido_balcao = "<?= $sessao_pedido_balcao ?>";
-
-    if(pedido_balcao == ""){
-
-      if (telefone.length < 15) {
-        alert("Coloque o número de telefone completo");
-        return;
-      }
-
-      if (telefone == "") {
-        alert('Preencha seu Telefone');
+    if (pedido_balcao == "") {
+      if (telefone.replace(/\D/g, '').length < 10) {
+        alert("Coloque o número de telefone completo (DDD + número).");
         $('#telefone').focus();
         return;
       }
-
-
       if (nome == "") {
         alert('Preencha seu Nome');
-        $('#telefone').focus();
+        $('#nome').focus();
         return;
       }
-
     }
-
     $('#colapse-2').click();
-
-
   }
 
-
-
-
   function cupom() {
-    var total_compra = "<?= $total_carrinho ?>";
-    var taxa_entrega = $('#taxa-entrega-input').val();
-    var telefone_cliente = $('#telefone').val();
-    if (taxa_entrega == "") {
-      taxa_entrega = 0;
-    }
-    var total_final = parseFloat(total_compra) + parseFloat(taxa_entrega);
-    var codigo_cupom = $('#cupom').val();
-    if (codigo_cupom == "") {
+    var total_compra = parseFloat("<?= $_SESSION['total_carrinho'] ?>"); // Usar subtotal puro
+    var taxa_entrega = parseFloat($('#taxa-entrega-input').val().replace(",", ".")) || 0;
+    var telefone_cliente = $('#telefone').val().replace(/\D/g, ''); // Limpa máscara
+
+    var total_final_para_cupom = total_compra + taxa_entrega; // Cupom é aplicado sobre subtotal + frete
+    var codigo_cupom_val = $('#cupom').val();
+
+    if (codigo_cupom_val == "") {
       alert("Preencha o código do cupom");
       return;
     }
@@ -1166,16 +1136,13 @@ $complemento = "";
       url: 'js/ajax/cupom.php',
       method: 'POST',
       data: {
-        total_final,
-        codigo_cupom,
+        total_final: total_final_para_cupom, // Envia o valor correto para o backend
+        codigo_cupom: codigo_cupom_val,
         telefone_cliente
       },
       dataType: "text",
-
       success: function(mensagem) {
         var split = mensagem.split('**')
-
-
         if (split[0].trim() == '0') {
           alert('Código do Cupom Inválido');
         } else if (split[0].trim() == '1') {
@@ -1183,28 +1150,22 @@ $complemento = "";
         } else if (split[0].trim() == '2') {
           alert('Este cupom não é mais válido!');
         } else if (split[0].trim() == '3') {
-          alert('Este cupom só é válido para compras acima de R$' + split[1]);
+          alert('Este cupom só é válido para compras acima de R$' + parseFloat(split[1]).toFixed(2).replace('.', ','));
         } else {
-
-          $('#total-carrinho-finalizar').text(split[0]);
-          $('#valor-cupom').val(split[1]);
+          // split[0] é o novo total_carrinho_finalizar (já com desconto)
+          // split[1] é o valor do desconto do cupom
+          // split[2] é o valor do desconto formatado
+          $('#valor-cupom').val(split[1]); // Guarda o valor do desconto
           $('#div_cupom').hide();
-
           $('#desconto_div').show();
-          $('#total_cupom').text(split[2]);
-
-
+          $('#total_cupom').text(split[2]); // Exibe o valor do desconto formatado
           alert('Cupom Inserido!');
-          pix();
+          atualizarTotalGeral();
         }
-
       },
-
     });
   }
 </script>
-
-
 
 <script>
   var restaurantCoords = {
@@ -1212,41 +1173,26 @@ $complemento = "";
     longitude: "<?= $longitude_rest ?>"
   };
 
-
-  //document.getElementById('cep').addEventListener('input', function(event) {
-   // var cep = event.target.value.replace(/\D/g, '');
-
-  //  if (cep.length === 8) {
-  //    fetchAddressData(cep);
-  //  }
-//  });
-
-
-
-function initMap() {
-  // Pode deixar vazio, ou chamar sua função principal aqui se quiser
-}
-
+  function initMap() {
+    /* Pode deixar vazio */ }
 
   function calcularFreteDistancia() {
-
     var chave_api = "<?= $chave_api_maps ?>";
-    var distancia_km = "<?= $distancia_entrega_km ?>";
-
+    var distancia_km_permitida = "<?= $distancia_entrega_km ?>";
     event.preventDefault();
     var cep = document.getElementById('cep').value;
     var address = document.getElementById('rua').value;
     var number = document.getElementById('numero').value;
-    var bairro = document.getElementById('bairro').value;
-    var cidade = document.getElementById('cidade').value;
+    var bairro_val = document.getElementById('bairro').value;
+    var cidade_val = document.getElementById('cidade').value;
     var complement = document.getElementById('complemento').value;
 
-    if (cep == "") {
+    if (cep == "" || address == "" || number == "" || bairro_val == "" || cidade_val == "") {
+      // alert("Preencha todos os campos de endereço para calcular o frete por distância.");
       return;
     }
 
-    var encodedAddress = encodeURIComponent(address + ', ' + number + ', ' + bairro + ', ' + cidade + ', ' + complement);
-    //alert(encodedAddress)
+    var encodedAddress = encodeURIComponent(address + ', ' + number + ', ' + bairro_val + ', ' + cidade_val + ', ' + complement);
 
     fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + encodedAddress + '&key=' + chave_api)
       .then(function(response) {
@@ -1254,35 +1200,29 @@ function initMap() {
       })
       .then(function(data) {
         if (data.status === 'OK' && data.results.length > 0) {
-
           var deliveryCoords = {
-
             latitude: data.results[0].geometry.location.lat,
             longitude: data.results[0].geometry.location.lng
           };
-
           var distance = calculateDistance(restaurantCoords, deliveryCoords);
 
-          //alert(distance)
-          //document.getElementById('distancia').innerText = distance.toFixed(2) + ' KM';
-
-          if (distance <= distancia_km) {
+          if (distance <= parseFloat(distancia_km_permitida)) {
             var deliveryCost = calculateDeliveryCost(distance);
-            $('#taxa-entrega').text(deliveryCost.toFixed(2));
-            $('#taxa-entrega-input').val(deliveryCost);
-
-            var total_compra = "<?= $total_carrinho ?>";
-            var total_final_compra = parseFloat(deliveryCost) + parseFloat(total_compra);
-            $('#total-carrinho-finalizar').text(total_final_compra.toLocaleString('pt-br', {
-              minimumFractionDigits: 2
-            }));
-
+            $('#taxa-entrega').text(deliveryCost.toFixed(2).replace('.', ','));
+            $('#taxa-entrega-input').val(deliveryCost.toFixed(2));
+            atualizarTotalGeral();
           } else {
-            alert('Endereço fora da área de entrega.');
+            alert('Endereço fora da área de entrega (' + distancia_km_permitida + 'km). Distância: ' + distance.toFixed(2) + 'km');
+            $('#taxa-entrega').text('0,00');
+            $('#taxa-entrega-input').val('0.00');
+            atualizarTotalGeral();
             return;
           }
         } else {
-          alert('Endereço inválido ou Chave Api Inexistente.');
+          alert('Endereço inválido ou Chave da API do Google Maps incorreta/expirada.');
+          $('#taxa-entrega').text('0,00');
+          $('#taxa-entrega-input').val('0.00');
+          atualizarTotalGeral();
           return;
         }
       })
@@ -1292,7 +1232,7 @@ function initMap() {
   }
 
   function fetchAddressData(cep) {
-    fetch('https://viacep.com.br/ws/' + cep + '/json/')
+    fetch('https://viacep.com.br/ws/' + cep.replace(/\D/g, '') + '/json/')
       .then(function(response) {
         return response.json();
       })
@@ -1302,32 +1242,37 @@ function initMap() {
           document.getElementById('bairro').value = data.bairro;
           document.getElementById('cidade').value = data.localidade;
           document.getElementById('numero').focus();
-
+          if ("<?= $entrega_distancia ?>" === "Sim" && "<?= $chave_api_maps ?>" !== "") {
+            calcularFreteDistancia(); // Calcula o frete por distância após preencher
+          }
         }
       })
       .catch(function(error) {
         console.error(error);
       });
   }
+  // Listener para o campo CEP (se não for por distância, pode ser removido ou adaptado)
+  if ("<?= $entrega_distancia ?>" === "Sim" && "<?= $chave_api_maps ?>" !== "") {
+    document.getElementById('cep').addEventListener('blur', function(event) {
+      var cep_val = event.target.value.replace(/\D/g, '');
+      if (cep_val.length === 8) {
+        fetchAddressData(cep_val);
+      }
+    });
+  }
+
 
   function calculateDistance(coord1, coord2) {
     var lat1 = toRadians(coord1.latitude);
     var lon1 = toRadians(coord1.longitude);
     var lat2 = toRadians(coord2.latitude);
     var lon2 = toRadians(coord2.longitude);
-
-    var R = 6371; // Raio da Terra em quilômetros
-
+    var R = 6371;
     var dLat = lat2 - lat1;
     var dLon = lon2 - lon1;
-
-    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(lat1) * Math.cos(lat2) *
-      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-    var distance = R * c;
-    return distance;
+    return R * c;
   }
 
   function toRadians(degrees) {
@@ -1335,152 +1280,113 @@ function initMap() {
   }
 
   function calculateDeliveryCost(distance) {
-    var valor_km = "<?= $valor_km ?>";
-    if (valor_km == "" || valor_km <= 0) {
-      valor_km = 1;
-    }
+    var valor_km = parseFloat("<?= $valor_km ?>") || 1;
     var roundedDistance = Math.ceil(distance);
     return roundedDistance * valor_km;
-
   }
 </script>
 
-
-
-
-<!-- <script src="https://maps.google.com/maps/api/js?sensor=false"></script> -->
-
-
-
-<script async defer 
+<script async defer
   src="https://maps.googleapis.com/maps/api/js?key=<?= $chave_api_maps ?>&callback=initMap">
 </script>
 
-
-
 <script>
-  var x = document.getElementById("demo");
-
+  var x = document.getElementById("demo"); // Para mensagens de geolocalização
   function localizacao() {
-    $("#rua").val('Carregando!!');
-
+    $("#rua").val('Carregando...');
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition, showError);
     } else {
-      x.innerHTML = "Geolocalização não é suportada nesse browser.";
+      // x.innerHTML = "Geolocalização não é suportada nesse browser.";
+      alert("Geolocalização não é suportada nesse browser.");
     }
-
-
   }
 
   function showPosition(position) {
-    lat = position.coords.latitude;
-    lon = position.coords.longitude;
-
-    geo(lat, lon);
+    geo(position.coords.latitude, position.coords.longitude);
   }
 
   function showError(error) {
+    var msgError = "Erro ao obter localização: ";
     switch (error.code) {
       case error.PERMISSION_DENIED:
-        x.innerHTML = "Usuário rejeitou a solicitação de Geolocalização."
+        msgError += "Usuário rejeitou a solicitação.";
         break;
       case error.POSITION_UNAVAILABLE:
-        x.innerHTML = "Localização indisponível."
+        msgError += "Localização indisponível.";
         break;
       case error.TIMEOUT:
-        x.innerHTML = "O tempo da requisição expirou."
+        msgError += "O tempo da requisição expirou.";
         break;
       case error.UNKNOWN_ERROR:
-        x.innerHTML = "Algum erro desconhecido aconteceu."
+        msgError += "Algum erro desconhecido aconteceu.";
         break;
     }
+    alert(msgError);
+    $("#rua").val(''); // Limpa o campo em caso de erro
   }
 </script>
 
-
-
 <script type="text/javascript">
   function geo(latitude, longitude) {
-
     $.getJSON('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + latitude + '&lon=' + longitude, function(res) {
+      var entrega_distancia_geo = "<?= $entrega_distancia ?>";
+      $("#rua").val(res.address.road || '');
+      var cidade_geo = res.address.city || res.address.town || res.address.village || '';
+      $("#cep").val(res.address.postcode || '');
+      $("#cidade").val(cidade_geo);
+      $("#bairro").val(res.address.suburb || '');
 
-      var entrega_distancia = "<?= $entrega_distancia ?>";
-
-      //rua
-      $("#rua").val(res.address.road);
-
-
-
-      //cidade ver qual
-      var cidade = res.address.city;
-
-      if (cidade == "" || cidade == null) {
-        //TENTAR PEGAR POR TOWN
-        var cidade = res.address.town;
-
-        if (cidade == "" || cidade == null) {
-          var cidade = res.address.village;
-        }
-      }
-
-
-      //cep
-      $("#cep").val(res.address.postcode);
-
-      //cidade
-      $("#cidade").val(cidade);
-
-
-      //bairo
-      if (entrega_distancia == 'Sim') {
-        $("#bairro").val(res.address.suburb);
-        calcularFreteDistancia()
+      if (entrega_distancia_geo == 'Sim' && "<?= $chave_api_maps ?>" !== "") {
+        calcularFreteDistancia();
       } else {
-        $("#bairro").val(res.address.suburb).change();
+        // Se não for por distância, tenta encontrar o bairro na lista e calcular o frete
+        var bairroEncontrado = res.address.suburb || '';
+        $('#bairro').val(bairroEncontrado).change(); // .change() para acionar calcularFrete
       }
-
-
-
-
+      atualizarTotalGeral();
     });
   };
 
-// --- INSERIR ESTA NOVA FUNÇÃO ---
-function atualizarTotalGeral() {
-    // Busca os valores da página
-    var subtotal = parseFloat('<?php echo $total_carrinho; ?>');
-    var taxa_entrega = ($('#taxa-entrega-input').val() != "" && $('#taxa-entrega-input').val() != undefined) ? parseFloat($('#taxa-entrega-input').val().replace(",", ".")) : 0;
-    var cupom = ($('#valor-cupom').val() != "" && $('#valor-cupom').val() != undefined) ? parseFloat($('#valor-cupom').val()) : 0;
-    var pagamento = $('#pagamento').val();
-    var taxa_cartao_percentual = parseFloat('<?php echo $taxa_cartao_db; ?>');
-    var valor_taxa_cartao = 0;
+  function atualizarTotalGeral() {
+    var subtotal = parseFloat('<?php echo $_SESSION['total_carrinho']; ?>');
+    var taxa_entrega_str = $('#taxa-entrega-input').val();
+    var taxa_entrega = (taxa_entrega_str != "" && taxa_entrega_str != undefined) ? parseFloat(taxa_entrega_str.replace(",", ".")) : 0;
 
-    // Calcula a taxa do cartão, se aplicável
-    if (pagamento === 'Cartão de Crédito' && taxa_cartao_percentual > 0) {
-        valor_taxa_cartao = subtotal * (taxa_cartao_percentual / 100);
-        $('#valor_taxa_cartao').text(valor_taxa_cartao.toFixed(2).replace(".", ","));
-        $('#taxa_cartao_div').show();
-        $('#mensagem-taxa-cartao').text('Taxa de ' + taxa_cartao_percentual.toFixed(2).replace(",",".") + '% aplicada.');
+    var cupom_str = $('#valor-cupom').val();
+    var cupom = (cupom_str != "" && cupom_str != undefined) ? parseFloat(cupom_str) : 0;
+
+    var pagamento_selecionado = $('#pagamento').val();
+    var taxa_cartao_config = parseFloat('<?php echo $taxa_cartao_db; ?>');
+    var valor_taxa_cartao_calc = 0;
+
+    if (pagamento_selecionado === 'Cartão de Crédito' && !isNaN(taxa_cartao_config) && taxa_cartao_config > 0) {
+      valor_taxa_cartao_calc = subtotal * (taxa_cartao_config / 100);
+      $('#valor_taxa_cartao').text(valor_taxa_cartao_calc.toFixed(2).replace(".", ","));
+      $('#taxa_cartao_div').show();
+      $('#mensagem-taxa-cartao').text('Taxa de ' + taxa_cartao_config.toFixed(2).replace(".", ",") + '% aplicada.');
     } else {
-        valor_taxa_cartao = 0;
-        $('#taxa_cartao_div').hide();
-        $('#mensagem-taxa-cartao').text('');
+      $('#taxa_cartao_div').hide();
+      $('#mensagem-taxa-cartao').text('');
     }
 
-    // Calcula o total final
-    var total_final = subtotal + taxa_entrega - cupom + valor_taxa_cartao;
+    var total_final_calc = subtotal + taxa_entrega - cupom + valor_taxa_cartao_calc;
 
-    // Atualiza o total visível para o cliente
-    $('#total-carrinho-finalizar').text(total_final.toFixed(2).replace(".", ","));
-    
-    // Atualiza um campo oculto com o valor final para ser enviado ao backend
-    $('#valor_total_final').val(total_final.toFixed(2));
-}
+    $('#total-carrinho-finalizar').text(total_final_calc.toFixed(2).replace(".", ","));
+    $('#valor_total_final').val(total_final_calc.toFixed(2)); // Para o backend
+  }
 
+  // Chama atualizarTotalGeral sempre que um campo relevante mudar
+  $(document).ready(function() {
+    // Inicializa o total ao carregar a página
+    atualizarTotalGeral();
 
-
+    // Adiciona listeners para mudanças
+    $('#taxa-entrega-input, #valor-cupom, #pagamento, #radio_dinheiro, #radio_pix, #radio_credito, #radio_debito').on('change input', function() {
+      atualizarTotalGeral();
+    });
+    $('#bairro').on('change', function() { // Quando o bairro muda (e recalcula o frete)
+      // calcularFrete() já chama atualizarTotalGeral() no seu success
+    });
+  });
 </script>
-
-
-
