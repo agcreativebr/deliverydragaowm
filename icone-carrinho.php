@@ -37,12 +37,6 @@
 </div>
 
 
-<!-- JS here -->
-
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/nice-select.js"></script>
-<script src="assets/js/main.js"></script>
-
 
 
 <script type="text/javascript">

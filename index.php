@@ -11,8 +11,6 @@ $url_instagram = 'https://www.instagram.com/' . $instagram_sistema . '/';
 if ($pedido_balcao != "") {
   unset($_SESSION['id_mesa'], $_SESSION['nome_mesa'], $_SESSION['id_ab_mesa'], $_SESSION['sessao_usuario'], $_SESSION['id_edicao']);
   $_SESSION['pedido_balcao'] = $pedido_balcao;
-
-  
 }
 
 @$sessão_balcao = $_SESSION['pedido_balcao'];
@@ -318,22 +316,21 @@ if ($id_mesa == "" and $sessão_balcao == "") {
   <!-- Menu End -->
 
 
-<div style=" display:flex; align-items:center; margin-bottom:20px; " class="padding_input">
-  <input 
-    onkeyup = "buscarProduto()"
-    placeholder="Digite o nome do Produto" 
-    type="text" 
-    name="buscar" 
-    id="buscar" 
-    style="flex-grow:1; margin-right:10px; border:none; border-bottom:1px solid #b3b3b3; outline:none; margin-top:-10px"
-  >
-  <i class="icon-search"></i>
-</div>
+  <div style=" display:flex; align-items:center; margin-bottom:20px; " class="padding_input">
+    <input
+      onkeyup="buscarProduto()"
+      placeholder="Digite o nome do Produto"
+      type="text"
+      name="buscar"
+      id="buscar"
+      style="flex-grow:1; margin-right:10px; border:none; border-bottom:1px solid #b3b3b3; outline:none; margin-top:-10px">
+    <i class="icon-search"></i>
+  </div>
 
 
-<div id="area_busca" style="display:none; margin-top:-30px">
-  
-</div>
+  <div id="area_busca" style="display:none; margin-top:-30px">
+
+  </div>
 
   <?php
   $query = $pdo->query("SELECT * FROM categorias where ativo = 'Sim'");
@@ -545,23 +542,19 @@ if ($id_mesa == "" and $sessão_balcao == "") {
 
   <?php } ?>
 
-
-  <!-- NOVA SEÇÃO DE LISTA DE CATEGORIAS -->
   <?php
+  // Início da Seção de Lista Elegante de Categorias
   $query_lista_cat = $pdo->query("SELECT * FROM categorias where ativo = 'Sim'");
   $res_lista_cat = $query_lista_cat->fetchAll(PDO::FETCH_ASSOC);
   $total_lista_cat = @count($res_lista_cat);
 
   if ($total_lista_cat > 0) {
   ?>
-    <section class="elegant-category-list pt-50 pb-20" id="todas-categorias">
+    <section class="elegant-category-list pt-50 pb-20" style="padding-top: 0;" id="todas-categorias">
       <div class="container">
         <div class="row">
           <div class="col-lg-12 text-center mb-40">
-            <div class="tpsection">
-              <h4 class="tpsection__sub-title">~~~~~~~~ Explore por Categoria ~~~~~~~~</h4>
-              <h3 class="tpsection__title">Navegue por Nossas Opções</h3>
-            </div>
+
           </div>
         </div>
         <div class="row">
@@ -585,7 +578,7 @@ if ($id_mesa == "" and $sessão_balcao == "") {
             $count_produtos_na_categoria = $res_prod_count['count_prod'];
 
             if ($count_produtos_na_categoria == 0) {
-                //continue; // Pula categorias sem produtos ativos
+              //continue; // Pula categorias sem produtos ativos
             }
 
             if ($cat_lc_mais_sabores == 'Sim') {
@@ -594,15 +587,15 @@ if ($id_mesa == "" and $sessão_balcao == "") {
               $link_cat_lc =  "categoria-" . $cat_lc_url;
             }
           ?>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-6 mb-30">
+            <div class="col-lg-4 col-md-4 col-12 mb-30">
               <div class="category-card-animated" style="animation-delay: <?php echo $animation_delay; ?>s;">
                 <a href="<?php echo $link_cat_lc; ?>" class="elegant-category-item-link">
-                  <div class="elegant-category-item text-center">
-                    <div class="elegant-category-thumb mb-20">
+                  <div class="elegant-category-item">
+                    <div class="elegant-category-thumb">
                       <img src="sistema/painel/images/categorias/<?php echo $cat_lc_foto; ?>" alt="<?php echo htmlspecialchars($cat_lc_nome); ?>">
                     </div>
                     <div class="elegant-category-content">
-                      <h5 class="elegant-category-title"><?php echo htmlspecialchars($cat_lc_nome); ?></h5>
+                      <h5 class="elegant-category-title mb-0"><?php echo htmlspecialchars($cat_lc_nome); ?></h5>
                       <span class="elegant-category-count"><?php echo $count_produtos_na_categoria; ?> Itens</span>
                     </div>
                   </div>
@@ -617,19 +610,86 @@ if ($id_mesa == "" and $sessão_balcao == "") {
       </div>
     </section>
     <style>
-      .elegant-category-list .elegant-category-item { background-color: #fff; border-radius: 10px; padding: 25px 20px; box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08); transition: all 0.3s ease-in-out; height: 100%; display: flex; flex-direction: column; justify-content: center; }
-      .elegant-category-list .elegant-category-item:hover { transform: translateY(-8px); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12); }
-      .elegant-category-list .elegant-category-thumb img { width: 100px; height: 100px; border-radius: 8px; /* Cantos levemente arredondados */ object-fit: cover; border: 3px solid #f0f0f0; }
-      .elegant-category-list .elegant-category-title { font-size: 1.1em; color: #333; margin-bottom: 5px; font-weight: 600; }
-      .elegant-category-list .elegant-category-count { font-size: 0.85em; color: #777; }
-      .elegant-category-list .elegant-category-item-link { text-decoration: none; }
-      .category-card-animated { opacity: 0; transform: translateY(30px); animation: fadeInUpStaggered 0.6s ease-out forwards; }
-      @keyframes fadeInUpStaggered { to { opacity: 1; transform: translateY(0); } }
+      .elegant-category-list .elegant-category-item {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 15px;
+        /* Reduzido para economizar espaço */
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
+        /* Sombra mais sutil */
+        transition: all 0.3s ease-in-out;
+        height: auto;
+        /* Altura definida pelo conteúdo */
+        display: flex;
+        /* Para layout lado a lado */
+        align-items: center;
+        /* Alinha verticalmente imagem e texto */
+        text-align: left;
+        /* Alinha texto à esquerda */
+      }
+
+      .elegant-category-list .elegant-category-item:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+      }
+
+      .elegant-category-list .elegant-category-thumb {
+        flex-shrink: 0;
+        /* Impede que a imagem encolha */
+        margin-right: 15px;
+        /* Espaço entre imagem e texto */
+      }
+
+      .elegant-category-list .elegant-category-thumb img {
+        width: 50px;
+        height: 50px;
+        border-radius: 6px;
+        /* Arredondamento discreto */
+        object-fit: cover;
+        border: 2px solid #eee;
+      }
+
+      .elegant-category-list .elegant-category-content {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .elegant-category-list .elegant-category-title {
+        font-size: 1.0em;
+        /* Ajustado para mobile */
+        color: #333;
+        margin-bottom: 2px;
+        font-weight: 600;
+        line-height: 1.3;
+      }
+
+      .elegant-category-list .elegant-category-count {
+        font-size: 0.75em;
+        /* Ajustado para mobile */
+        color: #666;
+      }
+
+      .elegant-category-list .elegant-category-item-link {
+        text-decoration: none;
+      }
+
+      .category-card-animated {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUpStaggered 0.6s ease-out forwards;
+      }
+
+      @keyframes fadeInUpStaggered {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
     </style>
   <?php
   }
+  // Fim da Seção de Lista Elegante de Categorias
   ?>
-  <!-- FIM DA NOVA SEÇÃO DE LISTA DE CATEGORIAS -->
 
 
 
@@ -940,11 +1000,11 @@ if ($id_mesa == "" and $sessão_balcao == "") {
                 $promocao = $res[$i]['promocao'];
                 $val_promocional = $res[$i]['val_promocional'];
 
-          $val_promocionalF = @number_format($val_promocional, 2, ',', '.');
+                $val_promocionalF = @number_format($val_promocional, 2, ',', '.');
 
-          if($val_promocional != 0 and $promocao != 'Não'){
-            $valorF = $val_promocionalF;
-          }
+                if ($val_promocional != 0 and $promocao != 'Não') {
+                  $valorF = $val_promocionalF;
+                }
 
                 $descricaoF = mb_strimwidth($descricao, 0, 100, "...");
 
@@ -1024,7 +1084,6 @@ if ($id_mesa == "" and $sessão_balcao == "") {
 
 
 <?php if ($tem_produto >= 0 and $total_cat2 >= 0 and $total_cat >= 0) {
-  
 }
 ?>
 
@@ -1096,28 +1155,28 @@ if ($id_mesa == "" and $sessão_balcao == "") {
 
 
 <script type="text/javascript">
-  function buscarProduto(){
+  function buscarProduto() {
     var buscar = $('#buscar').val();
-    if(buscar == ""){
+    if (buscar == "") {
       $('#area_busca').hide();
-    }else{
+    } else {
       $('#area_busca').show();
 
       $.ajax({
-      url: 'js/ajax/buscar_produtos.php',
-      method: 'POST',
-      data: {
-        buscar
-      },
-      dataType: "text",
+        url: 'js/ajax/buscar_produtos.php',
+        method: 'POST',
+        data: {
+          buscar
+        },
+        dataType: "text",
 
-      success: function(mensagem) {       
-       
-       $('#area_busca').html(mensagem);
+        success: function(mensagem) {
 
-      },
+          $('#area_busca').html(mensagem);
 
-    });
+        },
+
+      });
 
     }
 
