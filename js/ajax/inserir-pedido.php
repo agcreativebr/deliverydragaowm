@@ -66,8 +66,11 @@ $cliente = 0;
 $total_cartoes_cliente = 0;
 
 if ($tel_cliente != "") {
+  // Limpa a máscara do telefone para busca e para salvar no banco
+  $tel_cliente_limpo = preg_replace('/[^0-9]/', '', $tel_cliente);
+
   $query = $pdo->prepare("SELECT * FROM clientes where telefone = :telefone ");
-  $query->bindValue(":telefone", "$tel_cliente");
+  $query->bindValue(":telefone", "$tel_cliente_limpo");
   $query->execute();
   $res = $query->fetchAll(PDO::FETCH_ASSOC);
   if (@count($res) > 0) {
@@ -100,7 +103,7 @@ if ($tel_cliente != "") {
   } else {
     $query = $pdo->prepare("INSERT INTO clientes SET nome = :nome, telefone = :telefone, endereco = :rua, numero = :numero, bairro = :bairro, complemento = :complemento, data_cad = curDate(), cep = :cep, cidade = :cidade, data_mensagem = '$data_dias_retorno', retorno_enviado = 'Não', cartoes = '1'");
     $query->bindValue(":nome", "$nome_cliente_ped");
-    $query->bindValue(":telefone", "$tel_cliente");
+    $query->bindValue(":telefone", "$tel_cliente_limpo");
     $query->bindValue(":rua", "$rua");
     $query->bindValue(":numero", "$numero");
     $query->bindValue(":bairro", "$bairro");

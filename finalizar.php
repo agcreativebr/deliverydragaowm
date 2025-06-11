@@ -92,7 +92,7 @@ $complemento = "";
       <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
         data-bs-parent="#accordionExample">
         <div class="accordion-body" align="center">
-          <input onkeyup="" type="tel" class="input telefone_user" name="telefone" id="telefone" required value=""
+          <input onblur="buscarNome()" type="tel" class="input telefone_user" name="telefone" id="telefone" required value=""
             placeholder="(00) 00000-0000" style="width:200px; text-align: center; border:0; margin-top: -15px; font-size: 19px">
           <img src="img/user.jpg" width="50px" height="50px">
 
@@ -1131,6 +1131,7 @@ $complemento = "";
       dataType: "text",
       success: function(result) {
         var split = result.split("**");
+        console.log("AJAX listar-nome.php result:", result); // Debugging line
         // Só preenche o nome se o AJAX retornar um nome não vazio.
         if (split[0].trim() !== "") {
           $('#nome').val(split[0]);
@@ -1142,6 +1143,7 @@ $complemento = "";
         $('#id_cliente').val(split[7]); // Corrigido para pegar o ID do cliente
         $('#cep').val(split[8]);
         $('#cidade').val(split[9]);
+        console.log("Assigned values:", { nome: $('#nome').val(), rua: $('#rua').val(), bairro: $('#bairro').val(), id_cliente: $('#id_cliente').val() }); // Debugging line
         atualizarTotalGeral();
       }
     });
@@ -1337,7 +1339,7 @@ $complemento = "";
   }
 </script>
 
-<script async defer
+<script loading="async" async defer
   src="https://maps.googleapis.com/maps/api/js?key=<?= $chave_api_maps ?>&callback=initMap">
 </script>
 
@@ -1382,20 +1384,29 @@ $complemento = "";
   function geo(latitude, longitude) {
     $.getJSON('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + latitude + '&lon=' + longitude, function(res) {
       var entrega_distancia_geo = "<?= $entrega_distancia ?>";
-      $("#rua").val(res.address.road || '');
+      console.log("Nominatim API response:", JSON.stringify(res, null, 2)); // Debugging line
+
+      // Tenta obter a rua de campos comuns, em ordem de preferência
+      var ruaAPI = res.address.road || res.address.street || res.address.pedestrian || '';
+      $("#rua").val(ruaAPI);
+
       var cidade_geo = res.address.city || res.address.town || res.address.village || '';
       $("#cep").val(res.address.postcode || '');
       $("#cidade").val(cidade_geo);
-      $("#bairro").val(res.address.suburb || '');
+
+      // Tenta obter o bairro de campos comuns, em ordem de preferência
+      var bairroAPI = res.address.suburb || res.address.neighbourhood || res.address.quarter || res.address.city_district || '';
+      $("#bairro").val(bairroAPI);
 
       if (entrega_distancia_geo == 'Sim' && "<?= $chave_api_maps ?>" !== "") {
         calcularFreteDistancia();
       } else {
         // Se não for por distância, tenta encontrar o bairro na lista e calcular o frete
-        var bairroEncontrado = res.address.suburb || '';
-        $('#bairro').val(bairroEncontrado).change(); // .change() para acionar calcularFrete
+        // A linha acima já preenche #bairro, então o .change() aqui é para acionar o cálculo de frete se necessário.
+        $('#bairro').change(); 
       }
       atualizarTotalGeral();
+      console.log("Geo fields filled:", { rua: $('#rua').val(), bairro: $('#bairro').val(), cep: $('#cep').val(), cidade: $('#cidade').val() }); // Debugging line
     });
   };
 
