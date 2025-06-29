@@ -184,7 +184,8 @@ $complemento = "";
 
           <div id="area-endereco">
 
-            <?php // O campo CEP será sempre mostrado para Delivery, a lógica de cálculo de frete (distância ou bairro) será tratada no JS ?>
+            <?php // O campo CEP será sempre mostrado para Delivery, a lógica de cálculo de frete (distância ou bairro) será tratada no JS 
+            ?>
             <div class="row">
               <div class="col-md-4 col-sm-6 col-12">
                 <div class="group">
@@ -265,20 +266,20 @@ $complemento = "";
             </div>
 
             <div class="row">
-                <div class="col-12">
-                    <div class="group">
-                        <input type="text" class="input" name="cidade" id="cidade">
-                        <span class="highlight"></span>
-                        <span class="bar"></span>
-                        <label class="label">Cidade*</label>
-                    </div>
+              <div class="col-12">
+                <div class="group">
+                  <input type="text" class="input" name="cidade" id="cidade">
+                  <span class="highlight"></span>
+                  <span class="bar"></span>
+                  <label class="label">Cidade*</label>
                 </div>
+              </div>
             </div>
 
 
             <div align="center" class="avancar-pgto">
-                <a id="colap-4" href="#" class="btn btn-success btn-sm" data-bs-toggle="collapse"
-                  data-bs-target="#collapse4">Avançar para Pagamento</a>
+              <a id="colap-4" href="#" class="btn btn-success btn-sm" data-bs-toggle="collapse"
+                data-bs-target="#collapse4">Avançar para Pagamento</a>
             </div>
 
           </div>
@@ -483,10 +484,24 @@ $complemento = "";
 
 <script>
   function copiar() {
-    document.querySelector("#chave_pix_copia").select();
-    document.querySelector("#chave_pix_copia").setSelectionRange(0, 99999); /* Para mobile */
+    var input = document.querySelector("#chave_pix_copia");
+    input.select();
+    input.setSelectionRange(0, 99999); // Para mobile
     document.execCommand("copy");
-    alert('Chave Pix Copiada! Use a opção Copie e Cole para Pagar')
+    // Feedback visual moderno
+    if (window.Swal) {
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: 'Chave Pix copiada!',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true
+      });
+    } else {
+      alert('Chave Pix Copiada! Use a opção Copie e Cole para Pagar');
+    }
   }
 </script>
 
@@ -520,7 +535,7 @@ $complemento = "";
       var tel_cl = localStorage.telefone_cli_del;
       $('#telefone').val(tel_cl);
       $('#nome').val(nome_cl);
-      if(tel_cl) buscarNome(); // Tenta buscar nome se houver telefone no localStorage
+      if (tel_cl) buscarNome(); // Tenta buscar nome se houver telefone no localStorage
     }
 
 
@@ -572,17 +587,17 @@ $complemento = "";
     // Ao selecionar delivery, o CEP será o foco. O cálculo de frete ocorrerá no onblur do CEP.
     // Se já houver um bairro preenchido (ex: cliente buscou pelo telefone), recalcula.
     if ($('#bairro').val()) {
-        if ("<?= $entrega_distancia ?>" === "Sim" && "<?= $chave_api_maps ?>" !== "") {
-            // Se o CEP também estiver preenchido, calcularFreteDistancia pode ser chamado
-            // Mas o ideal é que o cálculo seja acionado pelo blur do CEP.
-            // Se o CEP não estiver preenchido, o usuário precisará preenchê-lo.
-        } else {
-            calcularFrete(); // Calcula frete por bairro se não for por distância
-        }
+      if ("<?= $entrega_distancia ?>" === "Sim" && "<?= $chave_api_maps ?>" !== "") {
+        // Se o CEP também estiver preenchido, calcularFreteDistancia pode ser chamado
+        // Mas o ideal é que o cálculo seja acionado pelo blur do CEP.
+        // Se o CEP não estiver preenchido, o usuário precisará preenchê-lo.
+      } else {
+        calcularFrete(); // Calcula frete por bairro se não for por distância
+      }
     } else {
-        // Limpa a taxa de entrega se não houver bairro/CEP ainda
-        $('#taxa-entrega').text('0,00');
-        $('#taxa-entrega-input').val('0.00');
+      // Limpa a taxa de entrega se não houver bairro/CEP ainda
+      $('#taxa-entrega').text('0,00');
+      $('#taxa-entrega-input').val('0.00');
     }
 
 
@@ -604,21 +619,45 @@ $complemento = "";
     var modo_entrega_selecionado = ($('#radio_retirar').is(':checked') || $('#radio_local').is(':checked') || $('#radio_entrega').is(':checked'));
 
     if (pedido_balcao === "") { // Não é balcão, validações mais estritas
-        if (nome === "") return { valido: false, mensagem: "Preencha seu Nome." };
-        if (telefone.length < 10) return { valido: false, mensagem: "Preencha um Telefone válido (com DDD)." };
-        if (!modo_entrega_selecionado) return { valido: false, mensagem: "Escolha um Modo de Entrega." };
+      if (nome === "") return {
+        valido: false,
+        mensagem: "Preencha seu Nome."
+      };
+      if (telefone.length < 10) return {
+        valido: false,
+        mensagem: "Preencha um Telefone válido (com DDD)."
+      };
+      if (!modo_entrega_selecionado) return {
+        valido: false,
+        mensagem: "Escolha um Modo de Entrega."
+      };
 
-        var entrega_val = $('#entrega').val();
-        if (entrega_val === "Delivery") {
-            if ($('#rua').val() === "") return { valido: false, mensagem: "Preencha a Rua para entrega." };
-            if ($('#numero').val() === "") return { valido: false, mensagem: "Preencha o Número para entrega." };
-            if ($('#bairro').val() === "" || $('#bairro').val() === null) return { valido: false, mensagem: "Preencha o CEP para buscar o Bairro." };
-            if ($('#taxa-entrega-input').val() === "" || parseFloat($('#taxa-entrega-input').val().replace(',','.')) < 0) {
-                 return { valido: false, mensagem: "Calcule o frete informando o CEP." };
-            }
+      var entrega_val = $('#entrega').val();
+      if (entrega_val === "Delivery") {
+        if ($('#rua').val() === "") return {
+          valido: false,
+          mensagem: "Preencha a Rua para entrega."
+        };
+        if ($('#numero').val() === "") return {
+          valido: false,
+          mensagem: "Preencha o Número para entrega."
+        };
+        if ($('#bairro').val() === "" || $('#bairro').val() === null) return {
+          valido: false,
+          mensagem: "Preencha o CEP para buscar o Bairro."
+        };
+        if ($('#taxa-entrega-input').val() === "" || parseFloat($('#taxa-entrega-input').val().replace(',', '.')) < 0) {
+          return {
+            valido: false,
+            mensagem: "Calcule o frete informando o CEP."
+          };
         }
+      }
     }
-    return { valido: true, mensagem: "" };
+    return {
+      valido: true,
+      mensagem: ""
+    };
   }
 
 
@@ -644,22 +683,24 @@ $complemento = "";
             $('#esta_pago').val('Sim');
             var validacaoCampos = verificarCamposMinimosParaFinalizacao();
             if (validacaoCampos.valido) {
-                Swal.fire({
-                    title: 'Pagamento Confirmado!',
-                    text: 'Seu pagamento PIX foi confirmado. Finalizando pedido...',
-                    icon: 'success',
-                    showConfirmButton: false,
-                    timer: 2500
-                }).then(() => { finalizarPedido('Sim'); });
+              Swal.fire({
+                title: 'Pagamento Confirmado!',
+                text: 'Seu pagamento PIX foi confirmado. Finalizando pedido...',
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 2500
+              }).then(() => {
+                finalizarPedido('Sim');
+              });
             } else {
-                Swal.fire({
-                    title: 'Pagamento Confirmado!',
-                    html: 'Seu PIX foi pago com sucesso!<br>Por favor, <b>' + validacaoCampos.mensagem + '</b><br>E clique em "Concluir Pedido".',
-                    icon: 'info'
-                });
-                $('#listar_pix').html('<p class="text-success text-center fw-bold my-3">Pagamento PIX já realizado e confirmado!</p>');
-                $('#botao_finalizar').show();
-                $('#div_img').hide();
+              Swal.fire({
+                title: 'Pagamento Confirmado!',
+                html: 'Seu PIX foi pago com sucesso!<br>Por favor, <b>' + validacaoCampos.mensagem + '</b><br>E clique em "Concluir Pedido".',
+                icon: 'info'
+              });
+              $('#listar_pix').html('<p class="text-success text-center fw-bold my-3">Pagamento PIX já realizado e confirmado!</p>');
+              $('#botao_finalizar').show();
+              $('#div_img').hide();
             }
           } else {
             if ($('#listar_pix').html().trim() === "") {
@@ -696,10 +737,24 @@ $complemento = "";
       dataType: "html",
       success: function(result_qr) {
         $('#listar_pix').html(result_qr);
+        // Só exibe o alerta se for reutilização (campo hidden #pix_reutilizado)
+        if ($('#pix_reutilizado').length) {
+          Swal.fire({
+            title: 'Atenção!',
+            html: 'Já existe um pagamento PIX pendente para este pedido.<br>Utilize o QRCode exibido para concluir o pagamento.',
+            icon: 'info',
+            timer: 6000,
+            showConfirmButton: false
+          });
+        }
         verficarpgto();
       },
-      error: function() {
-        $('#listar_pix').html('<p class="text-danger text-center">Erro ao gerar QR Code. Tente novamente.</p>');
+      error: function(xhr) {
+        let msg = 'Erro ao gerar QR Code. Tente novamente.';
+        if (xhr && xhr.responseText) {
+          msg += '<br>' + xhr.responseText;
+        }
+        $('#listar_pix').html('<p class="text-danger text-center">' + msg + '</p>');
       }
     });
 
@@ -734,20 +789,20 @@ $complemento = "";
               $('#esta_pago').val('Sim');
               var validacaoCampos = verificarCamposMinimosParaFinalizacao();
               if (validacaoCampos.valido) {
-                  finalizarPedido('Sim');
+                finalizarPedido('Sim');
               } else {
-                  Swal.fire({
-                      title: 'Pagamento PIX Confirmado!',
-                      html: 'Detectamos que seu pagamento PIX foi aprovado.<br>Por favor, complete seus dados e clique em <b>Concluir Pedido</b>.',
-                      icon: 'success',
-                      toast: true,
-                      position: 'top-end',
-                      showConfirmButton: false,
-                      timer: 7000,
-                      timerProgressBar: true
-                  });
-                  $('#botao_finalizar').show();
-                  $('#div_img').hide();
+                Swal.fire({
+                  title: 'Pagamento PIX Confirmado!',
+                  html: 'Detectamos que seu pagamento PIX foi aprovado.<br>Por favor, complete seus dados e clique em <b>Concluir Pedido</b>.',
+                  icon: 'success',
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 7000,
+                  timerProgressBar: true
+                });
+                $('#botao_finalizar').show();
+                $('#div_img').hide();
               }
             }
           }
@@ -816,16 +871,32 @@ $complemento = "";
   function finalizarPedido(pedidoauto) {
     // Validação antes de prosseguir
     var validacao = verificarCamposMinimosParaFinalizacao();
+    var pagamento = $('#pagamento').val();
+    var esta_pago = $('#esta_pago').val();
+    if (pagamento === 'Pix' && esta_pago !== 'Sim' && pedidoauto !== 'Sim') {
+      if (window.Swal) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Atenção',
+          text: 'Finalize o pagamento via Pix antes de concluir o pedido.',
+          timer: 3500,
+          showConfirmButton: false
+        });
+      } else {
+        alert('Finalize o pagamento via Pix antes de concluir o pedido.');
+      }
+      return;
+    }
     if (!validacao.valido && pedidoauto !== 'Sim') { // Se não for finalização automática, mostra alerta de validação
-        alert(validacao.mensagem);
-        // Foca no primeiro campo problemático (exemplo simples)
-        if (validacao.mensagem.includes("Nome")) $('#nome').focus();
-        else if (validacao.mensagem.includes("Telefone")) $('#telefone').focus();
-        else if (validacao.mensagem.includes("Modo de Entrega")) $('#colapse-2').click();
-        else if (validacao.mensagem.includes("Rua")) $('#rua').focus();
-        else if (validacao.mensagem.includes("Número")) $('#numero').focus();
-        else if (validacao.mensagem.includes("Bairro") || validacao.mensagem.includes("CEP")) $('#cep').focus();
-        return;
+      alert(validacao.mensagem);
+      // Foca no primeiro campo problemático (exemplo simples)
+      if (validacao.mensagem.includes("Nome")) $('#nome').focus();
+      else if (validacao.mensagem.includes("Telefone")) $('#telefone').focus();
+      else if (validacao.mensagem.includes("Modo de Entrega")) $('#colapse-2').click();
+      else if (validacao.mensagem.includes("Rua")) $('#rua').focus();
+      else if (validacao.mensagem.includes("Número")) $('#numero').focus();
+      else if (validacao.mensagem.includes("Bairro") || validacao.mensagem.includes("CEP")) $('#cep').focus();
+      return;
     }
 
 
@@ -845,7 +916,6 @@ $complemento = "";
     var nome_cliente = $('#nome').val();
     var tel_cliente = $('#telefone').val();
     var id_cliente = $('#id_cliente').val();
-    var pagamento = $('#pagamento').val();
     var entrega_val = $('#entrega').val();
     var rua_val = $('#rua').val();
     var numero_val = $('#numero').val();
@@ -853,9 +923,9 @@ $complemento = "";
     var bairro_val = $('#bairro').val();
     var troco_val = $('#troco').val();
     var obs_val = $('#obs').val();
-    var taxa_entrega_val = $('#taxa-entrega-input').val().replace(',','.');
+    var taxa_entrega_val = $('#taxa-entrega-input').val().replace(',', '.');
     var cupom_val = $('#valor-cupom').val();
-    
+
     var esta_pago_val = (pedidoauto === 'Sim') ? 'Sim' : ($('#esta_pago_select').length ? $('#esta_pago_select').val() : $('#esta_pago').val());
 
 
@@ -874,7 +944,7 @@ $complemento = "";
       $('#div_img').hide();
       return;
     }
-    
+
     // Recalcula o total final para consistência, incluindo taxa do cartão se houver
     var taxa_cartao_percentual_js = parseFloat('<?php echo $taxa_cartao_db; ?>') || 0;
     var valor_taxa_cartao_js = 0;
@@ -883,7 +953,7 @@ $complemento = "";
     }
     var total_compra_final_js = total_compra_php + parseFloat(taxa_entrega_val) - parseFloat(cupom_val) + valor_taxa_cartao_js;
 
-    if (pagamento == "Dinheiro" && troco_val != "" && parseFloat(troco_val.replace(',', '.')) < total_compra_final_js && parseFloat(troco_val.replace(',', '.')) > 0 ) {
+    if (pagamento == "Dinheiro" && troco_val != "" && parseFloat(troco_val.replace(',', '.')) < total_compra_final_js && parseFloat(troco_val.replace(',', '.')) > 0) {
       alert('O valor do troco precisa ser maior ou igual ao total da compra!');
       $('#troco').focus();
       $('#botao_finalizar').show();
@@ -918,7 +988,7 @@ $complemento = "";
       },
       dataType: "html",
       success: function(mensagem) {
-        $('#mensagem').text('').removeClass(); 
+        $('#mensagem').text('').removeClass();
 
         if (mensagem.includes('Pagamento nao realizado!!')) {
           if (pedidoauto !== 'Sim') {
@@ -981,11 +1051,11 @@ $complemento = "";
     var total_compra = "<?= $_SESSION['total_carrinho'] ?>";
     var entrega = $('#entrega').val();
 
-    if(entrega !== 'Delivery' || bairro === ""){
-        $('#taxa-entrega').text('0,00');
-        $('#taxa-entrega-input').val('0.00');
-        atualizarTotalGeral();
-        return;
+    if (entrega !== 'Delivery' || bairro === "") {
+      $('#taxa-entrega').text('0,00');
+      $('#taxa-entrega-input').val('0.00');
+      atualizarTotalGeral();
+      return;
     }
 
     $.ajax({
@@ -1009,9 +1079,9 @@ $complemento = "";
 
 <script type="text/javascript">
   function buscarNome() {
-    var tel = $('#telefone').val().replace(/\D/g, ''); 
+    var tel = $('#telefone').val().replace(/\D/g, '');
 
-    if (tel.length < 10) return; 
+    if (tel.length < 10) return;
 
     $.ajax({
       url: 'js/ajax/listar-nome.php',
@@ -1028,13 +1098,13 @@ $complemento = "";
         }
         $('#rua').val(split[1]);
         $('#numero').val(split[2]);
-        
+
         // Define o valor do select de bairro e dispara o evento change
         // para que o cálculo de frete por bairro seja acionado, se aplicável.
         var bairroRetornado = split[3];
         $('#bairro').val(bairroRetornado);
         if ("<?= $entrega_distancia ?>" !== "Sim" || "<?= $chave_api_maps ?>" === "") {
-            if(bairroRetornado) $('#bairro').change(); // Aciona cálculo de frete por bairro
+          if (bairroRetornado) $('#bairro').change(); // Aciona cálculo de frete por bairro
         }
 
 
@@ -1043,13 +1113,13 @@ $complemento = "";
         $('#cep').val(split[8]);
         $('#cidade').val(split[9]);
         // console.log("Assigned values:", { nome: $('#nome').val(), rua: $('#rua').val(), bairro: $('#bairro').val(), id_cliente: $('#id_cliente').val() });
-        
+
         // Se o CEP foi retornado e o frete é por distância, tenta calcular
         if (split[8] && "<?= $entrega_distancia ?>" === "Sim" && "<?= $chave_api_maps ?>" !== "") {
-            // A função fetchAddressData já faz o cálculo de frete por distância no blur do CEP.
-            // Se o CEP foi preenchido aqui, e o usuário não vai dar blur, podemos chamar diretamente.
-            // No entanto, é melhor manter a consistência e deixar o blur do CEP ou o preenchimento manual acionar.
-            // Apenas atualiza o total geral.
+          // A função fetchAddressData já faz o cálculo de frete por distância no blur do CEP.
+          // Se o CEP foi preenchido aqui, e o usuário não vai dar blur, podemos chamar diretamente.
+          // No entanto, é melhor manter a consistência e deixar o blur do CEP ou o preenchimento manual acionar.
+          // Apenas atualiza o total geral.
         }
         atualizarTotalGeral();
       }
@@ -1130,7 +1200,9 @@ $complemento = "";
     longitude: "<?= $longitude_rest ?>"
   };
 
-  function initMap() { /* Pode deixar vazio se não usar para inicializar mapa na página */ }
+  function initMap() {
+    /* Pode deixar vazio se não usar para inicializar mapa na página */
+  }
 
   function calcularFreteDistancia() {
     var chave_api = "<?= $chave_api_maps ?>";
@@ -1143,9 +1215,9 @@ $complemento = "";
     var cidade_val = document.getElementById('cidade').value;
     var complement = document.getElementById('complemento').value;
 
-    if ( address == "" || number == "" || bairro_val == "" || cidade_val == "") {
-       // Não mostra alerta aqui, pois o ViaCEP pode não ter preenchido tudo.
-       // A validação final será no `finalizarPedido`.
+    if (address == "" || number == "" || bairro_val == "" || cidade_val == "") {
+      // Não mostra alerta aqui, pois o ViaCEP pode não ter preenchido tudo.
+      // A validação final será no `finalizarPedido`.
       return;
     }
 
@@ -1188,7 +1260,11 @@ $complemento = "";
   }
 
   function fetchAddressData(cep) {
-    fetch('https://viacep.com.br/ws/' + cep.replace(/\D/g, '') + '/json/', { headers: { 'Accept': 'application/json' }})
+    fetch('https://viacep.com.br/ws/' + cep.replace(/\D/g, '') + '/json/', {
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
       .then(function(response) {
         return response.json();
       })
@@ -1205,18 +1281,18 @@ $complemento = "";
             // O ideal é que o cálculo de distância seja chamado após o número também,
             // mas para uma resposta imediata, pode-se chamar aqui se os campos principais estiverem OK.
             if ($('#rua').val() && $('#bairro').val() && $('#cidade').val()) {
-                 // Não chama calcularFreteDistancia() aqui, espera o usuário preencher o número e dar blur ou finalizar.
-                 // Apenas atualiza o total geral, pois o frete por bairro (se aplicável) pode ter mudado.
+              // Não chama calcularFreteDistancia() aqui, espera o usuário preencher o número e dar blur ou finalizar.
+              // Apenas atualiza o total geral, pois o frete por bairro (se aplicável) pode ter mudado.
             }
           } else {
             // Se não for por distância, o cálculo de frete é por bairro.
             // Disparar o evento change no campo bairro para acionar calcularFrete()
             if ($('#bairro').val()) {
-                $('#bairro').change();
+              $('#bairro').change();
             } else {
-                // Se o ViaCEP não retornou bairro, zera a taxa e espera seleção manual
-                $('#taxa-entrega').text('0,00');
-                $('#taxa-entrega-input').val('0.00');
+              // Se o ViaCEP não retornou bairro, zera a taxa e espera seleção manual
+              $('#taxa-entrega').text('0,00');
+              $('#taxa-entrega-input').val('0.00');
             }
           }
           atualizarTotalGeral(); // Atualiza o total em todos os casos
@@ -1248,12 +1324,12 @@ $complemento = "";
     }
     // Adiciona listener para o campo número, para recalcular frete por distância após preenchimento
     const numeroInput = document.getElementById('numero');
-    if(numeroInput && "<?= $entrega_distancia ?>" === "Sim" && "<?= $chave_api_maps ?>" !== ""){
-        numeroInput.addEventListener('blur', function(event){
-            if(document.getElementById('rua').value && document.getElementById('bairro').value && document.getElementById('cidade').value && this.value){
-                calcularFreteDistancia();
-            }
-        });
+    if (numeroInput && "<?= $entrega_distancia ?>" === "Sim" && "<?= $chave_api_maps ?>" !== "") {
+      numeroInput.addEventListener('blur', function(event) {
+        if (document.getElementById('rua').value && document.getElementById('bairro').value && document.getElementById('cidade').value && this.value) {
+          calcularFreteDistancia();
+        }
+      });
     }
   });
 
@@ -1282,10 +1358,11 @@ $complemento = "";
   }
 </script>
 
-<?php if (!empty($chave_api_maps)) { // Só carrega a API do Google se a chave estiver definida ?>
-<script loading="async" async defer
-  src="https://maps.googleapis.com/maps/api/js?key=<?= $chave_api_maps ?>&libraries=places&callback=initMap">
-</script>
+<?php if (!empty($chave_api_maps)) { // Só carrega a API do Google se a chave estiver definida 
+?>
+  <script loading="async" async defer
+    src="https://maps.googleapis.com/maps/api/js?key=<?= $chave_api_maps ?>&libraries=places&callback=initMap">
+  </script>
 <?php } ?>
 
 <script>
@@ -1323,9 +1400,9 @@ $complemento = "";
       atualizarTotalGeral();
     });
     $('#bairro').on('change', function() {
-        if ("<?= $entrega_distancia ?>" !== "Sim" || "<?= $chave_api_maps ?>" === "") {
-            calcularFrete(); // Calcula frete por bairro apenas se não for por distância
-        }
+      if ("<?= $entrega_distancia ?>" !== "Sim" || "<?= $chave_api_maps ?>" === "") {
+        calcularFrete(); // Calcula frete por bairro apenas se não for por distância
+      }
     });
   });
 </script>
