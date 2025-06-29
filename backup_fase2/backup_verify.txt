@@ -1,0 +1,3 @@
+Backup realizado em: 29/06/2025 10:05:51
+Arquivo: C:\xampp\htdocs\delivery\backup_fase2/backup_pre_fase2_2025-06-29_10-05-51.sql
+Status: Sucesso
