@@ -1,0 +1,451 @@
+/* ==========================================================================
+   Estilos Globais de Contraste para Modo Escuro
+   ========================================================================== */
+
+/* Seletor para cobrir ambos os modos de ativação do tema escuro */
+body[data-theme='dark'], body.dark-mode {
+  background: linear-gradient(135deg, #1A202C 0%, #2D3748 100%) !important; /* Azul escuro profundo */
+  color: #E2E8F0 !important; /* Cinza claro para texto base */
+}
+
+/* Títulos Gerais no Modo Escuro */
+body[data-theme='dark'] h1, body[data-theme='dark'] h2, body[data-theme='dark'] h3, body[data-theme='dark'] h4, body[data-theme='dark'] h5, body[data-theme='dark'] h6,
+body[data-theme='dark'] .h1, body[data-theme='dark'] .h2, body[data-theme='dark'] .h3, body[data-theme='dark'] .h4, body[data-theme='dark'] .h5, body[data-theme='dark'] .h6,
+body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4, body.dark-mode h5, body.dark-mode h6,
+body.dark-mode .h1, body.dark-mode .h2, body.dark-mode .h3, body.dark-mode .h4, body.dark-mode .h5, body.dark-mode .h6,
+body[data-theme='dark'] .card-title, body.dark-mode .card-title, /* Títulos dentro de cards */
+body[data-theme='dark'] .modal-title, body.dark-mode .modal-title, /* Títulos de modais */
+body[data-theme='dark'] .page-title, body.dark-mode .page-title, /* Títulos de página genéricos */
+body[data-theme='dark'] .tx-20, body.dark-mode .tx-20, /* Classes de tamanho de texto comuns para títulos */
+body[data-theme='dark'] .tx-22, body.dark-mode .tx-22,
+body[data-theme='dark'] .tx-24, body.dark-mode .tx-24 {
+  color: #FFFFFF !important; /* Branco para títulos */
+}
+
+/* Parágrafos e Texto Geral no Modo Escuro */
+body[data-theme='dark'] p, body[data-theme='dark'] span, body[data-theme='dark'] div, body[data-theme='dark'] label,
+body.dark-mode p, body.dark-mode span, body.dark-mode div, body.dark-mode label,
+body[data-theme='dark'] .form-control, body.dark-mode .form-control,
+body[data-theme='dark'] .table td, body.dark-mode .table td,
+body[data-theme='dark'] .table th, body.dark-mode .table th,
+body[data-theme='dark'] .breadcrumb-item, body.dark-mode .breadcrumb-item,
+body[data-theme='dark'] .dropdown-item, body.dark-mode .dropdown-item,
+body[data-theme='dark'] .list-group-item, body.dark-mode .list-group-item,
+body[data-theme='dark'] .page-link, body.dark-mode .page-link,
+body[data-theme='dark'] .text-muted, body.dark-mode .text-muted,
+body[data-theme='dark'] .tpsection__sub-title, /* Dukamarket */
+body[data-theme='dark'] .category__title, /* Dukamarket */
+body[data-theme='dark'] .tpbrandproduct__product-title, /* Dukamarket */
+body[data-theme='dark'] .tpblog__title, /* Dukamarket */
+body[data-theme='dark'] .tpproduct__title, /* Dukamarket */
+body[data-theme='dark'] .tpproduct__content-weight, /* Dukamarket */
+body[data-theme='dark'] .tpshop__widget label, /* Dukamarket */
+body[data-theme='dark'] .product__details-info-list li, /* Dukamarket */
+body[data-theme='dark'] .tpdescription__content p, body[data-theme='dark'] .tpdescription__content span, /* Dukamarket */
+body[data-theme='dark'] .tpfaq__item .accordion-button, /* Dukamarket */
+body[data-theme='dark'] .tpfooter__widget p, body[data-theme='dark'] .tpfooter__widget-time-info span, body[data-theme='dark'] .tpfooter__widget-links ul li a, /* Dukamarket */
+body[data-theme='dark'] .tpsidebar__product-category, body[data-theme='dark'] .tpsidebar__product-title, /* Dukamarket */
+body[data-theme='dark'] .tplocation__content ul li, body[data-theme='dark'] .tplocation__content ul li a, /* Dukamarket */
+body[data-theme='dark'] .tpcontact-inner-text p, /* Dukamarket */
+body[data-theme='dark'] .tpform__wrapper p, body[data-theme='dark'] .tpform__textarea-check .form-check-label, /* Dukamarket */
+body[data-theme='dark'] .tptrack__item-content p /* Dukamarket */
+{
+  color: #D1D5DB !important; /* Cinza claro para textos comuns */
+}
+
+/* Inputs e Placeholders no Modo Escuro */
+body[data-theme='dark'] .form-control, body.dark-mode .form-control {
+    background-color: #2D3748 !important; /* Fundo mais escuro para inputs */
+    border-color: #4A5568 !important; /* Borda sutil para inputs */
+    color: #E2E8F0 !important; /* Texto claro para inputs */
+}
+body[data-theme='dark'] .form-control::placeholder, body.dark-mode .form-control::placeholder,
+body[data-theme='dark'] .tpsearchbar__form input::placeholder, /* Dukamarket */
+body[data-theme='dark'] .tpform__input input::placeholder, /* Dukamarket */
+body[data-theme='dark'] .tpform__textarea textarea::placeholder /* Dukamarket */
+{
+    color: #A0AEC0 !important; /* Cinza mais claro para placeholders */
+}
+body[data-theme='dark'] .form-select, body.dark-mode .form-select {
+    background-color: #2D3748 !important;
+    border-color: #4A5568 !important;
+    color: #E2E8F0 !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23E2E8F0' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") !important;
+}
+
+
+/* Links no Modo Escuro */
+body[data-theme='dark'] a, body[data-theme='dark'] .btn-link,
+body.dark-mode a, body.dark-mode .btn-link,
+body[data-theme='dark'] .category__title a, /* Dukamarket */
+body[data-theme='dark'] .tpbrandproduct__product-title a, /* Dukamarket */
+body[data-theme='dark'] .tpblog__title a, /* Dukamarket */
+body[data-theme='dark'] .tpblog__details a, /* Dukamarket */
+body[data-theme='dark'] .tpsidebar__widget-content ul li a, /* Dukamarket */
+body[data-theme='dark'] .tpfooter__widget-links ul li a:hover, /* Dukamarket */
+body[data-theme='dark'] .tpform__textarea-check .form-check-label a /* Dukamarket */
+{
+  color: #63B3ED !important; /* Azul claro para links */
+}
+
+body[data-theme='dark'] a:hover, body[data-theme='dark'] .btn-link:hover,
+body.dark-mode a:hover, body.dark-mode .btn-link:hover,
+body[data-theme='dark'] .category__title a:hover,
+body[data-theme='dark'] .tpbrandproduct__product-title a:hover,
+body[data-theme='dark'] .tpblog__title a:hover,
+body[data-theme='dark'] .tpblog__details a:hover,
+body[data-theme='dark'] .tpsidebar__widget-content ul li a:hover,
+body[data-theme='dark'] .tpform__textarea-check .form-check-label a:hover
+{
+  color: #90CDF4 !important; /* Azul mais claro para links no hover */
+}
+
+/* Específico para o menu lateral no modo escuro (Painel) */
+body.dark-mode .app-sidebar {
+  background: #252D3D !important; /* Cor de fundo mais escura para sidebar no modo escuro */
+  border-right: 1px solid #3A4454 !important; /* Borda sutil para separar do conteúdo */
+}
+
+body.dark-mode .side-menu__item .side-menu__label,
+body.dark-mode .side-menu__item .side-menu__icon,
+body.dark-mode .slide.is-expanded .side-menu__label,
+body.dark-mode .slide.is-expanded .side-menu__icon {
+  color: #A0AEC0 !important; /* Cinza claro para texto e ícones do menu */
+}
+
+body.dark-mode .side-menu__item:hover .side-menu__label,
+body.dark-mode .side-menu__item:hover .side-menu__icon,
+body.dark-mode .slide.is-expanded .side-menu__item:hover .side-menu__label,
+body.dark-mode .slide.is-expanded .side-menu__item:hover .side-menu__icon {
+  color: #FFFFFF !important; /* Branco para hover */
+}
+
+body.dark-mode .side-menu .slide.active > .side-menu__item .side-menu__label,
+body.dark-mode .side-menu .slide.active > .side-menu__item .side-menu__icon {
+    color: #FFFFFF !important; /* Branco para item ativo do menu */
+    font-weight: 600;
+}
+
+/* Ajustes para tabelas no modo escuro (Painel) */
+body.dark-mode .main-content.app-content .table {
+    background-color: #2D3748 !important; /* Fundo da tabela */
+    color: #E2E8F0 !important; /* Cor do texto da tabela */
+}
+body.dark-mode .main-content.app-content .table thead th {
+    background-color: #354152 !important; /* Fundo do cabeçalho da tabela */
+    color: #F7FAFC !important;
+    border-color: #4A5568 !important;
+}
+body.dark-mode .main-content.app-content .table tbody tr {
+    border-color: #4A5568 !important;
+}
+body.dark-mode .main-content.app-content .table tbody tr:hover {
+    background-color: #3A4454 !important; /* Cor de hover para linhas da tabela */
+}
+
+/* Ajustes para cards no modo escuro (Painel) */
+body.dark-mode .main-content.app-content .card {
+    background-color: #2D3748 !important;
+    border-color: #4A5568 !important;
+}
+body.dark-mode .main-content.app-content .card-header {
+    background-color: #354152 !important;
+    border-bottom-color: #4A5568 !important;
+    color: #F7FAFC !important;
+}
+body.dark-mode .main-content.app-content .card-body {
+    color: #E2E8F0 !important;
+}
+
+/* Ajustes para modais no modo escuro (Painel e Frontend) */
+body[data-theme='dark'] .modal-content, body.dark-mode .modal-content {
+    background-color: #2D3748 !important;
+    color: #E2E8F0 !important;
+}
+body[data-theme='dark'] .modal-header, body.dark-mode .modal-header {
+    border-bottom-color: #4A5568 !important;
+}
+body[data-theme='dark'] .modal-footer, body.dark-mode .modal-footer {
+    border-top-color: #4A5568 !important;
+}
+body[data-theme='dark'] .btn-close, body.dark-mode .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* Cores específicas do tema Dukamarket no modo escuro */
+body[data-theme='dark'] .tpsection__sub-title {
+  color: var(--tp-heading-secondary, #ffae01) !important; /* Mantendo cor do tema ou um amarelo claro */
+}
+body[data-theme='dark'] .tpproduct__title,
+body[data-theme='dark'] .category__title a,
+body[data-theme='dark'] .tpbrandproduct__product-title a,
+body[data-theme='dark'] .tpblog__title a {
+  color: #F7FAFC !important; /* Títulos de produtos/categorias no frontend */
+}
+body[data-theme='dark'] .tpproduct__title:hover,
+body[data-theme='dark'] .category__title a:hover,
+body[data-theme='dark'] .tpbrandproduct__product-title a:hover,
+body[data-theme='dark'] .tpblog__title a:hover {
+  color: #90CDF4 !important;
+}
+
+body[data-theme='dark'] .tpproduct__price span {
+  color: #F56565 !important; /* Vermelho claro para preço em promoção */
+}
+body[data-theme='dark'] .tpproduct__price del {
+  color: #A0AEC0 !important; /* Cinza para preço riscado */
+}
+
+body[data-theme='dark'] .tpfooter__widget p,
+body[data-theme='dark'] .tpfooter__widget-time-info span,
+body[data-theme='dark'] .tpfooter__widget-links ul li a {
+  color: #A0AEC0 !important; /* Texto do footer */
+}
+body[data-theme='dark'] .tpfooter__widget p a,
+body[data-theme='dark'] .tpfooter__copyright-text a {
+  color: #63B3ED !important; /* Links no footer */
+}
+body[data-theme='dark'] .tpfooter__widget p a:hover,
+body[data-theme='dark'] .tpfooter__copyright-text a:hover {
+  color: #90CDF4 !important;
+}
+body[data-theme='dark'] .tpfooter__widget-title {
+    color: #FFFFFF !important;
+}
+body[data-theme='dark'] .tpfooter__widget-social a {
+    color: #FFFFFF !important;
+}
+body[data-theme='dark'] .tpfooter__widget-social a:hover {
+    color: #63B3ED !important;
+}
+body[data-theme='dark'] .tpfooter__widget-time-info span b {
+    color: #FFFFFF !important;
+}
+body[data-theme='dark'] .tpfooter__widget-newsletter p {
+    color: #FFFFFF !important;
+}
+body[data-theme='dark'] .tpfooter__widget-newsletter form input {
+    background-color: #4A5568 !important;
+    color: #E2E8F0 !important;
+    border-color: #718096 !important;
+}
+body[data-theme='dark'] .tpfooter__widget-newsletter form input::placeholder {
+    color: #A0AEC0 !important;
+}
+body[data-theme='dark'] .tpfooter__widget-newsletter-check .form-check-label {
+    color: #FFFFFF !important;
+}
+
+/* Para a página pedido.php (frontend) no modo escuro */
+body.pagina-pedido-confirmacao[data-theme='dark'] {
+    background-color: #1A202C !important;
+    color: #E2E8F0 !important;
+}
+body.pagina-pedido-confirmacao[data-theme='dark'] span,
+body.pagina-pedido-confirmacao[data-theme='dark'] p,
+body.pagina-pedido-confirmacao[data-theme='dark'] div,
+body.pagina-pedido-confirmacao[data-theme='dark'] b {
+    color: #E2E8F0 !important;
+}
+body.pagina-pedido-confirmacao[data-theme='dark'] .valor-item,
+body.pagina-pedido-confirmacao[data-theme='dark'] .valor-item-maior {
+    color: #68D391 !important; /* Verde claro para valores */
+}
+body.pagina-pedido-confirmacao[data-theme='dark'] p[style*="color:#FFF"] { /* Para o "CONFIRA SEUS ITENS" */
+    color: #1A202C !important; /* Texto escuro sobre fundo claro (original do elemento) */
+    background-color: #E2E8F0 !important; /* Fundo claro para o texto "CONFIRA SEUS ITENS" */
+}
+
+/* Navbar do frontend no modo escuro */
+body[data-theme='dark'] .navbar.bg-light {
+    background-color: #2D3748 !important; /* Fundo escuro para navbar */
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.50) !important;
+}
+body[data-theme='dark'] .navbar.bg-light .navbar-brand,
+body[data-theme='dark'] .navbar.bg-light .navbar-brand small {
+    color: #E2E8F0 !important; /* Texto claro para a marca */
+}
+body[data-theme='dark'] .navbar.bg-light .bi-cart3 {
+    color: #E2E8F0 !important; /* Ícone do carrinho claro */
+}
+body[data-theme='dark'] .navbar.bg-light .badge-carrinho {
+    background-color: var(--tp-heading-secondary, #ffae01) !important; /* Cor do badge mantida */
+    color: #1A202C !important; /* Texto escuro no badge para contraste */
+}
+
+/* Abas de navegação no frontend (Categorias, Combos, Promoções) */
+body[data-theme='dark'] .tab-class .nav-pills .nav-link .text-body {
+    color: #A0AEC0 !important; /* Cor para texto não ativo da aba */
+}
+body[data-theme='dark'] .tab-class .nav-pills .nav-link.active .text-body,
+body[data-theme='dark'] .tab-class .nav-pills .nav-link:hover .text-body {
+    color: #63B3ED !important; /* Cor para texto ativo/hover da aba */
+}
+body[data-theme='dark'] .tab-class .nav-pills .nav-link h6 {
+    color: #E2E8F0 !important; /* Cor para subtítulo da aba */
+}
+body[data-theme='dark'] .tab-class .nav-pills .nav-link.active h6,
+body[data-theme='dark'] .tab-class .nav-pills .nav-link:hover h6 {
+    color: #90CDF4 !important;
+}
+
+/* Input de busca no frontend */
+body[data-theme='dark'] #buscar {
+    background-color: transparent !important;
+    color: #E2E8F0 !important;
+    border-bottom: 1px solid #4A5568 !important;
+}
+body[data-theme='dark'] #buscar::placeholder {
+    color: #A0AEC0 !important;
+}
+body[data-theme='dark'] .icon-search {
+    color: #A0AEC0 !important;
+}
+
+/* Cards de categoria no frontend (Swiper e Lista Elegante) */
+body[data-theme='dark'] .category__item {
+    background: #2D3748 !important;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 3px 8px !important;
+}
+body[data-theme='dark'] .category__content h6 { /* Nome da categoria */
+    color: #F7FAFC !important;
+}
+body[data-theme='dark'] .category__content p { /* Descrição e contagem de itens */
+    color: #A0AEC0 !important;
+}
+
+body[data-theme='dark'] .elegant-category-list .elegant-category-item {
+    background-color: #2D3748 !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25) !important;
+}
+body[data-theme='dark'] .elegant-category-list .elegant-category-item:hover {
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35) !important;
+}
+body[data-theme='dark'] .elegant-category-list .elegant-category-title {
+    color: #F7FAFC !important;
+}
+body[data-theme='dark'] .elegant-category-list .elegant-category-count {
+    color: #A0AEC0 !important;
+}
+body[data-theme='dark'] .elegant-category-list .elegant-category-thumb img {
+    border-color: #4A5568 !important;
+}
+
+/* Cards de produto no frontend (Ofertas e Combos) */
+body[data-theme='dark'] .tpbrandproduct__item {
+    background-color: #2D3748 !important;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 8px 0px !important;
+    border-color: #4A5568 !important;
+}
+body[data-theme='dark'] .tpbrandproduct__contact span, /* Nome do produto */
+body[data-theme='dark'] .tpbrandproduct__contact .tpbrandproduct__product-title a {
+    color: #F7FAFC !important;
+}
+body[data-theme='dark'] .tpbrandproduct__contact .fst-italic { /* Descrição */
+    color: #A0AEC0 !important;
+}
+body[data-theme='dark'] .tpblog__item { /* Usado para combos */
+    background-color: #2D3748 !important;
+}
+body[data-theme='dark'] .tpblog__item span, /* Nome do combo */
+body[data-theme='dark'] .tpblog__item b { /* Nome do combo em negrito */
+    color: #F7FAFC !important;
+}
+body[data-theme='dark'] .tpblog__item span[style*="color: #939393"] { /* Descrição do combo */
+    color: #A0AEC0 !important;
+}
+
+/* Rodapé do frontend */
+body[data-theme='dark'] .rodape {
+    background: #1A202C !important;
+    color: #A0AEC0 !important;
+}
+body[data-theme='dark'] .rodape .link-neutro {
+    color: #A0AEC0 !important;
+}
+body[data-theme='dark'] .rodape .link-neutro:hover {
+    color: #E2E8F0 !important;
+}
+body[data-theme='dark'] .rodape .bi-whatsapp {
+    color: #48BB78 !important; /* Verde do WhatsApp */
+}
+body[data-theme='dark'] .rodape .bi-instagram {
+    color: #E1306C !important; /* Cor do Instagram */
+}
+body[data-theme='dark'] .rodape .bi-lock {
+    color: #E53E3E !important; /* Vermelho para o cadeado */
+}
+
+/* === Contraste Adicional para home.php (Painel) no Modo Escuro === */
+
+/* Títulos de Cards Gerais na Home e Título do Gráfico */
+body.dark-mode .main-content.app-content .card-header h3.card-title,
+body.dark-mode .main-content.app-content .card-header .card-title,
+body.dark-mode .main-content.app-content .card.custom-card.overflow-hidden .card-header .card-title {
+    color: #F7FAFC !important;
+}
+
+/* Card "Vendas / DELIVERY" */
+body.dark-mode .main-content.app-content .card-vendas-delivery-home .country-card .d-flex span.tx-13.font-weight-semibold { /* Nomes como "Delivery", "Consumir Local" */
+    color: #E2E8F0 !important;
+}
+
+body.dark-mode .main-content.app-content .card-vendas-delivery-home .country-card .d-flex .ms-auto { /* Container dos valores e porcentagens */
+    color: #CBD5E0 !important;
+}
+body.dark-mode .main-content.app-content .card-vendas-delivery-home .country-card .d-flex .ms-auto span { /* Porcentagens (%) */
+    color: #CBD5E0 !important;
+}
+
+
+body.dark-mode .main-content.app-content .card-vendas-delivery-home .country-card .d-flex .ms-auto span.number-font b { /* Valores R$ */
+    color: #F7FAFC !important;
+}
+
+/* Ícone de dólar no card de Vendas/Delivery */
+body.dark-mode .main-content.app-content .card-vendas-delivery-home .country-card .d-flex .ms-auto span.text-info i.fa-solid.fa-dollar-sign {
+    color: #63B3ED !important;
+}
+
+/* Fundo da barra de progresso no card de Vendas/Delivery */
+body.dark-mode .main-content.app-content .card-vendas-delivery-home .progress {
+    background-color: #4A5568 !important;
+}
+
+/* Card "PAINEL DE INFORMAÇÕES" (Anotações) */
+body.dark-mode .main-content.app-content .card-anotacao .card-anotacao-titulo strong { /* Título "PAINEL DE INFORMAÇÕES" */
+    color: #F7FAFC !important;
+}
+
+body.dark-mode .main-content.app-content .card-anotacao .card-anotacao-item b { /* Título de cada anotação */
+    color: #E2E8F0 !important;
+}
+body.dark-mode .main-content.app-content .card-anotacao .card-anotacao-item div, /* Texto principal da anotação */
+body.dark-mode .main-content.app-content .card-anotacao .card-anotacao-item small { /* Texto "Por: ..." da anotação */
+    color: #D1D5DB !important;
+}
+
+/* Cards de Estatísticas (Clientes Cadastrados, Despesas Vencidas, etc.) */
+body.dark-mode .main-content.app-content .sales-card .ps-4.pt-4.pe-3.pb-4 p.mb-1 { /* Título do card, ex: "Clientes Cadastrados" */
+    color: #E2E8F0 !important;
+}
+
+body.dark-mode .main-content.app-content .sales-card .pb-0.mt-0 h4.tx-20 { /* Valor principal, ex: número de clientes */
+    color: #F7FAFC !important;
+}
+
+body.dark-mode .main-content.app-content .sales-card .pb-0.mt-0 p.mb-0.tx-12.text-muted, /* Texto secundário, ex: "Este Mês" */
+body.dark-mode .main-content.app-content .sales-card .pb-0.mt-0 p.mb-0.tx-12.text-muted span, /* Span dentro do texto secundário */
+body.dark-mode .main-content.app-content .sales-card .pb-0.mt-0 p.mb-0.tx-12.text-muted i /* Ícone de seta no texto secundário */
+{
+    color: #CBD5E0 !important;
+}
+/* Cor específica para ícones de sucesso e perigo dentro dos cards de estatística */
+body.dark-mode .main-content.app-content .sales-card .pb-0.mt-0 p.mb-0.tx-12.text-muted .text-success,
+body.dark-mode .main-content.app-content .sales-card .pb-0.mt-0 p.mb-0.tx-12.text-muted .iconSusses {
+    color: #68D391 !important; /* Verde claro */
+}
+body.dark-mode .main-content.app-content .sales-card .pb-0.mt-0 p.mb-0.tx-12.text-muted .text-danger,
+body.dark-mode .main-content.app-content .sales-card .pb-0.mt-0 p.mb-0.tx-12.text-muted .iconDanger {
+    color: #FC8181 !important; /* Vermelho claro */
+}

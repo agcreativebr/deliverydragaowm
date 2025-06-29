@@ -1,0 +1,676 @@
+/* c/xampp/htdocs/delivery/sistema/painel/css/modern-admin.css */
+
+/* Importar uma fonte moderna (Exemplo: Inter) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --admin-bg-primary: #f4f7f9; /* Cinza muito claro para o fundo */
+    --admin-bg-secondary: #ffffff; /* Branco para cards */
+    --admin-text-primary: #333; /* Preto suave */
+    --admin-text-secondary: #555; /* Cinza para texto secundário */
+    --admin-accent-primary: #007bff; /* Azul Bootstrap */
+    --admin-accent-secondary: #6c757d; /* Cinza Bootstrap */
+    --admin-border-color: #e0e5ec;
+    --admin-sidebar-bg: #2c3b41; /* Mantendo o original, pode ser alterado */
+    --admin-sidebar-text: #bac1c7;
+    --admin-sidebar-hover-bg: #374850;
+    --admin-sidebar-active-bg: #007bff;
+    --admin-header-bg: #ffffff;
+    --admin-header-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+    --admin-card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --admin-border-radius: 0.375rem; /* 6px */
+    --admin-border-radius-lg: 0.5rem; /* 8px */
+}
+
+body.ltr.main-body.app.sidebar-mini {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--admin-bg-primary);
+    color: var(--admin-text-primary);
+    font-size: 14px; /* Base font size */
+}
+
+/* Melhorias no Header */
+.main-header.side-header.sticky {
+    background-color: var(--admin-header-bg);
+    box-shadow: var(--admin-header-shadow);
+    border-bottom: 1px solid var(--admin-border-color);
+}
+
+.main-header-left .responsive-logo img.dark-logo-1 {
+    /* Ajuste para o logo no tema claro, se necessário */
+}
+
+.main-header-center .form-group {
+    /* Se houver uma barra de busca no header, pode ser estilizada aqui */
+}
+
+.main-header-right .nav-item .nav-link {
+    color: var(--admin-text-secondary);
+}
+.main-header-right .nav-item .nav-link:hover {
+    color: var(--admin-accent-primary);
+}
+.main-header-right .dropdown-menu {
+    border-radius: var(--admin-border-radius-lg);
+    box-shadow: var(--admin-card-shadow);
+    border-color: var(--admin-border-color);
+}
+.main-header-right .dropdown-item {
+    padding: 0.5rem 1rem;
+}
+.main-header-right .dropdown-item:hover {
+    background-color: var(--admin-accent-primary);
+    color: white;
+}
+.main-header-right .main-img-user img {
+    border: 2px solid var(--admin-accent-primary);
+}
+
+/* Melhorias na Sidebar (Menu Lateral) */
+.app-sidebar {
+    background: var(--admin-sidebar-bg);
+    box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+}
+.main-sidebar-header {
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.main-sidebar-header .main-logo {
+    height: 40px; /* Ajustar altura do logo */
+}
+
+.side-menu__item {
+    color: var(--admin-sidebar-text);
+    padding: 10px 20px;
+    margin: 4px 10px;
+    border-radius: var(--admin-border-radius);
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+.side-menu__item:hover,
+.side-menu__item:focus {
+    background-color: var(--admin-sidebar-hover-bg);
+    color: #fff;
+}
+.slide.is-expanded > .side-menu__item, /* Para item pai de submenu aberto */
+.slide-menu .slide-item.active, /* Para subitem ativo */
+.side-menu__item.active { /* Para item principal ativo */
+    background-color: var(--admin-accent-primary);
+    color: #fff;
+    font-weight: 500;
+}
+.side-menu__item.active .side-menu__icon,
+.slide.is-expanded > .side-menu__item .side-menu__icon {
+    color: #fff; /* Ícone branco no item ativo */
+}
+.side-menu__icon { /* Ícones do menu */
+    color: var(--admin-sidebar-text);
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 16px;
+    margin-right: 12px;
+    border-radius: 4px;
+    text-align: center;
+}
+.slide-menu { /* Submenu */
+    background-color: rgba(0,0,0,0.1); /* Fundo sutil para submenu */
+    padding-left: 15px; /* Indentação do submenu */
+}
+.slide-item {
+    color: var(--admin-sidebar-text);
+    padding: 8px 20px;
+    margin: 2px 5px 2px 15px; /* Ajustar margem para alinhar com ícone pai */
+}
+.slide-item:hover {
+    color: #fff;
+    background-color: var(--admin-sidebar-hover-bg);
+}
+
+/* Conteúdo Principal */
+.main-content .container-fluid {
+    padding: 20px;
+}
+
+/* Cards do Dashboard e Elementos Gerais */
+.card { /* Estilo base para cards do Bootstrap, se usados no painel */
+    background-color: var(--admin-bg-secondary);
+    border: 1px solid var(--admin-border-color);
+    border-radius: var(--admin-border-radius-lg);
+    box-shadow: var(--admin-card-shadow);
+    margin-bottom: 20px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.07);
+}
+.card-header {
+    background-color: #fcfdff; /* Um branco levemente diferente para o header do card */
+    border-bottom: 1px solid var(--admin-border-color);
+    font-weight: 600;
+    padding: 0.75rem 1.25rem;
+}
+.card-body {
+    padding: 1.25rem;
+}
+
+/* Cards de estatísticas específicos do template Glance (.widget, .r3_counter_box) */
+.widget, .r3_counter_box {
+    background-color: var(--admin-bg-secondary);
+    border: 1px solid var(--admin-border-color);
+    border-radius: var(--admin-border-radius-lg);
+    box-shadow: var(--admin-card-shadow);
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+.widget:hover, .r3_counter_box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.07);
+}
+.r3_counter_box .fa.pull-left { /* Ícones nos cards de estatística */
+    border-radius: var(--admin-border-radius);
+    padding: 12px;
+    font-size: 20px;
+    width: 48px;
+    height: 48px;
+    line-height: 24px; /* Ajustar para centralizar o ícone */
+    margin-right: 15px !important;
+}
+.r3_counter_box h5 { /* Números nos cards */
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--admin-text-primary);
+    margin-top: 5px; /* Ajuste para alinhar melhor com o ícone */
+}
+.stats span { /* Texto abaixo dos números */
+    font-size: 0.85rem;
+    color: var(--admin-text-secondary);
+}
+
+/* Botões */
+.btn {
+    border-radius: var(--admin-border-radius);
+    padding: 0.6rem 1.2rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    font-size: 0.875rem; /* 14px */
+}
+.btn-primary {
+    background-color: var(--admin-accent-primary);
+    border-color: var(--admin-accent-primary);
+    color: white;
+}
+.btn-primary:hover {
+    background-color: #0056b3; /* Darken primary */
+    border-color: #0056b3;
+    color: white;
+}
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+}
+.btn-success:hover {
+    background-color: #1e7e34;
+    border-color: #1e7e34;
+    color: white;
+}
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+.btn-danger:hover {
+    background-color: #b02a37;
+    border-color: #b02a37;
+    color: white;
+}
+.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #212529; /* Texto escuro para contraste */
+}
+.btn-warning:hover {
+    background-color: #d39e00;
+    border-color: #d39e00;
+    color: #212529;
+}
+
+
+/* Tabelas */
+.table {
+    background-color: var(--admin-bg-secondary);
+    border-radius: var(--admin-border-radius-lg);
+    box-shadow: var(--admin-card-shadow);
+    border: 1px solid var(--admin-border-color);
+}
+.table thead th {
+    background-color: #f8f9fc; /* Um cinza bem claro para cabeçalho da tabela */
+    color: var(--admin-text-primary);
+    font-weight: 600;
+    border-bottom: 2px solid var(--admin-border-color);
+    font-size: 0.875rem;
+    padding: 0.75rem;
+}
+.table tbody td {
+    padding: 0.75rem;
+    vertical-align: middle;
+    font-size: 0.875rem;
+    border-top: 1px solid var(--admin-border-color);
+}
+.table tbody tr:hover {
+    background-color: #f1f3f5;
+}
+
+/* Formulários */
+.form-control, .form-select {
+    border-radius: var(--admin-border-radius);
+    border-color: var(--admin-border-color);
+    padding: 0.6rem 0.75rem;
+    font-size: 0.875rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--admin-accent-primary);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+label {
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+    font-size: 0.875rem;
+}
+
+/* Animações e Transições */
+.widget, .r3_counter_box, .btn, .side-menu__item, .card {
+    transition: all 0.25s ease-in-out;
+}
+
+/* Melhorias para Navegação Mobile na Sidebar */
+@media (max-width: 767px) {
+    .main-content.app-content { /* Ajustar padding do conteúdo principal no mobile */
+        padding-top: 70px; /* Altura do header mobile */
+    }
+
+    .app-sidebar { /* Menu lateral no mobile */
+        padding-top: 0;
+        z-index: 1045; /* Acima do conteúdo, abaixo de modais */
+    }
+    .main-sidebar-header.active {
+        padding: 10px 15px; /* Ajustar padding do logo no menu mobile */
+    }
+    .main-sidebar-header .responsive-logo {
+        display: flex;
+        align-items: center;
+    }
+     .main-sidebar-header .responsive-logo img {
+        max-height: 35px;
+    }
+
+    .side-menu__item {
+        padding: 12px 15px;
+        font-size: 0.95rem;
+    }
+    .slide-item {
+        padding: 10px 15px 10px 30px; /* Mais indentação para subitens */
+        font-size: 0.9rem;
+    }
+
+    .main-header-left .responsive-logo {
+        margin-left: 0 !important;
+    }
+    .main-header-left .app-sidebar__toggle {
+        margin-left: 10px;
+        color: var(--admin-accent-primary); /* Cor do ícone do menu hambúrguer */
+    }
+    .main-header-right {
+        padding-right: 10px;
+    }
+    .main-header-right .dropdown.main-profile-menu {
+        margin-left: 5px;
+    }
+    /* Ocultar elementos menos críticos no header mobile */
+    .main-header-right .nav-item.fullscreen-button,
+    .main-header-right .nav-item .theme-layout,
+    .main-header-right .dropdown.main-header-message:not(:last-child) /* Oculta notificações exceto a última (perfil) */
+     {
+        display: none !important;
+    }
+    .main-header-right .dropdown.main-header-message .badge { /* Ajustar badge de notificação */
+        top: 5px;
+        right: 5px;
+    }
+}
+
+/* Footer */
+.main-footer {
+    background-color: var(--admin-bg-secondary);
+    border-top: 1px solid var(--admin-border-color);
+    color: var(--admin-text-secondary);
+    padding: 1rem 1.25rem;
+    font-size: 0.875rem;
+}
+.main-footer a {
+    color: var(--admin-accent-primary);
+}
+.main-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Overlay para menu mobile */
+.body-overlay-admin {
+  background-color: rgba(0, 0, 0, 0.4);
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 1040; /* Abaixo do menu (1045), acima do conteúdo */
+  left: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+}
+.body-overlay-admin.opened {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Estilos para Tabela Ordenável */
+.sortable-th {
+  cursor: pointer;
+  position: relative; /* Para posicionar o ícone de ordenação */
+}
+
+.sortable-th .fa-sort,
+.sortable-th .fa-sort-up,
+.sortable-th .fa-sort-down {
+  margin-left: 5px;
+  color: #888; /* Cor padrão para o ícone */
+}
+
+/* Oculta o ícone genérico quando uma coluna está ordenada */
+.sortable-th.sorted-asc .fa-sort,
+.sortable-th.sorted-desc .fa-sort {
+    display: none; 
+}
+
+/* Mostra o ícone correto para ascendente e oculta o descendente */
+.sortable-th .fa-sort-up {
+    display: none; /* Oculto por padrão */
+}
+.sortable-th.sorted-asc .fa-sort-up {
+    display: inline-block !important;
+    color: var(--admin-accent-primary); /* Cor para ícone de ordenação ascendente */
+}
+
+/* Mostra o ícone correto para descendente e oculta o ascendente */
+.sortable-th .fa-sort-down {
+    display: none; /* Oculto por padrão */
+}
+.sortable-th.sorted-desc .fa-sort-down {
+    display: inline-block !important;
+    color: var(--admin-accent-primary); /* Cor para ícone de ordenação descendente */
+}
+
+
+/* Estilos para Botões de Filtro */
+.filter-buttons-container {
+  display: flex;
+  flex-wrap: wrap; /* Permite que os botões quebrem para a próxima linha em telas menores */
+  justify-content: center; /* Centraliza os botões no container */
+  gap: 10px; /* Espaço entre os botões */
+  padding: 10px 0;
+  margin-bottom: 15px; /* Espaço abaixo dos botões */
+}
+
+.filter-btn {
+  display: inline-flex; /* Para alinhar ícone e texto */
+  align-items: center; /* Alinha verticalmente ícone e texto */
+  justify-content: center; /* Centraliza conteúdo do botão */
+  min-width: 140px;  /* Largura mínima para todos os botões */
+  height: 40px;     /* Altura fixa para todos os botões */
+  padding: 0 15px;  /* Espaçamento interno */
+  font-size: 11px !important; /* Mantém o tamanho da fonte original, mas pode ser ajustado */
+  border-radius: var(--admin-border-radius); /* Cantos levemente arredondados */
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, transform 0.1s ease;
+  border: 1px solid transparent; /* Borda base */
+  text-transform: uppercase;
+  font-weight: 600; /* Um pouco mais de peso na fonte */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08); /* Sombra sutil inicial */
+}
+
+.filter-btn svg {
+  margin-right: 8px; /* Espaço entre o ícone e o texto */
+  width: 1em; /* Tamanho do ícone relativo à fonte */
+  height: 1em;
+  vertical-align: middle; /* Alinha o SVG com o texto */
+}
+
+.filter-btn:hover {
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+  transform: translateY(-1px); /* Leve elevação no hover */
+  filter: brightness(95%);
+}
+
+.filter-btn:active {
+    filter: brightness(90%);
+    transform: translateY(0px); /* Remove a elevação ao clicar */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+/* Cores específicas dos botões (mantendo as originais ou ajustando) */
+.btn-filter-todas {
+  background-color: #4a5568; /* Cinza escuro */
+  color: white;
+  border-color: #4a5568;
+}
+.btn-filter-todas:hover {
+  background-color: #2d3748;
+  border-color: #2d3748;
+}
+
+/* Cores para os botões de status dos pedidos */
+/* Se você já tem classes como .btn_iniciado, .btn_aceito no seu style.css principal, 
+   elas podem ser usadas ou você pode definir novas cores aqui. */
+
+.btn-filter-iniciados, .btn_iniciado { /* Adicionando .btn_iniciado para manter compatibilidade se usado em outro lugar */
+  background-color: #6f42c1; /* Roxo - Exemplo para Iniciados */
+  color: white;
+  border-color: #6f42c1;
+}
+.btn-filter-iniciados:hover, .btn_iniciado:hover {
+  background-color: #5a32a3;
+  border-color: #502c90;
+}
+
+.btn-filter-aceitos, .btn_aceito { /* Adicionando .btn_aceito */
+  background-color: #28a745; /* Verde - Exemplo para Aceitos */
+  color: white;
+  border-color: #28a745;
+}
+.btn-filter-aceitos:hover, .btn_aceito:hover {
+  background-color: #1e7e34;
+  border-color: #1c7430;
+}
+
+
+.btn-filter-preparando { /* Mantendo a cor original do Bootstrap para btn-warning */
+  background-color: #ffc107; 
+  color: #212529;
+  border-color: #ffc107;
+}
+.btn-filter-preparando:hover {
+  background-color: #e0a800;
+  border-color: #d39e00;
+}
+
+.btn-filter-rota { /* Mantendo a cor original do Bootstrap para btn-success */
+  background-color: #198754; 
+  color: white;
+  border-color: #198754;
+}
+.btn-filter-rota:hover {
+  background-color: #157347;
+  border-color: #146c43;
+}
+
+/* Ajustes para os badges dentro dos botões */
+.filter-btn .badge {
+  font-size: 0.8em; /* Ajusta o tamanho do badge se necessário */
+  padding: .3em .5em;
+  background-color: rgba(255,255,255,0.2) !important; /* Badge semi-transparente para botões escuros */
+  color: white !important; /* Garante que o texto do badge seja branco */
+}
+.btn-filter-preparando .badge { /* Badge para botão amarelo (warning) */
+    background-color: rgba(0,0,0,0.15) !important;
+    color: #212529 !important; /* Texto escuro para contraste com fundo amarelo */
+}
+
+/* Estilização para Cards da Home (Estatísticas, Tarefas, Vendas/Delivery) */
+.sales-card,
+.card.custom-card.overflow-hidden, /* Card do gráfico */
+.card-anotacao, /* Classe para cards de anotações, se quiser diferenciar */
+.card-tarefas-home, /* Classe para card de tarefas na home */
+.card-vendas-delivery-home /* Classe para card de Vendas/Delivery na home */
+{
+    border-radius: var(--admin-border-radius-lg, 0.5rem) !important; /* Usa variável do tema ou um valor padrão */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08) !important; /* Sombra mais suave e moderna */
+    border: none !important; /* Remover bordas padrão se não forem necessárias */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
+    margin-bottom: 25px !important; /* Espaçamento consistente */
+}
+
+.sales-card:hover,
+.card.custom-card.overflow-hidden:hover,
+.card-anotacao:hover,
+.card-tarefas-home:hover,
+.card-vendas-delivery-home:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Ícones dentro dos cards de estatísticas */
+.sales-card .circle-icon {
+    border-radius: 12px !important; /* Ícones menos redondos, mais modernos */
+    padding: 15px !important;
+    width: 50px !important;
+    height: 50px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.sales-card .circle-icon i {
+    font-size: 20px !important; /* Tamanho do ícone */
+}
+
+/* Cores de fundo para os ícones (pode criar mais classes se necessário) */
+.iconBgSusses { background-color: rgba(40, 167, 69, 0.15) !important; }
+.iconBgSusses i { color: #28a745 !important; }
+
+.iconBgDanger { background-color: rgba(220, 53, 69, 0.15) !important; }
+.iconBgDanger i { color: #dc3545 !important; }
+
+.iconBgPrimary { background-color: rgba(0, 123, 255, 0.15) !important; } /* Exemplo */
+.iconBgPrimary i { color: #007bff !important; }
+
+.iconBgWarning { background-color: rgba(255, 193, 7, 0.15) !important; } /* Exemplo */
+.iconBgWarning i { color: #ffc107 !important; }
+
+
+/* Textos dentro dos cards de estatísticas */
+.sales-card .ps-4.pt-4.pe-3.pb-4 p.mb-1 { /* Título do card, ex: "Clientes Cadastrados" */
+    font-size: 0.85rem;
+    color: var(--admin-text-secondary, #555); /* Usar variável do tema ou um cinza */
+    font-weight: 500;
+}
+
+.sales-card .pb-0.mt-0 h4.tx-20 { /* Valor principal, ex: número de clientes */
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--admin-text-primary, #333);
+}
+
+.sales-card .pb-0.mt-0 p.mb-0.tx-12 { /* Texto secundário, ex: "Este Mês" */
+    font-size: 0.75rem;
+    color: var(--admin-text-secondary, #6c757d);
+}
+.sales-card .pb-0.mt-0 p.mb-0.tx-12 .iconSusses,
+.sales-card .pb-0.mt-0 p.mb-0.tx-12 .iconDanger,
+.sales-card .pb-0.mt-0 p.mb-0.tx-12 .iconHome {
+    font-weight: 600;
+}
+
+/* Card do Gráfico */
+.card.custom-card.overflow-hidden .card-header .card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--admin-text-primary, #333);
+}
+
+/* Painel de Informações (Anotações) */
+.card-anotacao-titulo { /* Div que contém o título "PAINEL DE INFORMAÇÕES" */
+    background-color: var(--admin-bg-secondary, #fff);
+    padding: 15px !important;
+    text-align: center !important;
+    border-radius: var(--admin-border-radius-lg, 0.5rem) var(--admin-border-radius-lg, 0.5rem) 0 0 !important; /* Arredondar cantos superiores */
+}
+.card-anotacao-titulo strong {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--admin-accent-primary, #007bff); /* Cor de destaque para o título */
+}
+
+.card-anotacao-item { /* Div para cada anotação individual */
+    background-color: var(--admin-bg-secondary, #fff);
+    padding: 12px 15px !important;
+    font-size: 0.875rem !important;
+    border-top: 1px solid var(--admin-border-color, #e0e5ec) !important;
+}
+.card-anotacao-item:last-child {
+     border-radius: 0 0 var(--admin-border-radius-lg, 0.5rem) var(--admin-border-radius-lg, 0.5rem) !important;
+}
+.card-anotacao-item b { /* Título da anotação */
+    color: var(--admin-text-primary, #333);
+    font-weight: 600;
+}
+
+/* Card de Vendas/Delivery */
+.card-vendas-delivery-home .card-header .card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.card-vendas-delivery-home .country-card .d-flex span.tx-13 {
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+.card-vendas-delivery-home .country-card .d-flex .ms-auto span.number-font b {
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+.card-vendas-delivery-home .progress {
+    height: 10px !important;
+}
+
+/* Ajustes para modo escuro nos cards da home (complementar ao style-dark.css) */
+body.dark-mode .sales-card .ps-4.pt-4.pe-3.pb-4 p.mb-1 {
+    color: #A0AEC0 !important;
+}
+body.dark-mode .sales-card .pb-0.mt-0 h4.tx-20 {
+    color: #F7FAFC !important;
+}
+body.dark-mode .sales-card .pb-0.mt-0 p.mb-0.tx-12 {
+    color: #A0AEC0 !important;
+}
+
+body.dark-mode .card-anotacao-titulo {
+    background-color: #354152 !important; /* Um pouco mais claro que o fundo do card */
+}
+body.dark-mode .card-anotacao-titulo strong {
+    color: #8cb4ff !important; /* Cor de destaque clara */
+}
+body.dark-mode .card-anotacao-item {
+    background-color: #2D3748 !important;
+    border-top-color: #4A5568 !important;
+}
+body.dark-mode .card-anotacao-item b {
+    color: #E2E8F0 !important;}

@@ -88,6 +88,10 @@ if (@count($res1) > 0) {
 
 
 <head>
+
+
+
+
 	<meta charset="UTF-8">
 	<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -110,12 +114,14 @@ if (@count($res1) > 0) {
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/modernizr.custom.js"></script>
 
+
 	<!-- fontawesome-->
 	<link rel="stylesheet" type="text/css" href="../fontawesome/css/all.min.css">
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 	<!-- SweetAlert2 JS -->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 </head>
 
@@ -131,16 +137,22 @@ if (@count($res1) > 0) {
 
 	<!-- Page -->
 	<div class="page">
+
 		<div>
 			<!-- APP-HEADER1 -->
 			<div class="main-header side-header sticky nav nav-item">
-				<div class="main-container container-fluid">
-					<div class="main-header-left">
+				<div class=" main-container container-fluid">
+					<div class="main-header-left ">
+
+
+
 						<div class="responsive-logo logo_painel">
 							<a href="index.php" class="header-logo">
-								<img src="../img/foto-painel.png" class="obile-logo dark-logo-1 logo_painel" alt="logo" style="margin-left: -120px !important">
+								<img src="../img/foto-painel.png" class="obile-logo dark-logo-1 logo_painel" alt="logo"
+									style="margin-left: -120px !important">
 							</a>
 						</div>
+
 
 						<div class="app-sidebar__toggle" data-bs-toggle="sidebar">
 							<a class="open-toggle" href="javascript:void(0);"><i class="header-icon fe fe-align-left"></i></a>
@@ -153,64 +165,79 @@ if (@count($res1) > 0) {
 							</a>
 						</div>
 						<div class="main-header-center ms-4 d-sm-none d-md-none d-lg-block form-group">
+
 						</div>
 					</div>
 
-					<!-- Adicionar data -->
+					<!-- Adiiconar data -->
 					<div class="ocultar_mobile ocultar_tablet">
 						<?php
 						$hora = date('H');
+
 						$diaMes = date('d');
 						$diaSemana = date('w');
 						$mes = date('n') - 1;
 						$ano = date('Y');
 
 						$nomesDiasDaSemana = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+
 						$nomeDosMeses = ['Janeiro', 'Fevereiro', 'março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
 						$dataFormatada = $nomesDiasDaSemana[$diaSemana] . ', ' . $diaMes . ' de ' . $nomeDosMeses[$mes] . ' de ' . $ano;
 
 						if ($hora < 12 && $hora >= 6)
 							$saudacao = "Bom Dia";
+
 						if ($hora >= 12 && $hora < 18)
 							$saudacao = "Boa Tarde";
+
 						if ($hora >= 18 && $hora <= 23)
 							$saudacao = "Boa Noite";
 						if ($hora < 6 && $hora >= 0)
 							$saudacao = "Boa madrugada";
 
 						$primeiroNome = substr($nome_usuario, 0, strpos($nome_usuario, ' '));
+
+
 						?>
 						<div style="font-size: 15px; color: #A9ABBD">
 							<?php echo $saudacao . ' <b>' . $primeiroNome ?>
 						</div>
+
 					</div>
 
 					<!-- Fim da data -->
 					<div class="main-header-right">
+
 						<div class="mb-0 navbar navbar-expand-lg navbar-nav-right responsive-navbar navbar-dark p-0">
 							<div class="" id="navbarSupportedContent-4">
 								<ul class="nav nav-item header-icons navbar-nav-right ms-auto">
+
 									<li class="dropdown nav-item" style="opacity: 0">
 										------------
 									</li>
 
+
+
 									<li class="dropdown nav-item ocultar_mobile">
 										<a class="new nav-link theme-layout nav-link-bg layout-setting">
-											<span class="dark-layout">
-												<svg xmlns="http://www.w3.org/2000/svg" class="header-icon-svgs" width="24" height="24" viewBox="0 0 24 24">
-													<path d="M20.742 13.045a8.088 8.088 0 0 1-2.077.271c-2.135 0-4.14-.83-5.646-2.336a8.025 8.025 0 0 1-2.064-7.723A1 1 0 0 0 9.73 2.034a10.014 10.014 0 0 0-4.489 2.582c-3.898 3.898-3.898 10.243 0 14.143a9.937 9.937 0 0 0 7.072 2.93 9.93 9.93 0 0 0 7.07-2.929 10.007 10.007 0 0 0 2.583-4.491 1.001 1.001 0 0 0-1.224-1.224zm-2.772 4.301a7.947 7.947 0 0 1-5.656 2.343 7.953 7.953 0 0 1-5.658-2.344c-3.118-3.119-3.118-8.195 0-11.314a7.923 7.923 0 0 1 2.06-1.483 10.027 10.027 0 0 0 2.89 7.848 9.972 9.972 0 0 0 7.848 2.891 8.036 8.036 0 0 1-1.484 2.059z" />
-												</svg>
-											</span>
-											<span class="light-layout">
-												<svg xmlns="http://www.w3.org/2000/svg" class="header-icon-svgs" width="24" height="24" viewBox="0 0 24 24">
-													<path d="M6.993 12c0 2.761 2.246 5.007 5.007 5.007s5.007-2.246 5.007-5.007S14.761 6.993 12 6.993 6.993 9.239 6.993 12zM12 8.993c1.658 0 3.007 1.349 3.007 3.007S13.658 15.007 12 15.007 8.993 13.658 8.993 12 10.342 8.993 12 8.993zM10.998 19h2v3h-2zm0-17h2v3h-2zm-9 9h3v2h-3zm17 0h3v2h-3zM4.219 18.363l2.12-2.122 1.415 1.414-2.12 2.122zM16.24 6.344l2.122-2.122 1.414 1.414-2.122 2.122zM6.342 7.759 4.22 5.637l1.415-1.414 2.12 2.122zm13.434 10.605-1.414 1.414-2.122-2.122 1.414-1.414z" />
-												</svg>
-											</span>
+											<span class="dark-layout"><svg xmlns="http://www.w3.org/2000/svg" class="header-icon-svgs"
+													width="24" height="24" viewBox="0 0 24 24">
+													<path
+														d="M20.742 13.045a8.088 8.088 0 0 1-2.077.271c-2.135 0-4.14-.83-5.646-2.336a8.025 8.025 0 0 1-2.064-7.723A1 1 0 0 0 9.73 2.034a10.014 10.014 0 0 0-4.489 2.582c-3.898 3.898-3.898 10.243 0 14.143a9.937 9.937 0 0 0 7.072 2.93 9.93 9.93 0 0 0 7.07-2.929 10.007 10.007 0 0 0 2.583-4.491 1.001 1.001 0 0 0-1.224-1.224zm-2.772 4.301a7.947 7.947 0 0 1-5.656 2.343 7.953 7.953 0 0 1-5.658-2.344c-3.118-3.119-3.118-8.195 0-11.314a7.923 7.923 0 0 1 2.06-1.483 10.027 10.027 0 0 0 2.89 7.848 9.972 9.972 0 0 0 7.848 2.891 8.036 8.036 0 0 1-1.484 2.059z" />
+												</svg></span>
+											<span class="light-layout"><svg xmlns="http://www.w3.org/2000/svg" class="header-icon-svgs"
+													width="24" height="24" viewBox="0 0 24 24">
+													<path
+														d="M6.993 12c0 2.761 2.246 5.007 5.007 5.007s5.007-2.246 5.007-5.007S14.761 6.993 12 6.993 6.993 9.239 6.993 12zM12 8.993c1.658 0 3.007 1.349 3.007 3.007S13.658 15.007 12 15.007 8.993 13.658 8.993 12 10.342 8.993 12 8.993zM10.998 19h2v3h-2zm0-17h2v3h-2zm-9 9h3v2h-3zm17 0h3v2h-3zM4.219 18.363l2.12-2.122 1.415 1.414-2.12 2.122zM16.24 6.344l2.122-2.122 1.414 1.414-2.122 2.122zM6.342 7.759 4.22 5.637l1.415-1.414 2.12 2.122zm13.434 10.605-1.414 1.414-2.122-2.122 1.414-1.414z" />
+												</svg></span>
 										</a>
 									</li>
 
-									<li class="dropdown nav-item main-header-message <?php echo $pedidos ?>">
+
+
+
+									<li class="dropdown nav-item  main-header-message <?php echo $pedidos ?>">
 										<?php
 										$query = $pdo->query("SELECT * FROM vendas where data = CurDate() and status = 'Iniciado'");
 										$res = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -223,17 +250,64 @@ if (@count($res1) > 0) {
 											$texto_pedidos = 'Nenhum Pedidos!';
 										}
 										?>
+
+
+
 										<a class="new nav-link" data-bs-toggle="dropdown" href="javascript:void(0);">
 											<small><i class="fa fa-cutlery"></i></small>
-											<span class="badge header-badge" style="background: #FFA200" id="total-dos-pedidos"><?php echo $total_reg ?></span>
+											<span class="badge  header-badge" style="background: #FFA200"
+												id="total-dos-pedidos"><?php echo $total_reg ?></span>
 										</a>
+
+
+
 										<div class="dropdown-menu">
 											<div class="menu-header-content text-start border-bottom">
 												<div class="d-flex">
 													<h6 class="dropdown-title mb-1 tx-15 font-weight-semibold"><?php echo $texto_pedidos ?></h6>
+
 												</div>
+
 											</div>
 											<div class="main-message-list chat-scroll">
+
+												<?php
+												$query = $pdo->query("SELECT * FROM vendas where data = CurDate() and status = 'Iniciado' order by id desc limit 6");
+												$res = $query->fetchAll(PDO::FETCH_ASSOC);
+												$total_reg = @count($res);
+												for ($i = 0; $i < $total_reg; $i++) {
+													foreach ($res[$i] as $key => $value) {
+													}
+													$id = $res[$i]['id'];
+													$cliente = $res[$i]['cliente'];
+													$valor = $res[$i]['valor'];
+													$valorF = number_format($valor, 2, ',', '.');
+													$entrega = $res[$i]['entrega'];
+
+													$query2 = $pdo->query("SELECT * FROM clientes where id = '$cliente'");
+													$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+													$total_reg2 = @count($res2);
+													if ($total_reg2 > 0) {
+														$nome_cliente = $res2[0]['nome'];
+													} else {
+														$nome_cliente = 'Nenhum!';
+													}
+												?>
+
+													<a href="pedidos" class="dropdown-item d-flex border-bottom">
+														<div class="wd-90p">
+															<div class="d-flex">
+																<span><b>Pedido (<?php echo $id ?>)</b>/ <span style="color:green !important">Valor:
+																		<?php echo $valorF ?></span></span>
+															</div>
+															<span style="font-size: 13px"><b>Cliente:</b> <?php echo $nome_cliente ?></span><br>
+															<span style="font-size: 11px; color: blue;"><?php echo $entrega ?></span>
+														</div>
+													</a>
+
+												<?php } ?>
+
+
 											</div>
 											<div class="text-center dropdown-footer">
 												<a class="btn btn-primary btn-sm btn-block text-center" href="pedidos">Ir para os Pedidos</a>
@@ -241,19 +315,66 @@ if (@count($res1) > 0) {
 										</div>
 									</li>
 
-									<li class="dropdown nav-item main-header-message">
+
+
+
+
+									<li class="dropdown nav-item  main-header-message <?php echo $receber ?>">
+
+										<?php
+
+										$query = $pdo->query("SELECT * from receber where vencimento < curDate() and pago != 'Sim' order by id asc");
+
+										$res = $query->fetchAll(PDO::FETCH_ASSOC);
+										$linhas = @count($res);
+										?>
+
 										<a class="new nav-link" data-bs-toggle="dropdown" href="javascript:void(0);">
 											<small><i class="fa fa-dollar" style="color:#fff3f2;"></i></small>
-											<span class="badge header-badge" style="background:green">0</span>
+											<span class="badge  header-badge" style="background:green"><?php echo $linhas ?></span>
 										</a>
+
+
+
 										<div class="dropdown-menu">
 											<div class="menu-header-content text-start border-bottom">
 												<div class="d-flex">
 													<h6 class="dropdown-title mb-1 tx-15 font-weight-semibold">Contas a Receber</h6>
+
 												</div>
-												<p class="dropdown-title-text subtext mb-0 op-6 pb-0 tx-12 ">0 Contas Vencidas!</p>
+												<p class="dropdown-title-text subtext mb-0 op-6 pb-0 tx-12 "><?php echo $linhas ?> Contas
+													Vencidas!</p>
 											</div>
+
 											<div class="main-message-list Notification-scroll">
+
+												<?php
+
+												$query = $pdo->query("SELECT * from receber where vencimento < curDate() and pago != 'Sim' order by id asc");
+
+												$res = $query->fetchAll(PDO::FETCH_ASSOC);
+												$linhas = @count($res);
+												for ($i = 0; $i < $linhas; $i++) {
+													$valor = $res[$i]['valor'];
+													$vencimento = $res[$i]['vencimento'];
+													$valorF = @number_format($valor, 2, ',', '.');
+													$vencimentoF = implode('/', array_reverse(@explode('-', $vencimento)));
+												?>
+
+													<a href="receber" class="dropdown-item d-flex border-bottom">
+
+														<div class="wd-90p">
+															<div class="d-flex">
+																<h5 class="mb-0 name" style="color:green">R$ <?php echo $valorF ?></h5>
+															</div>
+															<p class="mb-0 desc"><?php echo $res[$i]['descricao'] ?> </p>
+															<p class="time mb-0 text-start float-start ms-2"><?php echo $vencimentoF ?> </p>
+														</div>
+													</a>
+
+												<?php } ?>
+
+
 											</div>
 											<div class="text-center dropdown-footer">
 												<a class="btn btn-primary btn-sm btn-block text-center" href="receber">Ver Todas</a>
@@ -261,28 +382,65 @@ if (@count($res1) > 0) {
 										</div>
 									</li>
 
-									<li class="dropdown nav-item main-header-message">
+
+
+
+
+									<li class="dropdown nav-item  main-header-message <?php echo $pagar ?>">
+										<?php
+										$query = $pdo->query("SELECT * from pagar where vencimento < curDate() and pago != 'Sim' order by id asc");
+
+										$res = $query->fetchAll(PDO::FETCH_ASSOC);
+										$linhas = @count($res);
+										?>
+
+
 										<a class="new nav-link" data-bs-toggle="dropdown" href="javascript:void(0);">
 											<small><i class="fa fa-dollar" style="color:#fff3f2;"></i></small>
-											<span class="badge header-badge" style="background:red">1</span>
+											<span class="badge  header-badge" style="background:red"><?php echo $linhas ?></span>
 										</a>
+
+
+
 										<div class="dropdown-menu">
 											<div class="menu-header-content text-start border-bottom">
 												<div class="d-flex">
 													<h6 class="dropdown-title mb-1 tx-15 font-weight-semibold">Contas a Pagar</h6>
+
 												</div>
-												<p class="dropdown-title-text subtext mb-0 op-6 pb-0 tx-12 ">1 Contas Vencidas!</p>
+												<p class="dropdown-title-text subtext mb-0 op-6 pb-0 tx-12 "><?php echo $linhas ?> Contas
+													Vencidas!</p>
 											</div>
+
 											<div class="main-message-list Not-scroll">
-												<a href="pagar" class="dropdown-item d-flex border-bottom">
-													<div class="wd-90p">
-														<div class="d-flex">
-															<h5 class="mb-0 name" style="color:red">R$ 0,00</h5>
+
+												<?php
+
+												$query = $pdo->query("SELECT * from pagar where vencimento < curDate() and pago != 'Sim' order by id asc");
+
+												$res = $query->fetchAll(PDO::FETCH_ASSOC);
+												$linhas = @count($res);
+												for ($i = 0; $i < $linhas; $i++) {
+													$valor = $res[$i]['valor'];
+													$valorF = @number_format($valor, 2, ',', '.');
+													$vencimento = $res[$i]['vencimento'];
+													$vencimentoF = implode('/', array_reverse(@explode('-', $vencimento)));
+												?>
+
+													<a href="pagar" class="dropdown-item d-flex border-bottom">
+
+														<div class="wd-90p">
+															<div class="d-flex">
+																<h5 class="mb-0 name" style="color:red">R$ <?php echo $valorF ?></h5>
+															</div>
+															<p class="mb-0 desc"><?php echo $res[$i]['descricao'] ?> </p>
+															<p class="time mb-0 text-start float-start ms-2"><?php echo $vencimentoF ?> </p>
 														</div>
-														<p class="mb-0 desc">Comissão Garçon </p>
-														<p class="time mb-0 text-start float-start ms-2">13/04/2025 </p>
-													</div>
-												</a>
+													</a>
+
+												<?php } ?>
+
+
 											</div>
 											<div class="text-center dropdown-footer">
 												<a class="btn btn-primary btn-sm btn-block text-center" href="pagar">Ver Todas</a>
@@ -290,12 +448,14 @@ if (@count($res1) > 0) {
 										</div>
 									</li>
 
+
+
 									<li class="nav-item full-screen fullscreen-button">
-										<a class="new nav-link full-screen-link" href="javascript:void(0);">
-											<svg xmlns="http://www.w3.org/2000/svg" class="header-icon-svgs" width="24" height="24" viewBox="0 0 24 24">
+										<a class="new nav-link full-screen-link" href="javascript:void(0);"><svg
+												xmlns="http://www.w3.org/2000/svg" class="header-icon-svgs" width="24" height="24"
+												viewBox="0 0 24 24">
 												<path d="M5 5h5V3H3v7h2zm5 14H5v-5H3v7h7zm11-5h-2v5h-5v2h7zm-2-4h2V3h-7v2h5z" />
-											</svg>
-										</a>
+											</svg></a>
 									</li>
 
 									<li class="dropdown main-profile-menu nav nav-item nav-link ps-lg-2">
@@ -324,6 +484,7 @@ if (@count($res1) > 0) {
 								</ul>
 							</div>
 						</div>
+
 					</div>
 				</div>
 			</div> <!-- /APP-HEADER -->
@@ -561,27 +722,27 @@ if (@count($res1) > 0) {
 
 
 
-							<li class="slide <?php echo @$minhas_comissoes ?>">
-								<a class="side-menu__item" href="minhas_comissoes">
-									<i class="fa fa-usd text-white"></i>
-									<span class="side-menu__label" style="margin-left: 15px">Minhas Comissões</span></a>
-							</li>
+										<li class="slide <?php echo @$minhas_comissoes ?>" >
+									<a class="side-menu__item" href="minhas_comissoes">
+										<i class="fa fa-usd text-white"></i>
+										<span class="side-menu__label" style="margin-left: 15px">Minhas Comissões</span></a>
+								</li>
+
+								
 
 
+										<li class="slide <?php echo @$marketing ?>" >
+									<a class="side-menu__item" href="marketing">
+										<i class="fa fa-phone text-white"></i>
+										<span class="side-menu__label" style="margin-left: 15px">Marketing</span></a>
+								</li>
 
 
-							<li class="slide <?php echo @$marketing ?>">
-								<a class="side-menu__item" href="marketing">
-									<i class="fa fa-phone text-white"></i>
-									<span class="side-menu__label" style="margin-left: 15px">Marketing</span></a>
-							</li>
-
-
-							<li class="slide <?php echo @$dispositivos ?>">
-								<a class="side-menu__item" href="dispositivos">
-									<i class="fa fa-phone text-white"></i>
-									<span class="side-menu__label" style="margin-left: 15px">Dispositivos</span></a>
-							</li>
+								<li class="slide <?php echo @$dispositivos ?>" >
+									<a class="side-menu__item" href="dispositivos">
+										<i class="fa fa-phone text-white"></i>
+										<span class="side-menu__label" style="margin-left: 15px">Dispositivos</span></a>
+								</li>
 
 
 						</ul>
@@ -630,8 +791,8 @@ if (@count($res1) > 0) {
 		<!--######################## RODAPÉ ###########################-->
 		<div class="main-footer">
 			<div class="container-fluid pt-0 ht-100p">
-				Copyright © 2025 Desevolvedor<a target="_BLACK" href="http://wa.me/5579981210784"
-					class="text-primary"> Creativebr</a>. Todos os direitos reservados
+				Copyright © <?php echo date('Y'); ?> Desevolvedor<a target="_BLACK" href="https://hugocursos.com.br/"
+					class="text-primary"> Hugo Vasconcelos</a>. Todos os direitos reservados
 			</div>
 		</div>
 		<!--######################## FIM RODAPÉ ###########################-->
@@ -659,8 +820,13 @@ if (@count($res1) > 0) {
 	<script src="../assets/plugins/bootstrap/js/popper.min.js"></script>
 	<script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 	<script src="../assets/plugins/moment/moment.js"></script>
+	<script src="../assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+	<script src="../assets/plugins/perfect-scrollbar/p-scroll.js"></script>
 	<script src="../assets/js/eva-icons.min.js"></script>
+	<script src="../assets/plugins/side-menu/sidemenu.js"></script>
 	<script src="../assets/js/sticky.js"></script>
+	<script src="../assets/plugins/sidebar/sidebar.js"></script>
+	<script src="../assets/plugins/sidebar/sidebar-custom.js"></script>
 
 
 	<!-- INTERNAL DATA TABLES -->
@@ -690,25 +856,9 @@ if (@count($res1) > 0) {
 	<!--INTERNAL  INDEX JS -->
 	<script src="../assets/js/index.js"></script>
 
-	<!-- Menu Dropdown JS -->
-	<script>
-		$(document).ready(function() {
-			// Inicializa todos os dropdowns do menu
-			$('.side-menu__item[data-bs-toggle="slide"]').on('click', function(e) {
-				e.preventDefault();
-				var $this = $(this);
-				var $parent = $this.parent();
 
-				// Fecha outros menus abertos
-				$('.slide-menu').not($parent.find('.slide-menu')).slideUp();
-				$('.slide').not($parent).removeClass('open');
 
-				// Toggle do menu atual
-				$parent.toggleClass('open');
-				$parent.find('.slide-menu').slideToggle();
-			});
-		});
-	</script>
+
 
 </body>
 
@@ -1348,7 +1498,7 @@ if (@count($res1) > 0) {
 							<label>API Mercado Pago</label>
 							<input type="text" class="form-control" id="api_merc" name="api_merc" placeholder="API Mercado Pago"
 								value="<?php echo @$api_merc ?>" <?php if ($nivel_usuario == 'Administrador') {
-																	} else { ?> readonly <?php } ?>>
+																									} else { ?> readonly <?php } ?>>
 						</div>
 
 						<div class="col-md-2">
@@ -1360,7 +1510,7 @@ if (@count($res1) > 0) {
 						<div class="col-md-3">
 							<label>Link Mensagem Retorno</label>
 							<input type="text" class="form-control" id="link_retorno" name="link_retorno" placeholder="Link na mensagem de retorno cliente"
-								value="<?php echo @$link_retorno ?>">
+								value="<?php echo @$link_retorno ?>" >
 						</div>
 					</div>
 
@@ -1368,7 +1518,7 @@ if (@count($res1) > 0) {
 						<div class="col-md-12">
 							<label>Mensagem Retorno Cliente <small>(Já virá no inicio um texto Olá (nome cliente), )</small></label>
 							<input type="text" class="form-control" id="mensagem_retorno" name="mensagem_retorno" placeholder="Texto mensagem de retorno cliente"
-								value="<?php echo @$mensagem_retorno ?>">
+								value="<?php echo @$mensagem_retorno ?>" >
 						</div>
 					</div>
 
@@ -1384,22 +1534,22 @@ if (@count($res1) > 0) {
 							<input type="number" name="valor_cupom" id="valor_cupom" class="form-control"
 								value="<?php echo @$valor_cupom_config ?>" placeholder="Valor do cupom">
 						</div>
-
+						
 						<!-- ADICIONAR ESTE CAMPO NA MODAL DE CONFIGURAÇÕES EXISTENTE -->
-
-
-						<div class="col-md-3">
-							<label>Taxa Cartão de Crédito (%)</label>
-							<input type="number" class="form-control" name="taxa_cartao" id="taxa_cartao"
-								value="<?php echo @$taxa_cartao ?>" step="0.01" min="0" max="100" required>
-							<small class="text-muted">Taxa adicional para pagamentos no cartão de crédito</small>
-						</div>
-
-
+                        
+                            
+                                <div class="col-md-3">
+                                    <label>Taxa Cartão de Crédito (%)</label>
+                                    <input type="number" class="form-control" name="taxa_cartao" id="taxa_cartao" 
+                                           value="<?php echo @$taxa_cartao ?>" step="0.01" min="0" max="100" required>
+                                    <small class="text-muted">Taxa adicional para pagamentos no cartão de crédito</small>
+                                </div>
+                            
+                        
 
 					</div>
-
-
+					
+					
 
 
 
@@ -1883,14 +2033,14 @@ if (@count($res1) > 0) {
 							<div class="form-group">
 								<label>Hora Inicial</label>
 								<input type="time" class="form-control" name="horaInicial" id=""
-									value="">
+									value="" >
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
 								<label>Hora Final</label>
 								<input type="time" class="form-control" name="horaFinal" id=""
-									value="">
+									value="" >
 							</div>
 						</div>
 
@@ -1961,6 +2111,7 @@ if (@count($res1) > 0) {
 
 <!-- SweetAlert JS -->
 <script src="js/sweetalert2.all.min.js"></script>
+<script src="js/sweetalert1.min.css"></script>
 <script src="js/alertas.js"></script>
 
 <!-- Alertas -->
@@ -1982,9 +2133,9 @@ if (@count($res1) > 0) {
 		var caixa_aberto = "<?= $caixa_esta_aberto ?>";
 		var obrigatorio_caixa = "<?= $abertura_caixa ?>";
 		var nivel_usuario = "<?= $nivel_usuario ?>";
-		if (caixa_aberto != 'Sim' && obrigatorio_caixa == 'Sim' && nivel_usuario != 'Administrador') {
+		if(caixa_aberto != 'Sim' && obrigatorio_caixa == 'Sim' && nivel_usuario != 'Administrador'){
 			alert("Não possui caixa Aberto, abra o caixa!");
-			window.location = "caixas";
+			window.location="caixas";
 			return;
 		}
 		document.getElementById("meuFormulario").submit();
@@ -2422,55 +2573,4 @@ if (@count($res1) > 0) {
 		document.getElementById('ano-' + campo).style.color = "#fff";
 		document.getElementById(id).style.color = "blue";
 	}
-</script>
-
-
-<script>
-	document.addEventListener('DOMContentLoaded', function() {
-		const body = document.body;
-		const appSidebarToggle = document.querySelector('.app-sidebar__toggle'); // Seletor do botão do menu
-		const appSidebar = document.querySelector('.app-sidebar'); // Seletor da sidebar
-
-		if (appSidebarToggle && appSidebar) {
-			appSidebarToggle.addEventListener('click', function(e) {
-				e.preventDefault();
-				body.classList.toggle('sidenav-toggled'); // Classe que o template usa para abrir/fechar
-
-				let overlay = document.querySelector('.body-overlay-admin');
-				if (!overlay) {
-					overlay = document.createElement('div');
-					overlay.className = 'body-overlay-admin';
-					body.appendChild(overlay);
-					overlay.addEventListener('click', function() { // Fechar menu ao clicar no overlay
-						body.classList.remove('sidenav-toggled');
-						this.classList.remove('opened');
-					});
-				}
-
-				if (body.classList.contains('sidenav-toggled')) {
-					overlay.classList.add('opened');
-				} else {
-					overlay.classList.remove('opened');
-				}
-			});
-		}
-	});
-</script>
-
-<script>
-	$(document).ready(function() {
-		// Destruir qualquer instância existente do DataTable
-		if ($.fn.DataTable.isDataTable('#tabela')) {
-			$('#tabela').DataTable().destroy();
-		}
-
-		// Inicializar o DataTable
-		$('#tabela').DataTable({
-			"language": {
-				"url": "//cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json"
-			},
-			"responsive": true,
-			"autoWidth": false
-		});
-	});
 </script>

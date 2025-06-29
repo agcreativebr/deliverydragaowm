@@ -56,15 +56,15 @@ if ($total_reg > 0) {
 	echo <<<HTML
 	<small>
 	<table class="table table-bordered text-nowrap border-bottom dt-responsive" id="tabela">
-	<thead> 
+	<thead class="thead-dark-mode">
 	<tr> 
-	<th>Cliente</th>	
-	<th>Valor</th> 	
+	<th class="sortable-th" data-column="cliente" data-type="varchar"> Cliente <i class="fas fa-sort"></i></th>	
+	<th class="sortable-th" data-column="valor" data-type="number"> Valor <i class="fas fa-sort"></i></th> 	
 	<th>Total Pago</th> 
 	<th>Troco</th>	
 	<th>Forma PGTO</th> 	
 	<th>Status</th>	 	
-	<th>Hora</th>		
+	<th class="sortable-th" data-column="hora" data-type="datatime">Hora <i class="fas fa-sort"></i></th>		
 	<th>Ações</th>
 	</tr> 
 	</thead> 
@@ -247,28 +247,19 @@ HTML;
 <td>{$hora}</td>
 <td>	
 
-		<a class="btn btn-{$classe_info}-light btn-sm" href="#" onclick="mostrar('{$id}', '{$nome_cliente}', '{$pedido}')" title="Ver Dados"><i class="fa fa-info-circle "></i></a>
+		<a class="btn btn-info btn-sm" href="#" onclick="mostrar('{$id}', '{$nome_cliente}', '{$pedido}')" title="Ver Dados"><i class="fa fa-info-circle"></i></a>
 
+		<a href="#" class="btn btn-danger btn-sm {$classe_excluir}" onclick="excluir('{$id}')" title="Excluir"><i class="fa fa-trash-can"></i></a>
 
+		<a class="btn btn-success btn-sm {$classe_excluir}" href="#" onclick="baixar('{$id}', '{$nome_cliente}', '{$tipo_pgto}')" title="Confirmar Pgto">
+		<i class="fa fa-check-square"></i></a>
 
-		<big><a href="#" class="btn btn-danger-light btn-sm {$classe_excluir}" onclick="excluir('{$id}')" title="Excluir"><i class="fa fa-trash-can text-danger"></i></a></big>
+		<a class="btn btn-success btn-sm" target="_blank" href="http://api.whatsapp.com/send?1=pt_BR&phone={$telefone_clienteF}" title="Whatsapp Cliente">
+		<i class="fa-brands fa-whatsapp"></i></a>
 
-
-
-<a class="btn btn-success-light btn-sm {$classe_excluir}" href="#" onclick="baixar('{$id}', '{$nome_cliente}', '{$tipo_pgto}')" title="Confirmar Pgto">
-<i class="fa fa-check-square"></i></a>
-
-
-<a class="btn btn-success-light btn-sm" target="_blank" href="http://api.whatsapp.com/send?1=pt_BR&phone={$telefone_clienteF}" title="Whatsapp Cliente">
-	<i class="fa-brands fa-whatsapp"></i></a>
-
-
-
-			<a class="btn btn-dark-light btn-sm" href="#" onclick="gerarComprovante('{$id}')" title="Gerar Comprovante"><i class="fa fa-file-pdf-o"></i></a>		
+		<a class="btn btn-dark btn-sm" href="#" onclick="gerarComprovante('{$id}')" title="Gerar Comprovante"><i class="fa fa-file-pdf-o"></i></a>		
 			
-		
-	
-		</td>
+</td>
 </tr>
 HTML;
 	}
@@ -300,20 +291,16 @@ $total_dos_itens_pedidos = @count($res);
 
 <script type="text/javascript">
 	$(document).ready(function() {
-
 		var ids = "<?= $ids ?>";
 		var id_imp = ids.split("-");
-		//alert(ids)
 
 		for (i = 0; i < id_imp.length - 1; i++) {
 			var id_pedido = id_imp[i];
-
 			let a = document.createElement('a');
 			a.target = '_blank';
 			a.href = 'rel/comprovante.php?id=' + id_pedido;
 			a.click();
 		}
-
 
 		$('#todos_pedidos').text("<?= $total_pedidos ?>");
 		$('#ini_pedidos').text("<?= $total_ini ?>");
@@ -321,15 +308,60 @@ $total_dos_itens_pedidos = @count($res);
 		$('#ent_pedidos').text("<?= $total_ent ?>");
 		$('#id_pedido').val("<?= $id_ult_pedido ?>");
 		$('#ace_pedidos').text("<?= $total_ace ?>");
-
 		$('#total-dos-pedidos').text("<?= $total_dos_itens_pedidos ?>");
 
+		// Inicializa o DataTable com configurações em português
+		if ($.fn.DataTable.isDataTable('#tabela')) {
+			$('#tabela').DataTable().destroy();
+		}
+
 		$('#tabela').DataTable({
+			"language": {
+				"url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Portuguese-Brasil.json"
+			},
 			"ordering": false,
 			"stateSave": true
 		});
-		$('#tabela_filter label input').focus();
+
+		// Remove event listeners antigos antes de adicionar novos
+		$('.btn-check').off('click').on('click', function() {
+			var status = $(this).data('status');
+			buscarContas(status);
+		});
 	});
+
+	function buscarContas(status) {
+		$('#buscar-contas').val(status);
+		listar();
+	}
+
+	function listar() {
+		var status = $('#buscar-contas').val();
+		$.ajax({
+			url: 'paginas/' + pag + "/listar.php",
+			method: 'POST',
+			data: {
+				status: status
+			},
+			dataType: "html",
+			success: function(result) {
+				$("#listar").html(result);
+
+				// Reinicializa o DataTable após atualizar o conteúdo
+				if ($.fn.DataTable.isDataTable('#tabela')) {
+					$('#tabela').DataTable().destroy();
+				}
+
+				$('#tabela').DataTable({
+					"language": {
+						"url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Portuguese-Brasil.json"
+					},
+					"ordering": false,
+					"stateSave": true
+				});
+			}
+		});
+	}
 </script>
 
 
@@ -444,8 +476,40 @@ $total_dos_itens_pedidos = @count($res);
 	}
 
 
-	function darDesconto(id){
+	function darDesconto(id) {
 		$('#id_desconto').val(id);
 		$('#modalDesconto').modal('show');
 	}
 </script>
+
+<input type="radio" class="btn-check" name="btnradio" id="btnradio1" checked onclick="buscarContas('')">
+<label class="btn btn-primary" for="btnradio1">Todos os Pedidos</label>
+
+<input type="radio" class="btn-check" name="btnradio" id="btnradio2" onclick="buscarContas('Iniciado')">
+<label class="btn btn-primary" for="btnradio2">Iniciados</label>
+
+<input type="radio" class="btn-check" name="btnradio" id="btnradio3" onclick="buscarContas('Aceito')">
+<label class="btn btn-primary" for="btnradio3">Aceitos</label>
+
+<input type="radio" class="btn-check" name="btnradio" id="btnradio4" onclick="buscarContas('Preparando')">
+<label class="btn btn-primary" for="btnradio4">Preparando</label>
+
+<input type="radio" class="btn-check" name="btnradio" id="btnradio5" onclick="buscarContas('Entrega')">
+<label class="btn btn-primary" for="btnradio5">Em Rota de Entrega</label>
+
+<div class="modal fade" id="modalDados" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header bg-primary text-white">
+				<h4 class="modal-title" id="exampleModalLabel"><span id="nome_dados"></span></h4>
+				<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<!-- Conteúdo do modal -->
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+			</div>
+		</div>
+	</div>
+</div>

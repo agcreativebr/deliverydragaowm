@@ -59,21 +59,6 @@
   margin-top: -49px;
 }
 
-
-.category__title {
-  font-weight: 500;
-  font-size: 15px;
-  line-height: 1.1;
-  color: var(--tp-heading-primary);
-  margin-bottom: 0;
-  font-family: "Jost", sans-serif;
-}
-
-.category__title a:hover {
-  color: #252525;
-
-}
-
 .img_combo {
   width: 250px;
   /* Largura do quadro */
@@ -93,5 +78,173 @@
   font-size: 14px;
 }
 
+/* ==========================================================================
+   Estilos Globais de Contraste para Modo Claro
+   ========================================================================== */
+body {
+  background-color: #F8F9FA; /* Cinza muito claro para o fundo */
+  color: #212529 !important; /* Preto suave para texto base */
+}
 
+/* Títulos Gerais */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  color: #1A202C !important; /* Preto mais forte para títulos */
+}
 
+/* Parágrafos e Texto Geral */
+p, span, div, label,
+.form-control, /* Texto dentro de inputs */
+.table td, .table th, /* Células e cabeçalhos de tabelas */
+.breadcrumb-item, /* Breadcrumbs */
+.dropdown-item, /* Itens de dropdown */
+.list-group-item, /* Itens de lista */
+.page-link, /* Links de paginação */
+.text-muted, /* Textos com a classe text-muted */
+.tpsection__sub-title, /* Dukamarket: Subtítulo de seção */
+.category__title, /* Dukamarket: Título de categoria */
+.tpbrandproduct__product-title, /* Dukamarket: Título de produto em brand */
+.tpblog__title, /* Dukamarket: Título de post de blog */
+.tpproduct__title, /* Dukamarket: Título de produto */
+.tpproduct__content-weight, /* Dukamarket: Peso/info de produto */
+.tpshop__widget label, /* Dukamarket: Labels no shop sidebar */
+.product__details-info-list li, /* Dukamarket: Lista de info de produto */
+.tpdescription__content p, .tpdescription__content span, /* Dukamarket: Descrição */
+.tpfaq__item .accordion-button, /* Dukamarket: FAQ */
+.tpfooter__widget p, .tpfooter__widget-time-info span, .tpfooter__widget-links ul li a, /* Dukamarket: Footer */
+.tpsidebar__product-category, .tpsidebar__product-title, /* Dukamarket: Sidebar de produto */
+.tplocation__content ul li, .tplocation__content ul li a, /* Dukamarket: Localização */
+.tpcontact-inner-text p, /* Dukamarket: Contato */
+.tpform__wrapper p, .tpform__textarea-check .form-check-label, /* Dukamarket: Formulário */
+.tptrack__item-content p /* Dukamarket: Rastreio */
+{
+  color: #333333 !important; /* Cinza escuro para textos comuns */
+}
+
+.main-content.app-content .form-control::placeholder, /* Placeholder no painel */
+.tpsearchbar__form input::placeholder, /* Placeholder busca Dukamarket */
+.tpform__input input::placeholder, /* Placeholder form contato Dukamarket */
+.tpform__textarea textarea::placeholder /* Placeholder textarea Dukamarket */
+{
+    color: #6c757d !important; /* Cinza padrão Bootstrap para placeholders */
+}
+
+/* Links Gerais */
+a, .btn-link,
+.category__title a, /* Dukamarket */
+.tpbrandproduct__product-title a, /* Dukamarket */
+.tpblog__title a, /* Dukamarket */
+.tpblog__details a, /* Dukamarket */
+.tpsidebar__widget-content ul li a, /* Dukamarket */
+.tpfooter__widget-links ul li a:hover, /* Dukamarket: Footer link hover */
+.tpform__textarea-check .form-check-label a /* Dukamarket */
+{
+  color: #0056b3 !important; /* Azul escuro para links */
+}
+
+a:hover, .btn-link:hover,
+.category__title a:hover,
+.tpbrandproduct__product-title a:hover,
+.tpblog__title a:hover,
+.tpblog__details a:hover,
+.tpsidebar__widget-content ul li a:hover,
+.tpform__textarea-check .form-check-label a:hover
+{
+  color: #004085 !important; /* Azul mais escuro para links no hover */
+}
+
+/* Específico para o menu lateral no modo claro (Painel) */
+.app-sidebar {
+  background: #ffffff !important;
+}
+
+.side-menu__item .side-menu__label,
+.side-menu__item .side-menu__icon,
+.slide.is-expanded .side-menu__label,
+.slide.is-expanded .side-menu__icon {
+  color: #334763 !important;
+}
+
+.side-menu__item:hover .side-menu__label,
+.side-menu__item:hover .side-menu__icon,
+.slide.is-expanded .side-menu__item:hover .side-menu__label,
+.slide.is-expanded .side-menu__item:hover .side-menu__icon {
+  color: #0056b3 !important;
+}
+
+.side-menu .slide.active > .side-menu__item .side-menu__label,
+.side-menu .slide.active > .side-menu__item .side-menu__icon {
+    color: #0056b3 !important;
+    font-weight: 600;
+}
+
+/* Correção Responsividade Menu Mobile (Painel) */
+.app-sidebar__toggle {
+  color: #1a1a32 !important;
+  padding: 0px;
+  display: flex; /* Mantido para mobile */
+  font-size: 20px;
+  cursor: pointer;
+  position: relative;
+  line-height: 45px;
+  margin-top: 5px;
+  margin-right: 15px;
+}
+
+@media (min-width: 769px) {
+  .app-sidebar__toggle {
+    display: none !important; /* Oculta em desktop */
+  }
+}
+
+@media (max-width: 768px) {
+  .app-sidebar__toggle {
+    display: flex !important; /* Exibe em mobile e tablet */
+  }
+}
+
+/* Cores específicas do tema Dukamarket que podem precisar de ajuste */
+.tpsection__sub-title { /* Já coberto pelo seletor geral de span/p/div, mas pode ser mais específico se necessário */
+  color: var(--tp-heading-secondary) !important; /* Mantendo a cor original do tema se for intencional */
+}
+
+.tpproduct__price span { /* Preço do produto Dukamarket */
+  color: var(--tp-theme-2) !important; /* Mantendo a cor original do tema se for intencional */
+}
+.tpproduct__price del {
+  color: #79819C !important; /* Cor para preço riscado */
+}
+
+.tpfooter__widget p a { /* Links no footer Dukamarket */
+  color: var(--tp-heading-secondary) !important;
+}
+.tpfooter__widget p a:hover {
+  color: var(--tp-common-white) !important;
+}
+
+.tpfooter__copyright-text a { /* Link de copyright Dukamarket */
+  color: var(--tp-heading-secondary) !important;
+}
+.tpfooter__copyright-text a:hover {
+  color: var(--tp-common-white) !important;
+}
+
+/* Para a página pedido.php (frontend) */
+body.pagina-pedido-confirmacao {
+    background-color: #ededdf !important;
+    color: #333333 !important;
+}
+body.pagina-pedido-confirmacao span,
+body.pagina-pedido-confirmacao p,
+body.pagina-pedido-confirmacao div,
+body.pagina-pedido-confirmacao b {
+    color: #333333 !important;
+}
+body.pagina-pedido-confirmacao .valor-item,
+body.pagina-pedido-confirmacao .valor-item-maior {
+    color: #025709 !important;
+}
+body.pagina-pedido-confirmacao p[style*="color:#FFF"] { /* Para o "CONFIRA SEUS ITENS" */
+    color: #FFF !important;
+}
+/* Se houver spans com cores inline específicas que precisam ser mantidas, elas não serão afetadas por este !important genérico */

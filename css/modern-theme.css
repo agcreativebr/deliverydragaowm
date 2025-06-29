@@ -1,0 +1,432 @@
+/* modern-theme.css */
+
+/* --- Tema Claro (Padrão, aproveitando variáveis do main.css) --- */
+:root {
+    --bg-primary: var(--tp-common-white, #ffffff);
+    --bg-secondary: var(--tp-grey-1, #F2F2F6); /* Usado para cards e seções */
+    --text-primary: var(--tp-common-black, #000);
+    --text-secondary: var(--tp-text-body, #4D5574);
+    --text-headings: var(--tp-heading-primary, #0f0888);
+    --accent-color: var(--tp-heading-secondary, #ffae01); /* Cor de destaque (amarelo/laranja do tema) */
+    --border-color: var(--tp-border-1, #E6EBF0);
+    --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    --navbar-bg: var(--tp-common-white, #ffffff);
+    --navbar-text: var(--tp-common-black, #000);
+    --button-primary-bg: var(--tp-heading-secondary, #ffae01);
+    --button-primary-text: var(--tp-common-white, #ffffff);
+}
+
+/* --- Tema Escuro --- */
+body[data-theme="dark"] {
+    --bg-primary: #1a1e25; /* Azul escuro profundo */
+    --bg-secondary: #232830; /* Um pouco mais claro para cards */
+    --text-primary: #e0e0e0; /* Cinza claro para texto principal */
+    --text-secondary: #a0a0a0; /* Cinza para texto secundário */
+    --text-headings: #7aa5ff; /* Azul claro para títulos */
+    --accent-color: var(--tp-heading-secondary, #ffae01); /* Mantém o destaque */
+    --border-color: #353c4a;
+    --card-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+    --navbar-bg: #232830;
+    --navbar-text: #e0e0e0;
+    --button-primary-bg: var(--tp-heading-secondary, #ffae01);
+    --button-primary-text: var(--tp-common-black, #000); /* Texto escuro em botão claro */
+
+    /* Sobrescrevendo variáveis do tema Dukamarket para o modo escuro */
+    --tp-common-white: var(--bg-primary);
+    --tp-common-black: var(--text-primary);
+    --tp-heading-primary: var(--text-headings);
+    --tp-text-body: var(--text-secondary);
+    --tp-grey-1: var(--bg-secondary);
+    --tp-grey-8: var(--bg-secondary); /* Usado em tpproduct__content */
+    --tp-border-1: var(--border-color);
+    --tp-theme-1: var(--text-headings); /* Cor de links e títulos no tema Dukamarket */
+
+    /* Ajustes para classes problemáticas do css/style.css e Bootstrap */
+    --text-dark-override: var(--text-primary); /* Para sobrescrever .text-dark do Bootstrap */
+    --text-muted-override: var(--text-secondary); /* Para sobrescrever .text-muted do Bootstrap */
+    --label-color: var(--text-secondary);
+    --label-focus-color: var(--accent-color);
+    --valor-item-color: var(--accent-color); /* Cor para valores de itens */
+    --titulo-itens-color: var(--text-primary);
+    --subtitulo-item-menor-inline-override: var(--text-secondary); /* Para o style inline problemático */
+    --h6-black-inline-override: var(--text-headings); /* Para o style inline problemático */
+}
+
+/* --- Estilos Globais para o Tema --- */
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navbar.bg-light { /* A navbar do Bootstrap */
+    background-color: var(--navbar-bg) !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-bottom: 1px solid var(--border-color);
+}
+.navbar.bg-light .navbar-brand,
+.navbar.bg-light .navbar-brand small,
+.navbar.bg-light .nav-link {
+    color: var(--navbar-text) !important;
+}
+.navbar.bg-light .btn-warning { /* Botão "Comprar Mais?" no carrinho */
+    background-color: var(--button-primary-bg);
+    color: var(--button-primary-text);
+    border-color: var(--button-primary-bg);
+}
+
+
+/* Ajustes para o main-container e outros elementos base */
+.main-container {
+    background-color: var(--bg-primary);
+}
+
+.destaque, .destaque-qtd { /* Usado em observacoes.php e adicionais.php */
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-color) !important;
+}
+
+.list-group-item {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+.list-group-item .fw-bold, .list-group-item small {
+    color: var(--text-primary);
+}
+.list-group-item .subtitulo-item-menor, .list-group-item .valor-item-maior {
+    color: var(--text-secondary);
+}
+.list-group-item .valor-item, .list-group-item .valor-item-maior { /* Específico para itens de lista */
+    color: var(--valor-item-color) !important;
+}
+
+.list-group-item .text-success {
+    color: var(--accent-color) !important;
+}
+
+
+/* Melhorias visuais para index.php */
+
+/* Ícones de navegação rápida */
+.tab-class .nav-pills .nav-item .nav-link {
+    background-color: var(--bg-secondary);
+    color: var(--text-secondary);
+    border-radius: 8px;
+    margin: 0 5px; /* Espaçamento entre eles */
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+.tab-class .nav-pills .nav-item .nav-link.active,
+.tab-class .nav-pills .nav-item .nav-link:hover {
+    background-color: var(--accent-color);
+    color: var(--button-primary-text);
+    border-color: var(--accent-color);
+}
+.tab-class .nav-pills .nav-item .nav-link .text-body { /* "Categorias", "Combos", "Promoções" */
+    color: var(--text-primary) !important;
+}
+.tab-class .nav-pills .nav-item .nav-link.active .text-body,
+.tab-class .nav-pills .nav-item .nav-link:hover .text-body {
+     color: var(--button-primary-text) !important;
+}
+.tab-class .nav-pills .nav-item .nav-link h6 { /* "Produtos", "Diversos", "Ofertas" */
+    color: var(--text-secondary) !important;
+}
+.tab-class .nav-pills .nav-item .nav-link.active h6,
+.tab-class .nav-pills .nav-item .nav-link:hover h6 {
+    color: var(--button-primary-text) !important;
+    opacity: 0.8;
+}
+
+
+/* Barra de Busca */
+#buscar {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 25px;
+    padding: 10px 20px;
+    box-shadow: var(--card-shadow);
+}
+#buscar::placeholder {
+    color: var(--text-secondary);
+}
+
+/* Cards de Categoria (Swiper e Lista Elegante) */
+.category__item, .elegant-category-item {
+    background-color: var(--bg-secondary) !important; /* Usa !important para sobrescrever o inline style se houver */
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-color) !important;
+    box-shadow: var(--card-shadow) !important;
+    border-radius: 12px !important;
+}
+.category__item:hover, .elegant-category-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12) !important;
+}
+.category__title, .elegant-category-title {
+    color: var(--text-headings) !important;
+}
+/* Para o estilo inline problemático em index.php no título da categoria do swiper */
+body[data-theme="dark"] .category__item h6[style*="color: #000000"],
+body[data-theme="dark"] .category__item h6[style*="color: black"] {
+    color: var(--h6-black-inline-override) !important;}
+.category__content p, .elegant-category-count {
+    color: var(--text-secondary) !important;
+}
+.tpbrandproduct__item { /* Usado nas categorias desktop e ofertas */
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--card-shadow);
+    border-radius: 10px;
+}
+.tpbrandproduct__item span, .tpbrandproduct__contact span {
+     color: var(--text-headings);
+}
+/* Para o estilo inline problemático em index.php no subtitulo_itens */
+body[data-theme="dark"] .tpbrandproduct__item .subtitulo_itens[style*="color:#474747"] {
+    color: var(--subtitulo-item-menor-inline-override) !important;
+}
+.tpbrandproduct__item .subtitulo_itens, .tpbrandproduct__item .tpproduct__price span {
+    color: var(--text-secondary);
+}
+.tpbrandproduct__item .tpproduct__price del {
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+.tpblog__item { /* Usado nos combos */
+    background-color: var(--bg-secondary);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: var(--card-shadow);
+}
+.tpblog__item span, .tpblog__item b {
+    color: var(--text-headings);
+}
+/* Para o estilo inline problemático em index.php nos combos */
+body[data-theme="dark"] .tpblog__item span[style*="color: #939393"] {
+    color: var(--text-secondary) !important;
+}
+.tpblog__item .tpproduct__price span {
+     color: var(--text-secondary);
+}
+
+
+/* Títulos de Seção */
+.tpsection__sub-title {
+    color: var(--accent-color) !important;
+}
+.tpsection__title { /* Não usado diretamente no index.php, mas bom para consistência */
+    color: var(--text-headings) !important;
+}
+
+/* Footer */
+.rodape {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-secondary) !important;
+    border-top: 1px solid var(--border-color);
+}
+.rodape .link-neutro {
+    color: var(--text-secondary) !important;
+}
+.rodape .link-neutro:hover {
+    color: var(--accent-color) !important;
+}
+.rodape .bi-whatsapp { color: #25D366 !important; }
+.rodape .bi-instagram { color: #E4405F !important; } /* Cor do Instagram */
+.rodape .bi-lock { color: var(--accent-color) !important; }
+
+
+/* Botão de toggle do tema */
+#theme-toggle {
+    border-color: var(--border-color);
+    color: var(--text-secondary);
+}
+#theme-toggle:hover {
+    background-color: var(--accent-color);
+    color: var(--button-primary-text);
+    border-color: var(--accent-color);
+}
+
+/* Ajustes para o Swiper (se necessário, para setas/paginação) */
+.swiper-button-next, .swiper-button-prev {
+    color: var(--accent-color);
+}
+.swiper-pagination-bullet-active {
+    background: var(--accent-color);
+}
+
+/* Para o ícone-carrinho.php */
+.header__info-cart button {
+    background: transparent;
+    border: none;
+    color: var(--navbar-text);
+}
+.header__info-cart button i img { /* Se o ícone for uma imagem SVG */
+    filter: var(--navbar-text) == '#e0e0e0' ? invert(1) : none; /* Inverte se o texto da navbar for claro */
+}
+.header__info-cart span { /* Contador de itens */
+    background-color: var(--accent-color);
+    color: var(--button-primary-text);
+}
+.tpcartinfo { /* Popup do carrinho */
+    background-color: var(--bg-primary);
+    border-left: 1px solid var(--border-color);
+}
+.tpcart__title {
+    background-color: var(--bg-secondary);
+    color: var(--text-headings);
+    border-bottom: 1px solid var(--border-color);
+}
+.tpcart__product-list ul li {
+    border-bottom: 1px solid var(--border-color);
+}
+.tpcart__item .tpcart__img img {
+    border: 1px solid var(--border-color);
+}
+.tpcart__content-title a {
+    color: var(--text-headings);
+}
+.tpcart__content-title a:hover {
+    color: var(--accent-color);
+}
+.tpcart__cart-price, .tpcart__total-price span {
+    color: var(--text-primary);
+}
+.tpcart__total-price .heilight-price {
+    color: var(--accent-color);
+}
+.tpcheck-btn {
+    background-color: var(--button-primary-bg) !important;
+    color: var(--button-primary-text) !important;
+    border: none !important;
+}
+.tpcheck-btn:hover {
+     opacity: 0.8;
+}
+.tpcart__close {
+    color: var(--text-secondary);
+}
+.tpcart__close:hover {
+    color: var(--accent-color);
+}
+
+/* --- Correções para classes de css/style.css e Bootstrap --- */
+
+/* Para .valor-item e .valor-item-maior de css/style.css */
+.valor-item, .valor-item-maior {
+    color: #025709; /* Cor padrão do tema claro */
+}
+body[data-theme="dark"] .valor-item,
+body[data-theme="dark"] .valor-item-maior {
+    color: var(--valor-item-color);
+}
+
+/* Para .titulo-itens e .titulo-itens-pizza de css/style.css */
+.titulo-itens, .titulo-itens-pizza {
+    color: #000000; /* Cor padrão do tema claro */
+    background-color: #ffc93f; /* Cor de fundo padrão */
+}
+body[data-theme="dark"] .titulo-itens,
+body[data-theme="dark"] .titulo-itens-pizza {
+    color: var(--titulo-itens-color);
+    background-color: var(--accent-color); /* Ou outra cor de fundo apropriada para o tema escuro */
+}
+body[data-theme="dark"] .titulo-itens-pizza { /* Caso precise de um fundo diferente para pizza */
+    background-color: var(--accent-color);
+}
+
+
+/* Para .label de inputs em css/style.css (finalizar.php) */
+body[data-theme="dark"] .label {
+  color: var(--label-color);
+}
+body[data-theme="dark"] .input:focus~label,
+body[data-theme="dark"] input:valid~label {
+  color: var(--label-focus-color);
+}
+body[data-theme="dark"] .input { /* Cor do texto do input no modo escuro */
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+}
+body[data-theme="dark"] .input:focus {
+    border-bottom: 1px solid var(--accent-color);
+}
+
+
+/* Para sobrescrever .text-dark e .text-muted do Bootstrap */
+body[data-theme="dark"] .text-dark {
+    color: var(--text-dark-override) !important;
+}
+body[data-theme="dark"] .text-muted {
+    color: var(--text-muted-override) !important;
+}
+
+/* Para o estilo inline problemático em adicionais.php e pizza.php */
+body[data-theme="dark"] .subtitulo-item-menor[style*="color:#450703"] {
+    color: var(--subtitulo-item-menor-inline-override) !important;
+}
+
+/* Para o accordion em finalizar.php */
+body[data-theme="dark"] .accordion-button {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+}
+body[data-theme="dark"] .accordion-button:not(.collapsed) {
+    background-color: var(--accent-color);
+    color: var(--button-primary-text);
+}
+body[data-theme="dark"] .accordion-button:not(.collapsed)::after {
+    filter: brightness(0) invert(1); /* Para o ícone do accordion ficar visível no fundo accent */
+}
+body[data-theme="dark"] .accordion-body {
+    background-color: var(--bg-primary);
+}
+
+/* Para o select de bairros em finalizar.php */
+body[data-theme="dark"] .form-select {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+body[data-theme="dark"] .form-select option {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+/* Para o input de cupom em finalizar.php */
+body[data-theme="dark"] #cupom_input.form-control {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+body[data-theme="dark"] #cupom_input.form-control::placeholder {
+    color: var(--text-secondary);
+}
+
+/* Para o textarea de observações */
+body[data-theme="dark"] textarea.form-control {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+body[data-theme="dark"] textarea.form-control::placeholder {
+    color: var(--text-secondary);
+}
+
+/* Para o total-finalizar em finalizar.php */
+body[data-theme="dark"] .total-finalizar .total-pedido {
+    background-color: var(--bg-secondary);
+    border-color: var(--border-color);
+}
+body[data-theme="dark"] .total-finalizar .total-pedido span,
+body[data-theme="dark"] .total-finalizar .total-pedido big,
+body[data-theme="dark"] .total-finalizar .total-pedido b {
+    color: var(--text-primary);
+}
+body[data-theme="dark"] .total-finalizar .total-pedido .text-danger {
+    color: var(--accent-color) !important; /* Ou uma cor de perigo mais clara */
+}
+

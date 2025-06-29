@@ -9,30 +9,55 @@ h1, h2, h3 {margin: 0;}
 ul, ol {margin: 0;}
 p {margin: 0;}
 
-html, body{
-	font-family: 'PT Sans', sans-serif;
-    font-size: 100%;
-  	overflow-x: hidden;
-	background: #fff;
+body {
+   background-color: #f0f2f9; /* Cor base para o modo claro */
+  /* Adicionando um padrão de ruído sutil */
+  /* Gere um padrão de ruído (ex: https://www.transparenttextures.com/noise.html) 
+     e salve como noise.png em assets/img/ ou similar */
+  /* background-image: url('../img/patterns/noise_light.png'); */ /* Exemplo de caminho */
+  /* background-repeat: repeat; */
+  color: #212529;
 }
-body a{
-	transition: 0.5s all ease;
-	-webkit-transition: 0.5s all ease;
-	-moz-transition: 0.5s all ease;
-	-o-transition: 0.5s all ease;
-	-ms-transition: 0.5s all ease;
-	text-decoration:none;
+
+/* Títulos */
+.main-content.app-content h1,
+.main-content.app-content h2,
+.main-content.app-content h3,
+.main-content.app-content h4,
+.main-content.app-content h5,
+.main-content.app-content h6,
+.card-title, /* Para títulos dentro de cards */
+.modal-title { /* Para títulos de modais */
+  color: #121212 !important; /* Cor bem escura para títulos */
 }
-h1,h2,h3,h4,h5,h6{
-	margin:0;			   
+
+/* Parágrafos e texto geral */
+.main-content.app-content p,
+.main-content.app-content span, /* Spans genéricos */
+.main-content.app-content div, /* Divs genéricas com texto */
+.main-content.app-content label, /* Labels de formulários */
+.main-content.app-content .form-control, /* Texto dentro de inputs */
+.main-content.app-content .table td, /* Células de tabelas */
+.main-content.app-content .table th, /* Cabeçalhos de tabelas */
+.main-content.app-content .breadcrumb-item, /* Breadcrumbs */
+.main-content.app-content .dropdown-item, /* Itens de dropdown */
+.main-content.app-content .list-group-item, /* Itens de lista */
+.main-content.app-content .nav-link, /* Links de navegação (não sidebar) */
+.main-content.app-content .page-link { /* Links de paginação */
+  color: #333333 !important; /* Cor escura para parágrafos e textos comuns */
 }
-p{
-	margin:0;
+
+/* Links */
+.main-content.app-content a,
+.main-content.app-content .btn-link { /* Botões com estilo de link */
+  color: #0062cc !important; /* Cor azul escura para links */
 }
-ul,label{
-	margin:0;
-	padding:0;
+
+.main-content.app-content a:hover,
+.main-content.app-content .btn-link:hover {
+  color: #004a99 !important; /* Cor mais escura para links no hover */
 }
+
 body a:hover{
 	text-decoration:none;
 }

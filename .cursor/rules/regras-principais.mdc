@@ -1,0 +1,365 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+## 🎯 REGRAS INQUEBRÁVEIS - MODO SÊNIOR CIRÚRGICO
+
+### REGRA 1: CONSULTA PRÉVIA OBRIGATÓRIA À DOCUMENTAÇÃO
+```
+
+ANTES DE QUALQUER IMPLEMENTAÇÃO:
+✅ SEMPRE consultar TODOS os arquivos na pasta /docs/
+✅ SEMPRE seguir todas as regras definidas nos arquivos desta pasta
+✅ SEMPRE mapear requisitos contra documentação existente
+✅ SEMPRE validar compatibilidade com especificações
+
+FORMATO DE RESPOSTA OBRIGATÓRIO:
+📁 Documentos consultados: [lista completa]
+📋 Regras identificadas: [lista numerada]
+⚠️ Conflitos encontrados: [lista ou "NENHUM"]
+
+```
+
+### REGRA 1.1: ANÁLISE COMPLETA DO CÓDIGO EXISTENTE
+```
+
+ANTES DE CRIAR QUALQUER ARQUIVO:
+✅ SEMPRE analisar TUDO que já foi implementado
+✅ SEMPRE verificar arquivos incompletos
+✅ SEMPRE identificar duplicidades
+✅ SEMPRE detectar conflitos potenciais
+✅ SEMPRE validar coerência da implementação
+
+CHECKLIST OBRIGATÓRIO:
+
+- [ ] Analisei todos os arquivos do projeto?
+- [ ] Identifiquei padrões de nomenclatura existentes?
+- [ ] Verifiquei estruturas de dados já definidas?
+- [ ] Validei interfaces e tipos existentes?
+- [ ] Confirmei ausência de duplicações?
+
+```
+
+### REGRA 1.2: CONSISTÊNCIA TOTAL DE NOMENCLATURA
+```
+
+ANTES DE CRIAR QUALQUER CÓDIGO:
+✅ SEMPRE verificar outros arquivos já criados
+✅ SEMPRE manter nomenclatura consistente
+✅ SEMPRE usar mesmos parâmetros/assinaturas
+✅ SEMPRE seguir padrões estabelecidos
+✅ SEMPRE garantir que tudo "fale a mesma língua"
+
+VALIDAÇÃO OBRIGATÓRIA:
+
+- Nomes de variáveis seguem padrão existente?
+- Estruturas de função são consistentes?
+- Tipos TypeScript estão alinhados?
+- Imports/exports seguem convenção?
+- Comentários seguem formato padrão?
+
+```
+
+### REGRA 2: DECISÕES CIRÚRGICAS
+```
+
+PROCESSO DE TOMADA DE DECISÃO:
+
+1. Analisar TODAS as opções técnicas disponíveis
+2. Avaliar impacto em código existente
+3. Considerar manutenibilidade futura
+4. Validar performance e escalabilidade
+5. Escolher solução mais robusta e limpa
+
+CRITÉRIOS DE QUALIDADE:
+✅ Máxima redução de erros
+✅ Mínima quebra de código
+✅ Zero retrabalho
+✅ Máxima coerência arquitetural
+
+```
+
+### REGRA 3: VERIFICAÇÃO PRÉVIA TOTAL
+```
+
+PROTOCOLO ANTES DE ESCREVER CÓDIGO:
+
+1. Análise textual completa de arquivos relevantes
+2. Mapeamento de dependências e relacionamentos
+3. Validação de compatibilidade com código existente
+4. Teste mental de integração
+5. Confirmação de ausência de conflitos
+
+ENTREGA OBRIGATÓRIA:
+
+- Código 100% testado mentalmente
+- Código 100% correto
+- Código 100% integrado
+- Zero suposições
+- Zero deduções
+
+```
+
+### REGRA 4: PROIBIÇÃO TOTAL DE DEDUÇÃO
+```
+
+ABSOLUTAMENTE PROIBIDO:
+❌ Assumir comportamentos não documentados
+❌ Deduzir estruturas de dados
+❌ Supor configurações
+❌ Inferir relacionamentos
+❌ Presumir funcionalidades
+
+OBRIGATÓRIO:
+✅ Usar APENAS informações explícitas
+✅ Basear-se APENAS em documentação
+✅ Referenciar APENAS código existente
+✅ Validar APENAS contra especificações
+
+```
+
+### REGRA 5: PROBABILIDADE DE SUCESSO OBRIGATÓRIA
+```
+
+AO FINAL DE CADA IMPLEMENTAÇÃO:
+✅ SEMPRE calcular probabilidade de sucesso
+✅ SEMPRE ser assertivo (sem deduções)
+✅ SEMPRE justificar o percentual
+✅ SEMPRE listar fatores de risco
+
+FORMATO OBRIGATÓRIO:
+🎯 PROBABILIDADE DE SUCESSO: X%
+📊 BASEADO EM:
+
+- Documentação completa: +Y%
+- Código existente analisado: +Z%
+- Padrões seguidos: +W%
+- Testes realizados: +V%
+- Fatores de risco: -U%
+
+RESULTADO FINAL: X% de certeza de funcionamento correto
+
+```
+
+## 📋 FASES DE IMPLEMENTAÇÃO
+
+### FASE 0: Análise e Arquitetura (Confiança: 95%+)
+```
+
+OBJETIVO: Definir stack tecnológico e estrutura base
+DOCUMENTOS: Consultar /docs/requirements.md, /docs/architecture.md
+
+EXPLICAÇÃO PRÉVIA OBRIGATÓRIA:
+"Vou analisar os requisitos e definir:
+
+- Stack: Next.js 14 + TypeScript + Prisma + PostgreSQL
+- Arquitetura: Modular com separação clara de responsabilidades
+- UI: Tailwind CSS + Shadcn/ui para componentes modernos
+- Estado: Zustand para gerenciamento global
+- Confiança: 98% baseada na complexidade do sistema"
+
+ENTREGÁVEIS:
+
+- package.json configurado
+- Estrutura de pastas
+- Configurações base (ESLint, Prettier, TypeScript)
+- Docker setup
+
+```
+
+### FASE 1: Core Domain Models (Confiança: 90%+)
+```
+
+OBJETIVO: Implementar entidades principais do negócio
+
+EXPLICAÇÃO PRÉVIA:
+"Implementarei os modelos de dados baseados nas regras RB_2.*:
+
+- Product (com variações e adicionais)
+- Order (com estados e tipos)
+- Customer (com fidelidade)
+- Payment (com estratégias diferentes)
+Confiança: 92% - modelos bem definidos no documento"
+
+VALIDAÇÕES OBRIGATÓRIAS:
+
+- [ ] Consultar /docs/database-schema.md se existir
+- [ ] Verificar relacionamentos entre entidades
+- [ ] Implementar validações de negócio
+
+```
+
+### FASE 2: Sistema de Pedidos (Confiança: 85%+)
+```
+
+OBJETIVO: Fluxo completo de pedidos (RB_5)
+
+EXPLICAÇÃO PRÉVIA:
+"Implementarei o fluxo de pedidos com:
+
+1. Factory Pattern para tipos de pedido (Mesa/Delivery/Balcão)
+2. State Machine para status
+3. Cálculo dinâmico de taxas
+4. Integração com sistema de pagamento
+Confiança: 87% - fluxo bem documentado, mas complexo"
+
+ANTI-ALUCINAÇÃO:
+
+- Sempre validar tipo de pedido antes de calcular taxas
+- Não assumir campos opcionais como obrigatórios
+- Verificar se endereço é necessário apenas para delivery
+
+```
+
+### FASE 3: Interface do Cliente (Confiança: 80%+)
+```
+
+OBJETIVO: UI/UX moderna e responsiva (RB_3)
+
+EXPLICAÇÃO PRÉVIA:
+"Criarei interface com:
+
+- Design system baseado em Atomic Design
+- Componentes reutilizáveis com Shadcn/ui
+- Tema customizável (claro/escuro)
+- Responsivo mobile-first
+Confiança: 83% - depende de feedback visual"
+
+COMPONENTES CRÍTICOS:
+
+- ProductCard com variações
+- ShoppingCart com cálculos em tempo real
+- CheckoutFlow com validações
+- OrderTracking com WebSockets
+
+```
+
+### FASE 4: Painel Administrativo (Confiança: 75%+)
+```
+
+OBJETIVO: Dashboard completo para gestão (RB_4)
+
+EXPLICAÇÃO PRÉVIA:
+"Implementarei painel admin com:
+
+- CRUD completo para todas entidades
+- Relatórios com gráficos (Chart.js/Recharts)
+- Sistema de permissões granular
+- Área de marketing e anotações
+Confiança: 78% - muitas funcionalidades, precisa validação constante"
+
+MÓDULOS ESPECIAIS:
+
+- Módulo Garçom (RB_7)
+- Módulo Entregador (RB_8)
+- Módulo Cozinha (RB_9)
+
+```
+
+### FASE 5: Integrações e Otimizações (Confiança: 70%+)
+```
+
+OBJETIVO: WhatsApp, PIX, performance
+
+EXPLICAÇÃO PRÉVIA:
+"Integrarei sistemas externos:
+
+- API WhatsApp (Menuia ou similar)
+- Gateway PIX com QR Code
+- Cache com Redis
+- Monitoramento com Sentry
+Confiança: 72% - depende de APIs externas"
+
+```
+
+## 📋 TEMPLATE DE RESPOSTA OBRIGATÓRIA
+
+```
+
+🔍 ANÁLISE PRÉVIA COMPLETA:
+📁 Documentos consultados: [lista completa com caminhos]
+📋 Regras aplicadas: [lista numerada das regras dos docs]
+🔄 Código existente analisado: [lista de arquivos verificados]
+⚠️ Conflitos identificados: [lista detalhada ou "NENHUM"]
+🎯 Padrões identificados: [nomenclatura, estruturas, convenções]
+
+💡 DECISÃO CIRÚRGICA:
+🎯 Abordagem escolhida: [descrição técnica]
+✅ Justificativa: [por que esta é a melhor opção]
+🛡️ Prevenção de erros: [medidas tomadas]
+🔗 Integração: [como se conecta com código existente]
+
+⚡ IMPLEMENTAÇÃO:
+[CÓDIGO 100% TESTADO E CORRETO]
+
+📊 PROBABILIDADE DE SUCESSO: X%
+📈 CÁLCULO DETALHADO:
+
+- Documentação seguida: +Y%
+- Código existente respeitado: +Z%
+- Padrões mantidos: +W%
+- Validações realizadas: +V%
+- Fatores de risco identificados: -U%
+- RESULTADO FINAL: X% de certeza
+
+```
+
+## 🛡️ SISTEMA ANTI-ALUCINAÇÃO
+
+### VALIDAÇÕES OBRIGATÓRIAS ANTES DE CADA IMPLEMENTAÇÃO:
+```
+
+const validacoes = {
+consultar_docs: () => {
+// SEMPRE verificar /docs/ antes de implementar
+return fs.readdirSync('./docs/').map(file => require(file));
+},
+
+verificar_conflitos: (novoModulo: string) => {
+// Verificar se já existe implementação similar
+return grep_codebase(novoModulo);
+},
+
+calcular_confianca: (complexidade: number, documentacao: number) => {
+return Math.min(95, (documentacao * 0.7) + (complexidade * 0.3));
+}
+};
+
+```
+
+### CHECKLIST ANTI-ERRO:
+- [ ] Consultei TODOS os arquivos em /docs/?
+- [ ] Identifiquei conflitos com código existente?
+- [ ] Expliquei EXATAMENTE o que vou fazer?
+- [ ] Calculei nível de confiança baseado em evidências?
+- [ ] Mapeei para regras de negócio específicas (RB_X.X)?
+
+## ⚙️ CONFIGURAÇÕES TÉCNICAS RECOMENDADAS
+
+```
+
+{
+"stack": {
+"frontend": "Next.js 14 + TypeScript + Tailwind CSS",
+"backend": "Next.js API Routes + Prisma",
+"database": "PostgreSQL",
+"cache": "Redis",
+"ui": "Shadcn/ui + Lucide Icons",
+"state": "Zustand",
+"forms": "React Hook Form + Zod",
+"charts": "Recharts",
+"payments": "Stripe/MercadoPago",
+"whatsapp": "Menuia API ou similar"
+},
+"architecture": {
+"pattern": "Feature-based modules",
+"structure": "src/features/[feature]/[layer]",
+"testing": "Jest + Testing Library",
+"deployment": "Docker + Vercel/Railway"
+}
+}
+
+
+```

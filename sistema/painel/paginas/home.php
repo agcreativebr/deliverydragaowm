@@ -186,13 +186,9 @@ $res = $query->fetchAll(PDO::FETCH_ASSOC);
 $tarefas_agendadas_hoje = @count($res);
 
 #####ANOTAÇÕES#####################################
-$query = $pdo->query("SELECT * from anotacoes");
-$res = $query->fetchAll(PDO::FETCH_ASSOC);
-$linhas = @count($res);
-for ($i5 = 0; $i5 < $linhas; $i5++) {
-	$msg = $res[$i5]['msg'];
-	$titulo = $res[$i5]['titulo'];
-}
+$query_anotacoes = $pdo->query("SELECT * from anotacoes WHERE (privado = 'Não' OR (privado = 'Sim' AND usuario = '$id_usuario')) AND mostrar_home = 'Sim' order by id desc");
+$res_anotacoes = $query_anotacoes->fetchAll(PDO::FETCH_ASSOC);
+$linhas_anotacoes = @count($res_anotacoes);
 
 
 //verificar se ele tem a permissão de estar nessa página
@@ -211,9 +207,6 @@ for ($i6 = 0; $i6 < $linhas1; $i6++) {
 	$valor_delivery += $res[$i6]['valor'];
 }
 $valor_deliveryF = @number_format($valor_delivery, 2, ',', '.');
-$porcent_deli = $linhas1 / 100;
-
-
 
 #####PUXAR TOTAL DE CONSUMIR LOCAL############################################
 $valor_local = 0;
@@ -224,10 +217,8 @@ for ($i6 = 0; $i6 < $linhas2; $i6++) {
 	$valor_local += $res[$i6]['valor'];
 }
 $valor_localF = @number_format($valor_local, 2, ',', '.');
-$porcent_local = $linhas2 / 100;
 
-
-#####PUXAR TOTAL DE CRETIRADA############################################
+#####PUXAR TOTAL DE RETIRADA############################################
 $valor_retirada = 0;
 $query = $pdo->query("SELECT * from vendas where entrega = 'Retirar'");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -236,8 +227,6 @@ for ($i6 = 0; $i6 < $linhas3; $i6++) {
 	$valor_retirada += $res[$i6]['valor'];
 }
 $valor_retiradaF = @number_format($valor_retirada, 2, ',', '.');
-$porcent_retirada = $linhas3 / 100;
-
 
 ##### PUXAR TOTAL DA MESA ############################################
 $valor_mesa = 0;
@@ -248,9 +237,21 @@ for ($i6 = 0; $i6 < $linhas4; $i6++) {
 	$valor_mesa += $res[$i6]['total'];
 }
 $valor_mesaF = @number_format($valor_mesa, 2, ',', '.');
-$porcent_mesa = $linhas4 / 100;
 
+// Calcular as porcentagens após todas as variáveis estarem definidas
+$total_vendas = $linhas1 + $linhas2 + $linhas3 + $linhas4;
 
+$porcent_deli = $linhas1 > 0 ? ($linhas1 / $total_vendas) * 100 : 0;
+$porcent_deli = round($porcent_deli, 2);
+
+$porcent_local = $linhas2 > 0 ? ($linhas2 / $total_vendas) * 100 : 0;
+$porcent_local = round($porcent_local, 2);
+
+$porcent_retirada = $linhas3 > 0 ? ($linhas3 / $total_vendas) * 100 : 0;
+$porcent_retirada = round($porcent_retirada, 2);
+
+$porcent_mesa = $linhas4 > 0 ? ($linhas4 / $total_vendas) * 100 : 0;
+$porcent_mesa = round($porcent_mesa, 2);
 
 ?>
 
@@ -260,7 +261,7 @@ $porcent_mesa = $linhas4 / 100;
 
 	<?php if ($ativo_sistema == '') { ?>
 
-		<div style="background: #ffc341; color:#3e3e3e; padding:10px; font-size:14px; margin-bottom:10px">
+		<div style="background: #ffc341; color:#3e3e3e; padding:10px; font-size:14px; margin-bottom:10px; border-radius: 0.5rem;" class="dark-mode-warning">
 
 			<div><i class="fa fa-info-circle"></i> <b>Aviso: </b> Prezado Cliente, não identificamos o pagamento de sua última
 				mensalidade, entre em contato conosco o mais rápido possivel para regularizar o pagamento, caso contário seu
@@ -276,18 +277,17 @@ $porcent_mesa = $linhas4 / 100;
 	<div class="row">
 
 		<div class="col-xl-3 col-lg-12 col-md-6 col-xs-12">
-			<div class="card sales-card"
-				style="box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.1); height:130px; border-radius: 10px;">
-				<a href="clientes">
+			<div class="card sales-card">
+				<a href="clientes" class="text-dark-mode">
 					<div class="row">
 						<div class="col-8">
 							<div class="ps-4 pt-4 pe-3 pb-4">
 								<div class="">
-									<p class="mb-1">Clientes Cadastrados</p>
+									<p class="mb-1 text-dark-mode">Clientes Cadastrados</p>
 								</div>
 								<div class="pb-0 mt-0">
 									<div class="d-flex">
-										<h4 class="tx-20 font-weight-semibold mb-2"><?php echo $total_clientes ?></h4>
+										<h4 class="tx-20 font-weight-semibold mb-2 text-dark-mode"><?php echo $total_clientes ?></h4>
 									</div>
 									<p class="mb-0 tx-12 text-muted">Este Mês<i class="fa fa-caret-up mx-1 text-success"></i>
 										<span class="iconSusses tx-11"><?php echo $total_clientes_mes ?></span>
@@ -296,11 +296,9 @@ $porcent_mesa = $linhas4 / 100;
 							</div>
 						</div>
 						<div class="col-4">
-
-							<div class=" zoom circle-icon iconBgSusses text-center align-self-center overflow-hidden">
+							<div class="circle-icon iconBgSusses text-center align-self-center overflow-hidden">
 								<i class="fe fe-user tx-16 text-white"></i>
 							</div>
-
 						</div>
 					</div>
 				</a>
@@ -309,18 +307,17 @@ $porcent_mesa = $linhas4 / 100;
 
 
 		<div class="col-xl-3 col-lg-12 col-md-6 col-xs-12">
-			<div class="card sales-card"
-				style="box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.1); height:130px; border-radius: 10px">
-				<a href="pagar">
+			<div class="card sales-card">
+				<a href="pagar" class="text-dark-mode">
 					<div class="row">
 						<div class="col-8">
 							<div class="ps-4 pt-4 pe-3 pb-4">
 								<div class="">
-									<p class=" mb-1">Despesas Vencidas</p>
+									<p class="mb-1 text-dark-mode">Despesas Vencidas</p>
 								</div>
 								<div class="pb-0 mt-0">
 									<div class="d-flex">
-										<h4 class="tx-20 font-weight-semibold mb-2">R$ <?php echo $total_pagar_vencidasF ?></h4>
+										<h4 class="tx-20 font-weight-semibold mb-2 text-dark-mode">R$ <?php echo $total_pagar_vencidasF ?></h4>
 									</div>
 									<p class="mb-0 tx-12 text-muted">Pagar Vencidas<i class="fa fa-caret-down mx-1 text-danger"></i>
 										<span class="iconDanger tx-11"><?php echo $contas_pagar_vencidas ?></span>
@@ -329,43 +326,37 @@ $porcent_mesa = $linhas4 / 100;
 							</div>
 						</div>
 						<div class="col-4">
-
-							<div class="zoom circle-icon iconBgDanger text-center align-self-center overflow-hidden">
+							<div class="circle-icon iconBgDanger text-center align-self-center overflow-hidden">
 								<i class="bi bi-currency-dollar tx-16 text-white"></i>
 							</div>
-
 						</div>
 					</div>
 				</a>
 			</div>
 		</div>
 		<div class="col-xl-3 col-lg-12 col-md-6 col-xs-12">
-			<div class="card sales-card"
-				style="box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.1); height:130px; border-radius: 10px">
-				<a href="receber">
+			<div class="card sales-card">
+				<a href="receber" class="text-dark-mode">
 					<div class="row">
 						<div class="col-8">
 							<div class="ps-4 pt-4 pe-3 pb-4">
 								<div class="">
-									<p class=" mb-1">Receber Vencidas</p>
+									<p class="mb-1 text-dark-mode">Receber Vencidas</p>
 								</div>
 								<div class="pb-0 mt-0">
 									<div class="d-flex">
-										<h4 class="tx-20 font-weight-semibold mb-2">R$ <?php echo $total_receber_vencidasF ?></h4>
+										<h4 class="tx-20 font-weight-semibold mb-2 text-dark-mode">R$ <?php echo $total_receber_vencidasF ?></h4>
 									</div>
 									<p class="mb-0 tx-12 text-muted">Receb. Vencidas<i class="fa fa-caret-up mx-1 text-success"></i>
 										<span class="iconSusses tx-11"><?php echo $contas_receber_vencidas ?></span>
 									</p>
-
 								</div>
 							</div>
 						</div>
 						<div class="col-4">
-
-							<div class=" zoom circle-icon iconBgSusses text-center align-self-center overflow-hidden">
+							<div class="circle-icon iconBgSusses text-center align-self-center overflow-hidden">
 								<i class="bi bi-currency-dollar tx-16 text-white"></i>
 							</div>
-
 						</div>
 					</div>
 				</a>
@@ -373,18 +364,17 @@ $porcent_mesa = $linhas4 / 100;
 		</div>
 
 		<div class="col-xl-3 col-lg-12 col-md-6 col-xs-12">
-			<div class="card sales-card"
-				style="box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.1); height:130px; border-radius: 10px">
-				<a href="receber">
+			<div class="card sales-card">
+				<a href="receber" class="text-dark-mode">
 					<div class="row">
 						<div class="col-8">
 							<div class="ps-4 pt-4 pe-3 pb-4">
 								<div class="">
-									<p class=" mb-1">Saldo no Mês</p>
+									<p class="mb-1 text-dark-mode">Saldo no Mês</p>
 								</div>
 								<div class="pb-0 mt-0">
 									<div class="d-flex">
-										<h4 class="tx-20 font-weight-semibold mb-2 <?php echo $classe_saldo ?>">R$
+										<h4 class="tx-20 font-weight-semibold mb-2 <?php echo $classe_saldo ?> text-dark-mode">R$
 											<?php echo $total_saldo_mesF ?>
 										</h4>
 									</div>
@@ -392,16 +382,13 @@ $porcent_mesa = $linhas4 / 100;
 										<span class="iconHome tx-11 <?php echo $classe_saldo ?> tx-11">R$
 											<?php echo $total_saldo_diaF ?></span>
 									</p>
-
 								</div>
 							</div>
 						</div>
 						<div class="col-4">
-
-							<div class=" zoom circle-icon text-center align-self-center overflow-hidden <?php echo $classe_saldo2 ?>">
+							<div class="circle-icon text-center align-self-center overflow-hidden <?php echo $classe_saldo2 ?>">
 								<i class="bi bi-currency-dollar tx-16 text-white"></i>
 							</div>
-
 						</div>
 					</div>
 				</a>
@@ -413,133 +400,62 @@ $porcent_mesa = $linhas4 / 100;
 	<div id="statistics2"></div>
 
 
+	<!-- PAINEL DE INFORMAÇÕES (ANOTAÇÕES) -->
+	<?php if ($linhas_anotacoes > 0) { ?>
+		<div class="row mt-4">
+			<div class="col-xl-12">
+				<div class="card sales-card card-anotacao">
+					<div class="card-anotacao-titulo text-dark-mode">
+						<strong>PAINEL DE INFORMAÇÕES</strong>
+					</div>
+					<?php
+					for ($i5 = 0; $i5 < $linhas_anotacoes; $i5++) {
+						$id_anotacao = $res_anotacoes[$i5]['id'];
+						$titulo_anotacao = $res_anotacoes[$i5]['titulo'];
+						$msg_anotacao = $res_anotacoes[$i5]['msg'];
+						$usuario_anotacao = $res_anotacoes[$i5]['usuario'];
+						$data_anotacao = $res_anotacoes[$i5]['data'];
 
-	<!-- ################################ FIM PAINEL DE INFORMAÇÕES ###################################### -->
-	<?php
-
-	$query = $pdo->query("SELECT * from anotacoes where mostrar_home = 'Sim' order by id desc");
-	$res = $query->fetchAll(PDO::FETCH_ASSOC);
-	$linhas = @count($res);
-	if ($linhas > 0) {
-
-		echo <<<HTML
-<small>
-
-<div class='row'>
-	
-	<thead style="margin-bottom: 50px"> 
-		
-		
-			<div class="col-xl-12" style="margin-bottom: -17px">
-			<div class="card sales-card border border-dark" style="box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.2);">
-			
-
-<div  style="text-align:center; font-size: 20px; padding: 4px"><strong>PAINEL DE INFORMAÇÕES</strong> </div>
-				
+						$query_user_anot = $pdo->query("SELECT nome FROM usuarios where id = '$usuario_anotacao'");
+						$res_user_anot = $query_user_anot->fetch(PDO::FETCH_ASSOC);
+						$nome_usuario_anotacao = @$res_user_anot['nome'] ?: 'Sistema';
+						$dataF_anotacao = implode('/', array_reverse(explode('-', $data_anotacao)));
+					?>
+						<div class="card-anotacao-item text-dark-mode">
+							<b><?php echo htmlspecialchars($titulo_anotacao); ?></b> <small>(Por: <?php echo htmlspecialchars($nome_usuario_anotacao); ?> em <?php echo $dataF_anotacao; ?>)</small>
+							<div><?php echo nl2br(htmlspecialchars($msg_anotacao)); ?></div>
+						</div>
+					<?php } ?>
+				</div>
 			</div>
+		</div>
+	<?php } ?>
+	<!-- FIM PAINEL DE INFORMAÇÕES -->
 
 
-	</div>
-
-
-	</thead> 
-	<tbody>	
-
-
-		
-HTML;
-
-		for ($i = 0; $i < $linhas; $i++) {
-			$id = $res[$i]['id'];
-			$titulo = $res[$i]['titulo'];
-			$msg = $res[$i]['msg'];
-			$usuario = $res[$i]['usuario'];
-			$data = $res[$i]['data'];
-
-
-			$query2 = $pdo->query("SELECT * FROM usuarios where id = '$usuario'");
-			$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-			if (@count($res2) > 0) {
-				$nome_usuario = $res2[0]['nome'];
-			} else {
-				$nome_usuario = 'Sem Usuário';
-			}
-
-			$dataF = implode('/', array_reverse(@explode('-', $data)));
-
-
-			$msgF = mb_strimwidth($msg, 0, 250, "...");
-
-
-			echo <<<HTML
-<tr>
-
-			<div class="col-xl-12" style="margin-bottom: -18px;">
-			<div class="card sales-card border border-white" style="box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.1);">
-			
-
-<div style="font-size: 12px; padding: 4px"><b>{$titulo}:</b> {$msgF}</div>
-				
-			</div>
-
-
-	</div>
-
-
-</tr>
-HTML;
-		}
-	}
-
-
-
-
-	echo <<<HTML
-</tbody>
-</div>
-
-HTML;
-	?>
-
-
-	<!-- ################################ FIM PAINEL DE INFORMAÇÕES ###################################### -->
-
-
-
-
-
-
-
-	<div class="card custom-card overflow-hidden ocultar_mobile">
+	<div class="card custom-card overflow-hidden ocultar_mobile" style="margin-top: 25px;">
 		<div class="card-header border-bottom-0">
 			<div>
-				<h3 class="card-title mb-2 ">Recebimentos / Despesas <?php echo $ano_atual ?></h3> <span
-					class="d-block tx-12 mb-0 text-muted"></span>
+				<h3 class="card-title mb-2 text-dark-mode">Recebimentos / Despesas <?php echo $ano_atual ?></h3>
+				<span class="d-block tx-12 mb-0 text-muted"></span>
 			</div>
 		</div>
 		<div class="card-body">
 			<div id="statistics1"></div>
 		</div>
 	</div>
-
-
 </div>
 
 
-
-
 <div class="row">
-
-
 	<div class="col-xl-6 col-lg-12 col-md-6 col-xs-12">
-		<a href="tarefas">
-			<div class="card sales-card " style="box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.1);">
+		<a href="tarefas" class="text-dark-mode">
+			<div class="card sales-card card-tarefas-home">
 				<div class="row">
-
 					<div class="col-8">
 						<div class="ps-4 pt-4 pe-3 pb-4">
 							<div class="">
-								<h6 class="mb-2 tx-12 ">Total de Tarefas Pendentes</h6>
+								<h6 class="mb-2 tx-12 text-dark-mode">Total de Tarefas Pendentes</h6>
 							</div>
 							<div class="pb-0 mt-0">
 								<div class="d-flex">
@@ -547,18 +463,16 @@ HTML;
 								</div>
 								<p class="mb-0 tx-12 text-muted">Pendentes Hoje<i class="fa fa-caret-up mx-2 text-success"></i>
 									<span class="text-success font-weight-semibold"> <?php echo $tarefas_agendadas_hoje ?></span>
-
 									<span style="margin-left: 20px">Tarefas Atrasadas<i class="fa fa-caret-down mx-2 text-danger"></i>
-										<span class="text-danger font-weight-semibold"> <?php echo $tarefas_atrasadas ?></span></span>
+										<span class="text-danger font-weight-semibold"> <?php echo $tarefas_atrasadas ?></span>
+									</span>
 								</p>
-
 							</div>
 						</div>
 					</div>
-
 					<div class="col-4">
-						<div class="circle-icon bg-primary-transparent text-center align-self-center overflow-hidden">
-							<i class="bi bi-card-checklist tx-16 text-primary"></i>
+						<div class="circle-icon iconBgPrimary text-center align-self-center overflow-hidden">
+							<i class="bi bi-card-checklist tx-16 text-white"></i>
 						</div>
 					</div>
 				</div>
@@ -567,18 +481,17 @@ HTML;
 	</div>
 
 	<div class="col-sm-12 col-lg-12 col-xl-6 col-xxl-12">
-		<div class="card">
+		<div class="card card-vendas-delivery-home">
 			<div class="card-header pb-3">
-				<h3 class="card-title mb-2">Vendas / DELIVERY</h3>
+				<h3 class="card-title mb-2 text-dark-mode">Vendas / DELIVERY</h3>
 			</div>
 			<div class="card-body p-0 customers mt-1">
 				<div class="country-card pt-0">
 					<div class="mb-4">
-
 						<div class="d-flex">
-							<span class="tx-13 font-weight-semibold">Delivery</span>
+							<span class="tx-13 font-weight-semibold text-dark-mode">Delivery</span>
 							<div class="ms-auto"><span class="text-info mx-1"><i class="fa-solid fa-dollar-sign"></i></span><span
-									class="number-font"><b> R$ <?php echo $valor_deliveryF ?></b></span> (<?php echo $porcent_deli ?>%)</div>
+									class="number-font text-dark-mode"><b> R$ <?php echo $valor_deliveryF ?></b></span> (<?php echo $porcent_deli ?>%)</div>
 						</div>
 						<div class="progress ht-8 br-5 mt-2">
 							<div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" style="width: <?php echo $porcent_deli ?>%"></div>
@@ -586,9 +499,9 @@ HTML;
 					</div>
 					<div class="mb-4">
 						<div class="d-flex mb-1">
-							<span class="tx-13 font-weight-semibold">Consumir Local</span>
+							<span class="tx-13 font-weight-semibold text-dark-mode">Consumir Local</span>
 							<div class="ms-auto"><span class="text-info mx-1"><i class="fa-solid fa-dollar-sign"></i></span><span
-									class="number-font"><b> R$ <?php echo $valor_localF ?></b></span> (<?php echo $porcent_local ?>%)</div>
+									class="number-font text-dark-mode"><b> R$ <?php echo $valor_localF ?></b></span> (<?php echo $porcent_local ?>%)</div>
 						</div>
 						<div class="progress ht-8 br-5 mt-2">
 							<div class="progress-bar progress-bar-striped progress-bar-animated bg-info" style="width: <?php echo $porcent_local ?>%"></div>
@@ -596,9 +509,9 @@ HTML;
 					</div>
 					<div class="mb-4">
 						<div class="d-flex">
-							<span class="tx-13 font-weight-semibold">Retirada</span>
+							<span class="tx-13 font-weight-semibold text-dark-mode">Retirada</span>
 							<div class="ms-auto"><span class="text-info mx-1"><i class="fa-solid fa-dollar-sign"></i></span><span
-									class="number-font"><b> R$ <?php echo $valor_retiradaF ?></b></span> (<?php echo $porcent_retirada ?>%)</div>
+									class="number-font text-dark-mode"><b> R$ <?php echo $valor_retiradaF ?></b></span> (<?php echo $porcent_retirada ?>%)</div>
 						</div>
 						<div class="progress ht-8 br-5 mt-2">
 							<div class="progress-bar progress-bar-striped progress-bar-animated bg-secondary" style="width: <?php echo $porcent_retirada ?>%">
@@ -607,36 +520,23 @@ HTML;
 					</div>
 					<div class="mb-4">
 						<div class="d-flex">
-							<span class="tx-13 font-weight-semibold">Mesa</span>
+							<span class="tx-13 font-weight-semibold text-dark-mode">Mesa</span>
 							<div class="ms-auto"><span class="text-info mx-1"><i class="fa-solid fa-dollar-sign"></i></span><span
-									class="number-font"><b> R$ <?php echo $valor_mesaF ?></b></span> (<?php echo $porcent_mesa ?>%)</div>
+									class="number-font text-dark-mode"><b> R$ <?php echo $valor_mesaF ?></b></span> (<?php echo $porcent_mesa ?>%)</div>
 						</div>
 						<div class="progress ht-8 br-5 mt-2">
 							<div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" style="width: <?php echo $porcent_mesa ?>%"></div>
 						</div>
 					</div>
-
 				</div>
-
 			</div>
 		</div>
 	</div>
-
-
 </div>
-
-
-
 
 
 <div class="row row-sm">
-
-
-
-
 </div>
-
-
 
 <script type="text/javascript">
 	// GRAFICO DE BARRAS
