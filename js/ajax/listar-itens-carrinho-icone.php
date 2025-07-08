@@ -1,178 +1,107 @@
 <?php
+header('Content-Type: text/html; charset=UTF-8');
 @session_start();
+
 require_once('../../sistema/conexao.php');
 
-$sessao = @$_SESSION['sessao_usuario'];
+// LOG DE ENTRADA
+file_put_contents('../../sistema/logs/security.log', json_encode([
+	'event' => 'listar_carrinho_icone_entrada',
+	'session' => $_SESSION,
+	'hora' => date('Y-m-d H:i:s')
+], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n", FILE_APPEND);
 
+try {
+	$sessao = @$_SESSION['sessao_usuario'];
 
-$id_mesa = "";
-if (@$_SESSION['id_ab_mesa'] != "") {
-	$id_mesa = $_SESSION['id_ab_mesa'];
-}
+	if (!$sessao) {
+		throw new Exception('Nenhum item adicionado!');
+	}
 
+	// Limpar itens órfãos (sem pedido e mais antigos que 24h)
+	$pdo->query("DELETE FROM carrinho WHERE pedido = '0' AND DATE_ADD(data, INTERVAL 24 HOUR) < NOW()");
 
+	// Limpar itens sem produto válido
+	$pdo->query("DELETE FROM carrinho WHERE pedido = '0' AND (produto = '0' OR produto NOT IN (SELECT id FROM produtos WHERE ativo = 'Sim'))");
 
-$nome_produto2 = '';
-if ($id_mesa == "") {
-	$query = $pdo->query("SELECT * FROM carrinho where sessao = '$sessao'");
-} else {
-	$query = $pdo->query("SELECT * FROM carrinho where mesa = '$id_mesa'");
-}
+	// Buscar itens do carrinho
+	$query = $pdo->prepare("
+		SELECT c.*, p.nome as nome_produto, p.foto as foto_produto,
+			COALESCE(c.valor_unitario, CASE 
+				WHEN c.total_item > 0 AND c.quantidade > 0 THEN c.total_item / c.quantidade 
+				ELSE 0 
+			END) as valor_unitario
+		FROM carrinho c 
+		INNER JOIN produtos p ON c.produto = p.id 
+		WHERE c.sessao = ? AND c.pedido = '0' AND p.ativo = 'Sim'
+		ORDER BY c.id DESC
+	");
 
-$id_edicao = "";
-if (@$_SESSION['id_edicao'] != "") {
-	$id_edicao = $_SESSION['id_edicao'];
-}
+	$query->execute([$sessao]);
+	$res = $query->fetchAll(PDO::FETCH_ASSOC);
 
-if($id_edicao != ""){
-	$query = $pdo->query("SELECT * FROM carrinho where pedido = '$id_edicao'");
-}
+	if (count($res) == 0) {
+		echo '<li class="text-center">Nenhum item no carrinho</li>';
+		// Zerar totais quando não houver itens
+		echo "<script>
+			$('#total-carrinho-icone').text('0,00');
+			$('#total-itens-carrinho').text('0');
+			$('#total-carrinho-finalizar').text('0,00');
+		</script>";
+		exit();
+	}
 
+	$total_carrinho = 0;
 
-$res = $query->fetchAll(PDO::FETCH_ASSOC);
-$total_reg = @count($res);
-$total_carrinho = 0;
-$total_carrinhoF = 0;
-if ($total_reg > 0) {
-	for ($i = 0; $i < $total_reg; $i++) {
-		foreach ($res[$i] as $key => $value) {
-		}
-
-		$id = $res[$i]['id'];
-		$total_item = $res[$i]['total_item'];
-		$produto = $res[$i]['produto'];
-		$quantidade = $res[$i]['quantidade'];
-		$obs = $res[$i]['obs'];
-		$item = $res[$i]['item'];
-		$variacao = $res[$i]['variacao'];
-		$nome_produto_tab = $res[$i]['nome_produto'];
-		$sabores = $res[$i]['sabores'];
-		$borda = $res[$i]['borda'];
-		$categoria = $res[$i]['categoria'];
-		$valor_unit = $res[$i]['valor_unitario'];
-
-		if ($valor_unit == "") {
-			if ($total_item > 0 and $quantidade > 0) {
-				$valor_unit = $total_item / $quantidade;
-			} else {
-				$valor_unit = 0;
-			}
-		}
-
-		$total_item = $total_item * $quantidade;
+	foreach ($res as $item) {
+		$total_item = $item['total_item'];
 		$total_carrinho += $total_item;
+		$nome_produto = $item['nome_produto'];
+		$quantidade = $item['quantidade'];
+		$foto = $item['foto_produto'];
+		$id = $item['id'];
 
-
+		// Formatar valores
 		$total_itemF = number_format($total_item, 2, ',', '.');
-		$valor_unitF = number_format($valor_unit, 2, ',', '.');
-		$total_carrinhoF = number_format($total_carrinho, 2, ',', '.');
-
-		$query2 = $pdo->query("SELECT * FROM variacoes where id = '$variacao'");
-		$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-		if (@count(@$res2) > 0) {
-			$sigla_variacao = '(' . $res2[0]['sigla'] . ')';
-		} else {
-			$sigla_variacao = '';
-		}
-
-
-		$query2 = $pdo->query("SELECT * FROM produtos where id = '$produto'");
-		$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-		if (@count(@$res2) > 0) {
-			$nome_produto = $res2[0]['nome'];
-			$foto_produto = $res2[0]['foto'];
-		} else {
-			$nome_produto = $nome_produto_tab;
-			$foto_produto = "";
-		}
-
-
-		if ($obs == '') {
-			$classe_obs = 'text-warning';
-		} else {
-			$classe_obs = 'text-danger';
-		}
-
-		if ($sabores > 0) {
-			$nome_produto = $nome_produto_tab;
-		}
-
-
-		if($id_mesa > 0){
-			$ocultar_excluir = 'ocultar';
-		}else{
-			$ocultar_excluir = '';
-		}
-		
-
-
+		$valor_unitarioF = number_format($item['valor_unitario'], 2, ',', '.');
 
 		echo <<<HTML
-
-
-
-						<li>
-              <div class="tpcart__item" >
-                <div class="tpcart__img">
-                  <img src="sistema/painel/images/produtos/{$foto_produto}" alt="">
-                </div>
-                <div class="tpcart__content">
-                  <span class="tpcart__content-title"><b>{$nome_produto} {$sigla_variacao}</b>
-                  </span>
-									
-                  <div class="tpcart__cart-price">
-                    <span class="quantity">{$quantidade} x</span>
-                    <span class="text-success">R$ $total_itemF</span>
-                  </div>
-                </div>
-								<div class="direita">
-                    <a href="#" onclick="excluirCarrinhoIcone('{$id}')" class="link-neutro {$ocultar_excluir}"><i class="icon-x-circle text-warning"></i></a>
-                  </div>
-              </div>
-							
-            </li>
-
-
-						
-
-
-
-
-			</li>
-
-HTML;
+		<li class="d-flex align-items-start justify-content-between">
+			<div class="tpcart__item d-flex">
+				<div class="tpcart__img">
+					<img src="sistema/painel/images/produtos/$foto" alt="$nome_produto">
+					<div class="tpcart__del">
+						<a href="javascript:void(0)" onclick="excluirCarrinhoIcone($id)"><i class="icon-x-circle"></i></a>
+					</div>
+				</div>
+				<div class="tpcart__content">
+					<h4 class="tpcart__title"><a href="#">$nome_produto</a></h4>
+					<div class="tpcart__price">
+						<span class="quantity">$quantidade x</span>
+						<span class="new-price">R$ $valor_unitarioF</span>
+					</div>
+				</div>
+			</div>
+		</li>
+		HTML;
 	}
-} else {
-	echo 'Nenhum item adicionado!';
+
+	$total_carrinhoF = number_format($total_carrinho, 2, ',', '.');
+
+	// Atualizar total do carrinho
+	echo "<script>
+		$('#total-carrinho-icone').text('$total_carrinhoF');
+		$('#total-itens-carrinho').text('" . count($res) . "');
+		$('#total-carrinho-finalizar').text('$total_carrinhoF');
+	</script>";
+} catch (Exception $e) {
+	// Log do erro
+	file_put_contents('../../sistema/logs/security.log', json_encode([
+		'event' => 'listar_carrinho_icone_erro',
+		'erro' => $e->getMessage(),
+		'session' => $_SESSION,
+		'hora' => date('Y-m-d H:i:s')
+	], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n", FILE_APPEND);
+
+	echo '<li class="text-center">Nenhum item no carrinho</li>';
 }
-
-
-?>
-
-<script type="text/javascript">
-	$("#total-carrinho-icone").text("<?= $total_carrinhoF ?>");
-	$("#total-itens-carrinho").text("<?= $total_reg ?>");
-	$("#total-carrinho-finalizar").text("<?= $total_carrinhoF ?>");
-
-
-	function excluirCarrinhoIcone(id) {
-
-		$.ajax({
-			url: 'js/ajax/excluir-carrinho.php',
-			method: 'POST',
-			data: {
-				id
-			},
-			dataType: "text",
-
-			success: function(mensagem) {
-				
-				if (mensagem.trim() == "Excluido com Sucesso") {
-					listarCarrinhoIcone();
-				}
-
-			},
-
-		});
-	}
-</script>
