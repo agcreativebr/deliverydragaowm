@@ -88,7 +88,24 @@ HTML;
 			success: function(mensagem) {
 
 				if (mensagem.trim() == "Excluido com Sucesso") {
-					listarAdicionais(carrinho, id_sabor, cat);
+					// Recarregar o popup de adicionais via AJAX
+					$.ajax({
+						url: 'js/ajax/listar-adc-carrinho.php',
+						method: 'POST',
+						data: {
+							id: carrinho,
+							id_sabor: id_sabor,
+							cat: cat
+						},
+						success: function(result) {
+							$('#listar-adc-carrinho').html(result);
+							if (result.includes('Nenhum adicional encontrado')) {
+								$('#modalAdc').modal('hide');
+							} else {
+								$('#modalAdc').modal('show');
+							}
+						}
+					});
 					listarCarrinho();
 				}
 

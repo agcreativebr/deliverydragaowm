@@ -1,396 +1,179 @@
-<?php 
+<?php
+header('Content-Type: text/html; charset=UTF-8');
 @session_start();
+
 require_once('../../sistema/conexao.php');
-
-$sessao = @$_SESSION['sessao_usuario'];
-
-
-$id_mesa = "";
-if (@$_SESSION['id_ab_mesa'] != "") {
-	$id_mesa = $_SESSION['id_ab_mesa'];
-}
-
-$nome_produto2 = '';
-if ($id_mesa == "") {
-	$query = $pdo->query("SELECT * FROM carrinho where sessao = '$sessao'");
-} else {
-	$query = $pdo->query("SELECT * FROM carrinho where mesa = '$id_mesa'");
-}
-
-$id_edicao = "";
-if (@$_SESSION['id_edicao'] != "") {
-	$id_edicao = $_SESSION['id_edicao'];
-}
-
-if($id_edicao != ""){
-	$query = $pdo->query("SELECT * FROM carrinho where pedido = '$id_edicao'");
-}
-
-
-$res = $query->fetchAll(PDO::FETCH_ASSOC);
-$total_reg = @count($res);
-$total_carrinho = 0;
-if($total_reg > 0){
-	for($i=0; $i < $total_reg; $i++){
-		foreach ($res[$i] as $key => $value){}	
-
-			$id = $res[$i]['id'];
-		$total_item = $res[$i]['total_item'];
-		$produto = $res[$i]['produto'];
-		$quantidade = $res[$i]['quantidade'];
-		$obs = $res[$i]['obs'];
-		$item = $res[$i]['item'];
-		$variacao = $res[$i]['variacao'];
-		$nome_produto_tab = $res[$i]['nome_produto'];
-		$sabores = $res[$i]['sabores'];
-		$borda = $res[$i]['borda'];
-		$categoria = $res[$i]['categoria'];
-		$valor_unit = $res[$i]['valor_unitario'];
-
-		if($valor_unit == ""){
-			if($total_item > 0 and $quantidade > 0){
-			$valor_unit = $total_item / $quantidade;
-			}else{
-				$valor_unit = 0;
-			}	
-		}
-		
-		
-		$id_sabor = $res[$i]['id_sabor'];
-
-		$total_item = $total_item * $quantidade;
-
-		$total_carrinho += $total_item;
-
-
-		$total_itemF = number_format($total_item, 2, ',', '.');
-		$valor_unitF = number_format($valor_unit, 2, ',', '.');
-		$total_carrinhoF = number_format($total_carrinho, 2, ',', '.');
-
-
-		$query2 = $pdo->query("SELECT * FROM variacoes where id = '$variacao'");
-		$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-		if(@count(@$res2) > 0){
-			$sigla_variacao = '('.$res2[0]['sigla'].')';			
-		}else{
-			$sigla_variacao = '';
-		}
-
-		
-		
-		$query2 = $pdo->query("SELECT * FROM produtos where id = '$produto'");
-		$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-		if(@count(@$res2) > 0){
-			$nome_produto = $res2[0]['nome'];
-			$foto_produto = $res2[0]['foto'];
-		}else{
-			$nome_produto = $nome_produto_tab;
-			$foto_produto = "";
-		}		
-
-		if($obs == ''){
-			$classe_obs = 'text-warning';
-		}else{
-			$classe_obs = 'text-danger';
-		}
-
-		$classe_borda = 'ocultar';
-		if($sabores > 0){			
-			$nome_produto = $nome_produto_tab;
-			$classe_borda = '';
-		}
-
-
-		$query8 =$pdo->query("SELECT * FROM bordas where id = '$borda'");
-		$res8 = $query8->fetchAll(PDO::FETCH_ASSOC);
-		$total_reg8 = @count($res8);
-		if($total_reg8 > 0){
-		$nome_borda = ' - '.$res8[0]['nome'];
-		}else{
-			$nome_borda = '';
-		}
-
-
-		$query2 = $pdo->query("SELECT * FROM temp where carrinho = '$id' and tabela = 'Variação' order by id asc limit 1");
-		$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-		$id_do_item = @$res2[0]['id_item'];
-
-		$query2 = $pdo->query("SELECT * FROM itens_grade where id = '$id_do_item'");
-		$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-		if(@$res2[0]['texto'] != ""){
-			$sigla_grade = '<small> ('.@$res2[0]['texto'].')</small>';
-		}else{
-			$sigla_grade = '';
-		}
-
-
-		if($id_mesa > 0){
-			$ocultar_excluir = 'ocultar';
-		}else{
-			$ocultar_excluir = '';
-		}
-		
-
-
-
-
-
-echo <<<HTML
-
-		
-		<li class="list-group-item mb-1" style="border:  solid 1px #ababab; border-radius: 10px; box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.20);">
-		<img class="" src="sistema/painel/images/produtos/{$foto_produto}" width="30px">		    	
-		<span class="nome-produto"><b>{$nome_produto} {$sigla_variacao} {$sigla_grade}</b></span>
-		<span class="{$classe_borda}" style="font-size:11px; color:#450703"><b> {$nome_borda}</b></span>
-
-HTML;
-
-$query2 = $pdo->query("SELECT * FROM temp where carrinho = '$id' and tabela = 'ingredientes'");
-		$res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-		$total_reg2 = @count($res2);
-		if($total_reg2 > 0){
-
-		for($i2=0; $i2 < $total_reg2; $i2++){
-			foreach ($res2[$i2] as $key => $value){}
-				$id_item = $res2[$i2]['id_item'];
-
-			$query3 =$pdo->query("SELECT * FROM ingredientes where id = '$id_item'");
-			$res3 = $query3->fetchAll(PDO::FETCH_ASSOC);
-			$nome_ingrediente = 'Sem '.$res3[0]['nome'];
-			if($i2 < ($total_reg2 - 1) ){
-				$nome_ingrediente = $nome_ingrediente. ', ';
-			}
-
-echo '<span class="text-danger ingredientes">'.$nome_ingrediente.'</span>';
-
-}
-}
-
-
-$query5 = $pdo->query("SELECT * FROM temp where carrinho = '$id' and tabela = 'adicionais'");
-		$res5 = $query5->fetchAll(PDO::FETCH_ASSOC);
-		$total_reg5 = @count($res5);
-		if($total_reg5 > 0){
-			$classe_adc = '';
-		}else{
-			$classe_adc = 'ocultar';
-		}
-
-$query5 = $pdo->query("SELECT * FROM temp where carrinho = '$id' and tabela != 'adicionais'");
-		$res5 = $query5->fetchAll(PDO::FETCH_ASSOC);
-		$total_reg5 = @count($res5);
-		if($total_reg5 > 0){
-			$classe_grade = '';
-		}else{
-			$classe_grade = 'ocultar';
-		}
-
-echo <<<HTML
-
-
-			
-			<a href="#" onclick="excluir('{$id}')" class="link-neutro {$ocultar_excluir}"><i class="bi bi-x-lg direita"></i></a>
-
-			<div id="popup-excluir{$id}" class="overlay-excluir">
-			<div class="popup">
-			<div class="row">
-			<div class="col-12">
-			Confirmar Exclusão? <a href="#" onclick="excluirCarrinho('{$id}', '{$id_sabor}')" class="text-danger link-neutro">Sim</a>
-			</div>
-			<div class="col-3">
-			<a class="close" href="#" onclick="fecharExcluir('{$id}')">&times;</a>
-			</div>
-			</div>
-
-			</div>
-			</div>	
-
-
-			
-			<div class="carrinho-qtd">
-
-			<div class="itens-carrinho-qtd">
-				<a title="Observações do item" class="link-neutro" href="#" onclick="obs('{$nome_produto}', '{$obs}', '{$id}')"><i class="bi bi-card-text {$classe_obs}"></i></a>
-			</div>
-
-			<div class="itens-carrinho-qtd-adc {$classe_adc}">
-				<a title="Ver Adicionais" class="link-neutro" href="#" onclick="adicionais('{$nome_produto}', '{$id}', '{$id_sabor}', '{$categoria}')"><i class="bi  bi-plus text-primary"></i><small><small>Adc</small></small></a>
-			</div>
-
-			<div class="itens-carrinho-qtd-adc {$classe_grade}">
-				<a title="Ver Opcionais" class="link-neutro" href="#" onclick="grades('{$nome_produto}', '{$id}', '{$produto}')"><i class="bi  bi-plus text-primary"></i><small><small>Opções</small></small></a>
-			</div>
-
-			<a href="#" onclick="mudarQuant('{$id}', '{$quantidade}', 'menos')" class="link-neutro">
-			<div class="menos-mais">
-			-
-			</div>
-			</a>
-
-
-			<div class="qtd-item-carrinho">
-			<span id="quant">{$quantidade}</span>
-			</div>
-
-
-			<a href="#" onclick="mudarQuant('{$id}', '{$quantidade}', 'mais')" class="link-neutro">
-			<div class="menos-mais">
-			+
-			</div>
-			</a>
-
-
-			<div class="valor-carrinho-it">
-			<small><b>R$ {$total_itemF}</b></small>
-			</div>
-
-			</div>
-
-
-			</li>
-
-HTML;
-
-		} 
-
-	}else{
-		echo "<script>window.location='index'</script>";
+require_once('../../sistema/SecureDB.php');
+
+// LOG DE ENTRADA
+file_put_contents('../../sistema/logs/security.log', json_encode([
+	'event' => 'listar_carrinho_entrada',
+	'session' => $_SESSION,
+	'hora' => date('Y-m-d H:i:s')
+], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n", FILE_APPEND);
+
+file_put_contents(__DIR__ . '/../../sistema/logs/checkout_debug.log', '[LISTAR-ENTRY] ' . json_encode([
+	'session_id' => session_id(),
+	'sessao_usuario' => @$_SESSION['sessao_usuario'],
+	'hora' => date('Y-m-d H:i:s')
+]) . "\n", FILE_APPEND);
+
+try {
+	$sessao = @$_SESSION['sessao_usuario'];
+
+	if (!$sessao) {
+		throw new Exception('Nenhum item adicionado!');
 	}
 
+	// Usar classe segura para limpar e buscar itens
+	$secureDB = new SecureDB($pdo);
+	$secureDB->cleanupCart();
+	$res = $secureDB->getCartItems($sessao);
+	file_put_contents(__DIR__ . '/../../sistema/logs/checkout_debug.log', '[LISTAR-RESULT] ' . json_encode([
+		'sessao' => $sessao,
+		'result' => $res,
+		'hora' => date('Y-m-d H:i:s')
+	]) . "\n", FILE_APPEND);
 
-	?>
+	if (count($res) == 0) {
+		echo '<li class="text-center">Nenhum item no carrinho</li>';
+		echo "<script>$('#total-do-pedido').text('0,00');</script>";
+		exit();
+	}
 
-	<script type="text/javascript">
-		$("#total-do-pedido").text("<?=$total_carrinhoF?>");
+	file_put_contents(__DIR__ . '/../../sistema/logs/checkout_debug.log', '[SESSION-LISTAR] ' . json_encode([
+		'session_id' => session_id(),
+		'sessao_usuario' => @$_SESSION['sessao_usuario'],
+		'hora' => date('Y-m-d H:i:s')
+	]) . "\n", FILE_APPEND);
 
-		function mudarQuant(id, quantidade, acao){
-			if(acao == 'menos' && quantidade == 1){
-				excluirCarrinho(id);
+	file_put_contents(__DIR__ . '/../../sistema/logs/checkout_debug.log', '[LISTAR-CARRINHO] ' . json_encode([
+		'sessao' => @$_SESSION['sessao_usuario'],
+		'itens' => count($res),
+		'hora' => date('Y-m-d H:i:s')
+	]) . "\n", FILE_APPEND);
+
+	$total_carrinho = 0;
+
+	foreach ($res as $item) {
+		$total_item = $item['total_item'];
+		$total_carrinho += $total_item;
+		$nome_produto = $item['nome_produto'];
+		$quantidade = $item['quantidade'];
+		$foto = $item['foto_produto'];
+		$id = $item['id'];
+		$obs = $item['obs'];
+		$valor_unitario = $item['valor_unitario'];
+
+		// Verificar se há adicionais vinculados ao item
+		$query_adc = $pdo->query("SELECT COUNT(*) as total FROM temp WHERE carrinho = '$id' AND tabela = 'adicionais'");
+		$res_adc = $query_adc->fetch(PDO::FETCH_ASSOC);
+		$tem_adicionais = $res_adc && $res_adc['total'] > 0;
+
+		// Formatar valores
+		$total_itemF = number_format($total_item, 2, ',', '.');
+		$valor_unitarioF = number_format($valor_unitario, 2, ',', '.');
+
+		// Botões de quantidade
+		$btn_menos = $quantidade > 1 ?
+			"<button type=\"button\" class=\"carrinho-btn-quant\" onclick=\"atualizarQuantidade({$id}, " . ($quantidade - 1) . ")\"><i class='bi bi-dash'></i></button>" :
+			"<button type=\"button\" class=\"carrinho-btn-quant\" disabled><i class='bi bi-dash'></i></button>";
+
+		$btn_mais = "<button type=\"button\" class=\"carrinho-btn-quant\" onclick=\"atualizarQuantidade({$id}, " . ($quantidade + 1) . ")\"><i class='bi bi-plus'></i></button>";
+
+		// Botão de adicionais (só se houver)
+		$btn_adicionais = '';
+		if ($tem_adicionais) {
+			$btn_adicionais = "<button type=\"button\" class=\"btn btn-sm btn-warning ms-2\" onclick=\"abrirAdicionais({$id})\"><i class='bi bi-plus-square'></i> Adicionais</button>";
+		}
+
+		echo <<<HTML
+		<li class="list-group-item">
+			<div class="d-flex mb-3 align-items-center">
+				<div class="flex-shrink-0">
+					<img src="sistema/painel/images/produtos/{$foto}" alt="{$nome_produto}" width="100">
+				</div>
+				<div class="flex-grow-1 ms-3">
+					<h6 class="mb-0">{$nome_produto}</h6>
+					<p class="mb-0 text-muted">
+						<small>
+							R$ {$valor_unitarioF} x {$quantidade} = R$ {$total_itemF}
+							<br>
+							{$obs}
+						</small>
+					</p>
+					<div class="mt-2">
+						<div class="d-flex align-items-center gap-1 flex-wrap">
+							{$btn_menos}
+							<button type="button" class="btn btn-sm btn-outline-secondary" disabled>{$quantidade}</button>
+							{$btn_mais}
+							<button type="button" class="carrinho-btn-edit" onclick="$('#modalObs').modal('show'); $('#id_obs').val({$id}); $('#obs').val('{$obs}'); $('#nome_item').text('{$nome_produto}')">
+								<i class="bi bi-pencil"></i>
+							</button>
+							<button type="button" class="carrinho-btn-remove" onclick="excluirCarrinho({$id})">
+								<i class="bi bi-trash"></i>
+							</button>
+							{$btn_adicionais}
+						</div>
+					</div>
+				</div>
+			</div>
+		</li>
+		HTML;
+	}
+
+	// Atualizar total do carrinho
+	$total_carrinhoF = number_format($total_carrinho, 2, ',', '.');
+	echo "<script>$('#total-do-pedido').text('{$total_carrinhoF}');</script>";
+} catch (Exception $e) {
+	http_response_code(200);
+	echo '<li class="text-center">Nenhum item no carrinho</li>';
+	echo "<script>$('#total-do-pedido').text('0,00');</script>";
+}
+?>
+
+<script>
+	function abrirAdicionais(id) {
+		$('#modalAdc').modal('show');
+		$.ajax({
+			url: 'js/ajax/listar-adc-carrinho.php',
+			method: 'POST',
+			data: {
+				id: id
+			},
+			success: function(result) {
+				$('#listar-adc-carrinho').html(result);
+			},
+			error: function() {
+				$('#listar-adc-carrinho').html('<div class="text-danger">Erro ao carregar adicionais.</div>');
 			}
-			$.ajax({
-				url: 'js/ajax/mudar-quant-carrinho.php',
-				method: 'POST',
-				data: {id, quantidade, acao},
-				dataType: "text",
+		});
+	}
 
-				success: function (mensagem) {  
-
-					if (mensagem.trim() == "Alterado com Sucesso") {                
-						listarCarrinho();         
-					}else{
-						alert(mensagem);
+	function atualizarQuantidade(id, quantidade) {
+		$.ajax({
+			url: 'js/ajax/atualizar-quantidade.php',
+			method: 'POST',
+			data: {
+				id: id,
+				quantidade: quantidade
+			},
+			success: function(result) {
+				if (result.includes('Sucesso')) {
+					// Recarregar lista do carrinho para mostrar valores atualizados
+					if (typeof listarCarrinho === 'function') {
 						listarCarrinho();
-					} 
-
-				},      
-
-			});
-		}
-
-
-		function excluirCarrinho(id, id_sabor){
-
-			$.ajax({
-				url: 'js/ajax/excluir-carrinho.php',
-				method: 'POST',
-				data: {id, id_sabor},
-				dataType: "text",
-
-				success: function (mensagem) {  
-					
-					if (mensagem.trim() == "Excluido com Sucesso") {                
-						listarCarrinho();         
-					} 
-
-				},      
-
-			});
-		}
-
-		function excluir(id){
-			var popup = 'popup-excluir' + id;
-			document.getElementById(popup).style.display = 'block';
-		}
-
-		function fecharExcluir(id){
-			var popup = 'popup-excluir' + id;
-			document.getElementById(popup).style.display = 'none';
-		}
-
-		function obs(nome, obs, id){
-			$('#obs').val('');
-			$("#nome_item").text(nome)
-			$("#obs").val(obs)
-			$("#id_obs").val(id)
-			 var myModal = new bootstrap.Modal(document.getElementById('modalObs'), {
-        		//backdrop: 'static',
-    		});
-   			 myModal.show();
-
-		}
-
-
-		function adicionais(nome, id, id_sabor, cat){			
-			$("#nome_item_adc").text(nome)			
-			listarAdicionais(id, id_sabor, cat);
-
-			var myModal = new bootstrap.Modal(document.getElementById('modalAdc'), {
-        		//backdrop: 'static',
-    		});
-   			 myModal.show();			 
-
-		}
-
-		function listarAdicionais(id, id_sabor, cat){
-
-			$.ajax({
-         url: 'js/ajax/listar-adc-carrinho.php',
-        method: 'POST',
-        data: {id, id_sabor, cat},
-        dataType: "html",
-
-        success:function(result){
-            $("#listar-adc-carrinho").html(result);
-           
-        }
-    });
-
-			
-
-		}
-
-
-
-		function grades(nome, id, produto){			
-			$("#nome_item_grade").text(nome)			
-			listarGrades(id, produto);
-
-			var myModal = new bootstrap.Modal(document.getElementById('modalGrades'), {
-        		//backdrop: 'static',
-    		});
-   			 myModal.show();			 
-
-		}
-
-
-
-		function listarGrades(id, produto){
-
-			$.ajax({
-         url: 'js/ajax/listar-grades-carrinho.php',
-        method: 'POST',
-        data: {id, produto},
-        dataType: "html",
-
-        success:function(result){
-            $("#listar-grade-carrinho").html(result);
-           
-        }
-    });
-
-			
-
-		}
-
-
-	</script>
+					} else {
+						// Fallback - recarregar a página se função não existir
+						location.reload();
+					}
+				} else {
+					alert('Erro ao atualizar quantidade: ' + result);
+				}
+			},
+			error: function() {
+				alert('Erro na comunicação com o servidor');
+			}
+		});
+	}
+</script>
