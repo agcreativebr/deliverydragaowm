@@ -188,12 +188,14 @@ class SecureDB
         if (!empty($conditions)) {
             $whereClause = [];
             $whereCounter = 0;
-            
+
             foreach ($conditions as $condition => $value) {
                 // Se a condição já contém um operador, usar como está
-                if (strpos($condition, '=') !== false || strpos($condition, '>') !== false || 
-                    strpos($condition, '<') !== false || strpos($condition, 'LIKE') !== false) {
-                    
+                if (
+                    strpos($condition, '=') !== false || strpos($condition, '>') !== false ||
+                    strpos($condition, '<') !== false || strpos($condition, 'LIKE') !== false
+                ) {
+
                     // Se já tem parâmetro nomeado (:param), usar como está
                     if (strpos($condition, ':') !== false) {
                         $whereClause[] = $condition;
@@ -305,6 +307,225 @@ class SecureDB
     public static function generateToken($length = 32)
     {
         return bin2hex(random_bytes($length / 2));
+    }
+
+    public function getCartItems($sessao)
+    {
+        $query = $this->pdo->prepare("
+            SELECT c.*, p.nome as nome_produto, p.foto as foto_produto,
+                COALESCE(c.valor_unitario, CASE 
+                    WHEN c.total_item > 0 AND c.quantidade > 0 THEN c.total_item / c.quantidade 
+                    ELSE p.valor_venda 
+                END) as valor_unitario
+            FROM carrinho c 
+            INNER JOIN produtos p ON c.produto = p.id 
+            WHERE c.sessao = ? AND c.pedido = '0' AND p.ativo = 'Sim'
+            ORDER BY c.id DESC
+        ");
+
+        $query->execute([$sessao]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function updateCartItemQuantity($id, $sessao, $quantidade)
+    {
+        // Verify item exists and belongs to session
+        $query = $this->pdo->prepare("
+            SELECT c.*, p.valor_venda, p.tem_estoque, p.estoque 
+            FROM carrinho c 
+            INNER JOIN produtos p ON c.produto = p.id 
+            WHERE c.id = ? AND c.sessao = ? AND c.pedido = '0'
+        ");
+
+        $query->execute([$id, $sessao]);
+        $item = $query->fetch(PDO::FETCH_ASSOC);
+
+        if (!$item) {
+            throw new Exception("Item não encontrado");
+        }
+
+        // Check stock if needed
+        if ($item['tem_estoque'] == 'Sim' && $quantidade > $item['estoque']) {
+            throw new Exception("Quantidade indisponível em estoque");
+        }
+
+        // Calculate base product total
+        $valor_unitario = $item['valor_venda'];
+        $total_produto = $valor_unitario * $quantidade;
+
+        // Calculate total of extras linked to this cart item
+        $total_adicionais = 0;
+        $query_adc = $this->pdo->prepare("SELECT * FROM temp WHERE carrinho = ? AND tabela = 'adicionais'");
+        $query_adc->execute([$id]);
+        $adicionais = $query_adc->fetchAll(PDO::FETCH_ASSOC);
+
+        if (count($adicionais) > 0) {
+            foreach ($adicionais as $adc) {
+                $id_item = $adc['id_item'];
+                $quantidade_adc = $adc['quantidade'];
+                // Buscar primeiro na tabela adicionais
+                $query_val = $this->pdo->prepare("SELECT nome, valor FROM adicionais WHERE id = ?");
+                $query_val->execute([$id_item]);
+                $res_val = $query_val->fetch(PDO::FETCH_ASSOC);
+                // Se não encontrar, buscar na itens_grade
+                if (!$res_val) {
+                    $query_val = $this->pdo->prepare("SELECT texto as nome, valor FROM itens_grade WHERE id = ?");
+                    $query_val->execute([$id_item]);
+                    $res_val = $query_val->fetch(PDO::FETCH_ASSOC);
+                }
+                $valor_adc = isset($res_val['valor']) ? $res_val['valor'] : 0;
+                $total_adicionais += ($valor_adc * $quantidade_adc * $quantidade);
+            }
+        }
+
+        // Calcular total final (produto + adicionais)
+        $total_item = ($valor_unitario * $quantidade) + $total_adicionais;
+
+        // Update quantity and total
+        $query = $this->pdo->prepare("
+            UPDATE carrinho 
+            SET quantidade = ?, total_item = ? 
+            WHERE id = ? AND sessao = ? AND pedido = '0'
+        ");
+
+        return $query->execute([$quantidade, $total_item, $id, $sessao]);
+    }
+
+    public function updateCartItemObservation($id, $sessao, $obs)
+    {
+        $query = $this->pdo->prepare("
+            UPDATE carrinho 
+            SET obs = ? 
+            WHERE id = ? AND sessao = ? AND pedido = '0'
+        ");
+
+        return $query->execute([$obs, $id, $sessao]);
+    }
+
+    public function cleanupCart()
+    {
+        // Remove orphaned items (no order and older than 24h)
+        $this->pdo->query("
+            DELETE FROM carrinho 
+            WHERE pedido = '0' AND DATE_ADD(data, INTERVAL 24 HOUR) < NOW()
+        ");
+
+        // Remove items without valid products
+        $this->pdo->query("
+            DELETE FROM carrinho 
+            WHERE pedido = '0' AND (produto = '0' OR produto NOT IN (
+                SELECT id FROM produtos WHERE ativo = 'Sim'
+            ))
+        ");
+    }
+
+    public function addToCart($sessao, $produto, $quantidade, $obs = '', $valor_unitario = null)
+    {
+        // Verify product exists and is active
+        $query = $this->pdo->prepare("
+            SELECT * FROM produtos 
+            WHERE id = ? AND ativo = 'Sim'
+        ");
+
+        $query->execute([$produto]);
+        if ($query->rowCount() == 0) {
+            throw new Exception("Produto não encontrado ou inativo");
+        }
+
+        $prod = $query->fetch(PDO::FETCH_ASSOC);
+
+        // Use product price if no unit price provided
+        if ($valor_unitario === null) {
+            $valor_unitario = $prod['valor_venda'];
+        }
+
+        $total_item = $valor_unitario * $quantidade;
+
+        // Check if product already in cart
+        $query = $this->pdo->prepare("
+            SELECT id FROM carrinho 
+            WHERE sessao = ? AND produto = ? AND pedido = '0'
+        ");
+
+        $query->execute([$sessao, $produto]);
+
+        if ($query->rowCount() > 0) {
+            // Update existing item
+            $res = $query->fetch(PDO::FETCH_ASSOC);
+            $id = $res['id'];
+
+            $query = $this->pdo->prepare("
+                UPDATE carrinho 
+                SET quantidade = quantidade + ?,
+                    valor_unitario = ?,
+                    total_item = (quantidade + ?) * ?,
+                    obs = ?
+                WHERE id = ?
+            ");
+
+            return $query->execute([
+                $quantidade,
+                $valor_unitario,
+                $quantidade,
+                $valor_unitario,
+                $obs,
+                $id
+            ]);
+        } else {
+            // Insert new item
+            $query = $this->pdo->prepare("
+                INSERT INTO carrinho SET 
+                    sessao = ?,
+                    produto = ?,
+                    quantidade = ?,
+                    valor_unitario = ?,
+                    total_item = ?,
+                    obs = ?,
+                    data = NOW(),
+                    pedido = '0'
+            ");
+
+            return $query->execute([
+                $sessao,
+                $produto,
+                $quantidade,
+                $valor_unitario,
+                $total_item,
+                $obs
+            ]);
+        }
+    }
+
+    public function deleteCartItem($id, $sessao)
+    {
+        // Verify item exists and belongs to session
+        $query = $this->pdo->prepare("
+            SELECT * FROM carrinho 
+            WHERE id = ? AND sessao = ? AND pedido = '0'
+        ");
+
+        $query->execute([$id, $sessao]);
+        if ($query->rowCount() == 0) {
+            throw new Exception("Item não encontrado");
+        }
+
+        // Delete item
+        $query = $this->pdo->prepare("
+            DELETE FROM carrinho 
+            WHERE id = ? AND sessao = ? AND pedido = '0'
+        ");
+
+        if (!$query->execute([$id, $sessao])) {
+            throw new Exception("Erro ao excluir item");
+        }
+
+        // Delete item's extras
+        $query = $this->pdo->prepare("
+            DELETE FROM carrinho_adicionais 
+            WHERE carrinho_id = ?
+        ");
+
+        return $query->execute([$id]);
     }
 }
 
