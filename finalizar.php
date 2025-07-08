@@ -8,44 +8,39 @@ $id_usuario = @$_SESSION['id'];
 
 $sessao_pedido_balcao = @$_SESSION['pedido_balcao'];
 
-
-
 $total_carrinho = 0;
 $total_carrinhoF = 0;
-$query = $pdo->query("SELECT * FROM carrinho where sessao = '$sessao'");
-$res = $query->fetchAll(PDO::FETCH_ASSOC);
-$total_reg = @count($res);
 
+// Buscar itens do carrinho com JOIN para garantir produtos válidos
+$query = $pdo->prepare("
+    SELECT c.*, p.nome as nome_produto, p.valor_venda as valor_produto 
+    FROM carrinho c 
+    INNER JOIN produtos p ON c.produto = p.id 
+    WHERE c.sessao = ? AND c.pedido = '0' AND p.ativo = 'Sim'
+");
+
+$query->execute([$sessao]);
+$res = $query->fetchAll(PDO::FETCH_ASSOC);
+$total_reg = count($res);
 
 if ($total_reg == 0) {
   echo "<script>window.location='index'</script>";
   exit();
-} else {
-  for ($i = 0; $i < $total_reg; $i++) {
-    foreach ($res[$i] as $key => $value) {
-    }
-
-    $id = $res[$i]['id'];
-    $total_item = $res[$i]['total_item'];
-    $produto = $res[$i]['produto'];
-    $pedido = $res[$i]['pedido'];
-    $quantidade_it = $res[$i]['quantidade'];
-
-    $total_item = $total_item * $quantidade_it;
-
-    $total_carrinho += $total_item;
-  }
-  $total_carrinhoF = number_format($total_carrinho, 2, ',', '.');
 }
 
+// Calcular total do carrinho
+foreach ($res as $item) {
+  $total_item = $item['total_item']; // Removida multiplicação redundante pela quantidade
+  $total_carrinho += $total_item;
+}
 
+$total_carrinhoF = number_format($total_carrinho, 2, ',', '.');
 $_SESSION['total_carrinho'] = $total_carrinho; // Salva o subtotal puro para o backend
 
 // Busca a taxa configurável do banco para ser usada no JavaScript.
 $query_taxa = $pdo->query("SELECT taxa_cartao FROM config WHERE id = 1");
 $dados_taxa = $query_taxa->fetch(PDO::FETCH_ASSOC);
 $taxa_cartao_db = $dados_taxa['taxa_cartao'] ?? 0;
-
 
 $esconder_opc_delivery = '';
 $valor_entrega = '';
@@ -63,6 +58,91 @@ $bairro = "";
 $complemento = "";
 
 ?>
+
+<style>
+  .input-nome-destaque {
+    font-size: 1.1rem;
+    font-weight: 500;
+    border-radius: 10px;
+    border: 1.5px solid #ffe066;
+    box-shadow: 0 1px 4px rgba(245, 158, 0, 0.06);
+    padding: 7px 14px;
+    width: 100%;
+    max-width: 320px;
+    margin: 8px auto 6px auto;
+    background: #fffbe6;
+    color: #222;
+    transition: box-shadow 0.18s, border-color 0.18s;
+  }
+
+  .input-nome-destaque:focus {
+    border-color: #f59e00;
+    box-shadow: 0 2px 8px rgba(245, 158, 0, 0.12);
+    outline: none;
+  }
+
+  .input-nome-destaque::placeholder {
+    color: #f59e00;
+    opacity: 0.7;
+    font-weight: 400;
+  }
+
+  .btn-confirmar {
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    padding: 12px 0;
+    width: 100%;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
+    transition: box-shadow 0.18s, background 0.18s, color 0.18s, transform 0.18s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: #fff !important;
+  }
+
+  .btn-confirmar i {
+    font-size: 1.2em;
+  }
+
+  .btn-confirmar.btn-danger:hover {
+    background: #c82333;
+  }
+
+  .btn-confirmar.btn-success:hover {
+    background: #218838;
+  }
+
+  .mt-2-botoes {
+    margin-top: 12px;
+  }
+
+  .pagamento-label {
+    font-size: 1.05rem;
+    font-weight: 500;
+    padding: 8px 6px;
+    border-radius: 8px;
+    transition: background 0.15s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .pagamento-label:hover {
+    background: #fffbe6;
+  }
+
+  .pagamento-label i {
+    font-size: 1.2em;
+    color: #f59e00;
+  }
+
+  .row-pagamento {
+    margin-bottom: 10px;
+  }
+</style>
 
 <div class="main-container">
 
@@ -96,22 +176,24 @@ $complemento = "";
             placeholder="(00) 00000-0000" style="width:200px; text-align: center; border:0; margin-top: -15px; font-size: 19px">
           <img src="img/user.jpg" width="50px" height="50px">
 
-          <div class="nome_user"> <input onclick="" type="text" class="input" name="nome" id="nome" required value="" placeholder="Seu Nome" style="width:200px; text-align: center; border:0"></div>
-
+          <div class="nome_user">
+            <input type="text" class="input input-nome-destaque" name="nome" id="nome" required value="" placeholder="Seu Nome" style="text-align: center;">
+          </div>
 
 
           <hr>
           <div><b>Finalizar seu Pedido?</b></div>
           <hr>
-          <div class="row">
+          <div class="row mt-2-botoes">
             <div class="col-6">
-              <a href="index" class="btn btn-danger botao_nao">NÃO</a>
-
+              <a href="index" class="btn btn-danger botao_nao btn-confirmar" title="Cancelar pedido">
+                <i class="bi bi-x-circle me-1"></i> NÃO
+              </a>
             </div>
-
             <div class="col-6">
-
-              <a class="btn btn-success botao_sim" onclick="dados(); buscarNome()">SIM</a>
+              <a class="btn btn-success botao_sim btn-confirmar" onclick="dados(); buscarNome()" title="Confirmar pedido">
+                <i class="bi bi-check-circle me-1"></i> SIM
+              </a>
             </div>
           </div>
         </div>
@@ -297,33 +379,35 @@ $complemento = "";
         data-bs-parent="#accordionExample">
         <div class="accordion-body">
 
-          <div class="row" style="font-size:14px">
+          <div class="row row-pagamento" style="font-size:15px;">
 
             <div class="col-3 form-check">
-              <small>Dinheiro
-                <input onchange="dinheiro()" class="form-check-input" type="radio" name="forma_pgto_radio"
-                  id="radio_dinheiro">
-              </small>
+              <label class="form-check-label w-100 d-flex align-items-center gap-1 pagamento-label" for="radio_dinheiro">
+                <i class="bi bi-cash-coin"></i> Dinheiro
+                <input onchange="dinheiro()" class="form-check-input ms-auto" type="radio" name="forma_pgto_radio" id="radio_dinheiro">
+              </label>
             </div>
 
             <div class="col-2 form-check">
-              <small>Pix
-                <input onchange="pix()" class="form-check-input" type="radio" name="forma_pgto_radio" id="radio_pix">
-              </small>
+              <label class="form-check-label w-100 d-flex align-items-center gap-1 pagamento-label" for="radio_pix">
+                <i class="bi bi-qr-code"></i> Pix
+                <input onchange="pix()" class="form-check-input ms-auto" type="radio" name="forma_pgto_radio" id="radio_pix">
+              </label>
             </div>
 
 
             <div class="col-3 form-check">
-              <small>Crédito
-                <input onchange="credito()" class="form-check-input" type="radio" name="forma_pgto_radio"
-                  id="radio_credito">
-              </small>
+              <label class="form-check-label w-100 d-flex align-items-center gap-1 pagamento-label" for="radio_credito">
+                <i class="bi bi-credit-card"></i> Crédito
+                <input onchange="credito()" class="form-check-input ms-auto" type="radio" name="forma_pgto_radio" id="radio_credito">
+              </label>
             </div>
 
             <div class="col-3 form-check">
-              <small>Débito
-                <input onchange="debito()" class="form-check-input" type="radio" name="forma_pgto_radio" id="radio_debito">
-              </small>
+              <label class="form-check-label w-100 d-flex align-items-center gap-1 pagamento-label" for="radio_debito">
+                <i class="bi bi-credit-card-2-back"></i> Débito
+                <input onchange="debito()" class="form-check-input ms-auto" type="radio" name="forma_pgto_radio" id="radio_debito">
+              </label>
             </div>
 
           </div>
@@ -1034,6 +1118,39 @@ $complemento = "";
           Swal.fire('Erro', 'Não foi possível finalizar o pedido: ' + mensagem, 'error');
           $('#botao_finalizar').show();
           $('#div_img').hide();
+        }
+
+        // LOG DE DIAGNÓSTICO PARA WHATSAPP WEB
+        console.log('Resposta Ajax:', mensagem);
+        if (mensagem.includes('wa.me')) {
+          const msg_parts = mensagem.split("*");
+          const link = msg_parts[3]?.trim();
+          if (link && link.startsWith('http')) {
+            // Tenta abrir automaticamente
+            const win = window.open(link, '_blank');
+            if (!win) {
+              // Se o popup for bloqueado, mostra botão/link para o usuário clicar
+              Swal.fire({
+                title: 'Contato WhatsApp',
+                html: `<a href="${link}" target="_blank" class="btn btn-success" id="btnAbrirWhats">Clique aqui para abrir o WhatsApp</a>`,
+                icon: 'info',
+                showConfirmButton: true,
+                confirmButtonText: 'Já abri o WhatsApp'
+              }).then(() => {
+                if (msg_parts[2]) window.location = `pedido/${msg_parts[2]}`;
+                else window.location = 'index.php';
+              });
+            } else {
+              // Se abriu automaticamente, redireciona após 2 segundos
+              setTimeout(() => {
+                if (msg_parts[2]) window.location = `pedido/${msg_parts[2]}`;
+                else window.location = 'index.php';
+              }, 2000);
+            }
+            return;
+          } else {
+            console.log('Link não encontrado ou mal formatado.');
+          }
         }
       },
       error: function(xhr, status, error) {
