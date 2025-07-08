@@ -182,13 +182,13 @@ if ($total_reg > 0) {
     $foto = $res[0]['foto'];
     $id_prod = $res[0]['id'];
     $valor = $res[0]['valor_venda'];
-    
+
     $categoria = $res[0]['categoria'];
     $val_promocional = $res[0]['val_promocional'];
     $promocao = $res[0]['promocao'];
 
-    if($promocao == 'Sim'){
-         $valor = $val_promocional;
+    if ($promocao == 'Sim') {
+        $valor = $val_promocional;
     }
 
     $valorF = number_format($valor, 2, ',', '.');
@@ -295,9 +295,9 @@ if ($total_reg > 0) {
                                 <?php if ($tipo_item == 'Múltiplo') { ?>
                                     <span class="direita" style="font-size:14px">
 
-                                        <span><button onclick="dim('<?php echo $id_grade ?>', '<?php echo $id_item ?>', '<?php echo $valor_item_grade ?>', '<?php echo $tipo_item ?>', '<?php echo $valor_item ?>', '<?php echo $limite_item ?>', '<?php echo $limite ?>')" style="background:transparent; border:none"><i class="bi bi-dash-circle-fill text-danger"></i></button></span>
-                                        <span> <b><input id="quantidade_item_<?php echo $id_item ?>" value="0" style="background: transparent; border:none; width:20px; text-align: center"></b> </span>
-                                        <span><button onclick="aum('<?php echo $id_grade ?>', '<?php echo $id_item ?>', '<?php echo $valor_item_grade ?>', '<?php echo $tipo_item ?>', '<?php echo $valor_item ?>', '<?php echo $limite_item ?>', '<?php echo $limite ?>')" style="background:transparent; border:none"><i class="bi bi-plus-circle-fill text-success"></i></button></span>
+                                        <span><button class="minus-adicional" data-id="<?php echo $id_item ?>">-</button></span>
+                                        <span> <b><input type="text" class="qtd-adicional" data-id="<?php echo $id_item ?>" data-valor="<?php echo $valor_item_grade ?>" value="0" readonly style="width: 30px; text-align: center;" /></b> </span>
+                                        <span><button class="plus-adicional" data-id="<?php echo $id_item ?>">+</button></span>
 
                                     </span>
 
@@ -487,7 +487,7 @@ if (@$id_mesa == "" and $pedido_balcao == "") {
 
 
 <input type="hidden" id="quantidade" value="1">
-
+<input type="hidden" id="valor_produto_base" value="<?php echo $valor_total_do_item ?>" />
 
 
 <div class="destaque-qtd" style="border:  solid 1px #ababab; border-radius: 10px;">
@@ -601,166 +601,81 @@ if (@$id_mesa == "" and $pedido_balcao == "") {
 
 
 <script type="text/javascript">
-    function aum(grade, item, valor, tipo, tipagem, limite, limite_grade) {
-        var quant = $("#quantidade_item_" + item).val();
-        var quantidade = parseFloat(quant) + 1;
-
-
-        if (limite > 0) {
-            if (quantidade > limite) {
-                alert("A quantidade de itens não pode ser maior que " + limite)
-                return;
-            }
-        }
-
-
-
-
-        var qt_grade = $("#qt_" + grade).val();
-        if (qt_grade == "") {
-            qt_grade = 0;
-        }
-        qt_grade = parseFloat(qt_grade) + 1;
-
-
-        if (limite_grade > 0) {
-            if (qt_grade > limite_grade) {
-                alert("A quantidade de itens selecionados não pode ser maior que " + limite_grade)
-                return;
-            }
-        }
-        $("#qt_" + grade).val(qt_grade);
-
-
-        $("#quantidade_item_" + item).val(quantidade);
-
-
-
-        itens(item, grade, valor, tipo, quantidade, tipagem);
-    }
-
-    function dim(grade, item, valor, tipo, tipagem, limite, limite_grade) {
-        var quant = $("#quantidade_item_" + item).val();
-
-        var quantidade = parseFloat(quant) - 1;
-
-        if (quantidade < 0) {
-            alert('Insira um valor igual ou maior que zero');
-            return;
-        }
-
-
-        var qt_grade = $("#qt_" + grade).val();
-        if (qt_grade == "") {
-            qt_grade = 0;
-        }
-        qt_grade = parseFloat(qt_grade) - 1;
-        $("#qt_" + grade).val(qt_grade);
-
-
-        $("#quantidade_item_" + item).val(quantidade);
-
-
-
-        itens(item, grade, valor, tipo, quantidade, tipagem);
-    }
-</script>
-
-
-
-
-<script type="text/javascript">
     $(document).ready(function() {
+        // Inicialização
         var quant = $("#quantidade").val();
         $("#quant").text(quant);
+        listarCarrinhoIcone();
 
-    });
-
-    function aumentarQuant() {
-
-        var quant = $("#quantidade").val();
-        var novo_valor = parseInt(quant) + parseInt(1);
-        $("#quant").text(novo_valor)
-        $("#quantidade").val(novo_valor);
-
-
-        var total_quant = parseInt(quant) + parseInt(1);
-        var total_inicial = $("#valor_total_input").val();
-        var total_it = parseFloat(total_inicial) * parseFloat(total_quant);
-        $("#total_item").text(total_it.toFixed(2));
-        $("#total_item_input").val(total_it);
-
-        $("#valor_item_quantF").text(total_it.toFixed(2));
-    }
-
-    function diminuirQuant() {
-        var quant = $("#quantidade").val();
-        if (quant > 1) {
-            var novo_valor = parseInt(quant) - parseInt(1);
-            $("#quant").text(novo_valor)
-            $("#quantidade").val(novo_valor)
-
-            var total_quant = parseInt(quant) - parseInt(1);
-            var total_inicial = $("#valor_total_input").val();
-            var total_it = parseFloat(total_inicial) * parseFloat(total_quant);
-            $("#total_item").text(total_it.toFixed(2));
-            $("#total_item_input").val(total_it);
-
-            $("#valor_item_quantF").text(total_it.toFixed(2));
-        }
-
-    }
-</script>
-
-
-
-
-<script type="text/javascript">
-    function addCarrinho() {
-
-        var quantidade = $('#quantidade').val();
-        var total_item = $('#valor_total_input').val();
-        var produto = "<?= $id_prod ?>";
-        var obs = $('#obs').val();
-        var tem_var = "<?= $tem_variação ?>";
-        var mesa = "<?= $id_ab_mesa ?>";
-
-        var valor_produto = $('#valor_total_produto').val();
-
-        if (total_item <= 0 && valor_produto <= 0) {
-            alert("O valor do Pedido é zero, selecione as opções!");
-            return;
-        }
-
-        if (valor_produto <= 0 && tem_var == 'Sim') {
-            alert("Selecione a Variação do Item");
-            return;
-        }
-
-
-
-        $.ajax({
-            url: 'js/ajax/add-carrinho.php',
-            method: 'POST',
-            data: {
-                quantidade,
-                total_item,
-                produto,
-                obs,
-                valor_produto,
-                mesa
-            },
-            dataType: "text",
-
-            success: function(mensagem) {
-                if (mensagem.trim() == "Inserido com Sucesso") {
-                    window.location = 'carrinho';
-                } else {
-                    alert(mensagem)
+        // Funções do carrinho
+        window.listarCarrinhoIcone = function() {
+            $.ajax({
+                url: 'js/ajax/listar-itens-carrinho-icone.php',
+                method: 'POST',
+                data: {},
+                dataType: "html",
+                success: function(result) {
+                    $("#listar-itens-carrinho-icone").html(result);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Erro ao atualizar carrinho:", error);
                 }
+            });
+        };
 
-            },
+        window.addCarrinho = function() {
+            var quantidade = $('#quantidade').val();
+            var total_item = $('#valor_total_input').val();
+            var produto = "<?= $id_prod ?>";
+            var obs = $('#obs').val();
+            var tem_var = "<?= $tem_variação ?>";
+            var mesa = "<?= $id_ab_mesa ?>";
+            var valor_produto = $('#valor_total_produto').val();
 
-        });
-    }
+            if (total_item <= 0 && valor_produto <= 0) {
+                alert("O valor do Pedido é zero, selecione as opções!");
+                return;
+            }
+
+            if (valor_produto <= 0 && tem_var == 'Sim') {
+                alert("Selecione a Variação do Item");
+                return;
+            }
+
+            $.ajax({
+                url: 'js/ajax/add-carrinho.php',
+                method: 'POST',
+                data: {
+                    quantidade,
+                    total_item,
+                    produto,
+                    obs,
+                    valor_produto,
+                    mesa
+                },
+                dataType: "json",
+                success: function(response) {
+                    if (response.status === 'success') {
+                        // Redirecionar para a página do carrinho
+                        window.location.href = 'carrinho';
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Erro ao adicionar ao carrinho:", error);
+                    alert("Erro ao adicionar ao carrinho. Por favor, tente novamente.");
+                }
+            });
+        };
+
+        // Funções de quantidade
+        // Remover completamente as funções abaixo do script inline:
+        // window.aumentarQuant = function() { ... }
+        // window.diminuirQuant = function() { ... }
+    });
 </script>
+<script src="js/adicionais.js"></script>
+</body>
+
+</html>
