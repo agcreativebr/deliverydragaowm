@@ -209,23 +209,32 @@ if ($nome_mesa == '' and $pedido_balcao == "") {
   </div>
 
 
+  <!-- Remover o bloco de botão duplicado acima do subtotal -->
+
+  <!-- Botão finalizar pedido -->
   <div class="d-grid gap-2 mt-4 abaixo">
-
-    <?php if($id_edicao > 0){ ?>
-          <a href='' onclick="window.close()" class="btn btn-warning btn-lg">Finalizar Edição <i class="fal fa-long-arrow-right"></i></a>
-    <?php }else{ ?>
-
-      <?php if ($nome_mesa == "") { ?>
-        <a href='finalizar' class="btn btn-warning btn-lg">Finalizar Pedido <i class="fal fa-long-arrow-right"></i></a>
-      <?php } else { ?>
-        <a href='' onclick="window.close()" class="btn btn-warning btn-lg">Finalizar Pedido <i class="fal fa-long-arrow-right"></i></a>
-      <?php } ?>
-
-
-  <?php } ?>
+    <a href='finalizar' class="btn btn-finalizar btn-lg w-100 mt-2">Finalizar Pedido <i class="bi bi-arrow-right ms-2"></i></a>
   </div>
 </div>
 
+
+<!-- Scripts -->
+<script src="js/carrinho.js"></script>
+<script>
+  $(document).ready(function() {
+    // Inicializar carrinho
+    listarCarrinho();
+
+    // Inicializar modal
+    var modalObs = new bootstrap.Modal(document.getElementById('modalObs'));
+
+    // Prevenir submit do form
+    $('#form-obs').on('submit', function(e) {
+      e.preventDefault();
+      return false;
+    });
+  });
+</script>
 
 </body>
 
@@ -235,32 +244,27 @@ if ($nome_mesa == '' and $pedido_balcao == "") {
 
 
 
-<!-- Modal -->
-<div class="modal fade" id="modalObs" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal de Observações -->
+<div class="modal fade" id="modalObs" tabindex="-1" aria-labelledby="modalObsLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"><span id="nome_item"></span></h5>
-        <button type="button" id="btn-fechar-obs" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        <h5 class="modal-title" id="modalObsLabel">Observações - <span id="nome_item"></span></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form id="form-obs">
-        <div class="modal-body">
-          <div class="destaque-qtd">
-            <b>OBSERVAÇÕES</b>
-            <div class="form-group mt-3">
-              <textarea maxlength="255" class="form-control" type="text" name="obs" id="obs" placeholder="Deseja adicionar alguma Observação?"></textarea>
-            </div>
+      <div class="modal-body">
+        <form id="form-obs" onsubmit="return false;">
+          <input type="hidden" id="id_obs" name="id">
+          <div class="mb-3">
+            <label for="obs" class="form-label">Observações do item</label>
+            <textarea class="form-control" id="obs" name="obs" rows="3" maxlength="255" placeholder="Deseja adicionar alguma observação?"></textarea>
           </div>
-
-          <input type="hidden" name="id" id="id_obs">
-          <br><small>
-            <div id="mensagem-obs" align="center"></div>
-          </small>
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Salvar</button>
-        </div>
-      </form>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-primary" onclick="salvarObservacao($('#id_obs').val(), $('#obs').val())">Salvar</button>
+      </div>
     </div>
   </div>
 </div>
@@ -366,3 +370,79 @@ if ($nome_mesa == '' and $pedido_balcao == "") {
 
   });
 </script>
+
+<!-- CSS moderno para botões do carrinho -->
+<style>
+  .carrinho-btn-quant {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: #fffbe6;
+    color: #333;
+    margin: 0 2px;
+    transition: box-shadow 0.18s, background 0.18s, color 0.18s, transform 0.18s;
+    font-size: 1.1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  }
+
+  .carrinho-btn-quant:hover {
+    background: #ffe066;
+    color: #f59e00;
+    transform: scale(1.12);
+    box-shadow: 0 2px 8px rgba(245, 158, 0, 0.10);
+  }
+
+  .carrinho-btn-edit,
+  .carrinho-btn-remove {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    margin-left: 6px;
+    color: #888;
+    transition: color 0.18s, transform 0.18s;
+  }
+
+  .carrinho-btn-edit:hover {
+    color: #1976d2;
+    transform: scale(1.15);
+  }
+
+  .carrinho-btn-remove:hover {
+    color: #dc3545;
+    transform: scale(1.15);
+  }
+
+  .btn-finalizar {
+    border-radius: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.18s;
+    text-transform: capitalize;
+    background: linear-gradient(90deg, #ffe066 0%, #f59e00 100%);
+    color: #222;
+    border: none;
+  }
+
+  .btn-finalizar:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 4px 16px rgba(245, 158, 0, 0.18);
+    background: linear-gradient(90deg, #f59e00 0%, #ffe066 100%);
+    color: #111;
+  }
+</style>
+
+<!-- Exemplo de uso dos botões no HTML do carrinho -->
+<!--
+<button class="carrinho-btn-quant" onclick="diminuirQuantItem(id)"><i class="bi bi-dash"></i></button>
+<input type="text" class="form-control text-center border-0" value="4" readonly style="width: 32px; background: transparent; font-size: 1.1rem; font-weight: 600;">
+<button class="carrinho-btn-quant" onclick="aumentarQuantItem(id)"><i class="bi bi-plus"></i></button>
+<button class="carrinho-btn-edit" title="Editar"><i class="bi bi-pencil"></i></button>
+<button class="carrinho-btn-remove" title="Remover"><i class="bi bi-trash"></i></button>
+-->
+
+<!-- Botão finalizar pedido -->
