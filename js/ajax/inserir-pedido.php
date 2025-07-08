@@ -1,18 +1,21 @@
 <?php
-require_once ('../../sistema/conexao.php');
-require_once ('ApiConfig.php');
+error_reporting(0);
+ini_set('display_errors', 0);
+header('Content-Type: text/html; charset=UTF-8');
+require_once('../../sistema/conexao.php');
+require_once('ApiConfig.php');
 @session_start();
 
 $id_usuario = @$_SESSION['id'];
 
 $sessao_pedido_balcao = @$_SESSION['pedido_balcao'];
 $tipo_pedido = '';
-if($sessao_pedido_balcao == 'BALCÃO'){
+if ($sessao_pedido_balcao == 'BALCÃO') {
   $tipo_pedido = 'Balcão';
 }
 
 $data_atual = date('Y-m-d');
-$data_dias_retorno = date('Y-m-d', strtotime("+$dias_retorno days",strtotime($data_atual)));
+$data_dias_retorno = date('Y-m-d', strtotime("+$dias_retorno days", strtotime($data_atual)));
 
 
 $pagamento = filter_var(@$_POST['pagamento'], @FILTER_SANITIZE_STRING);
@@ -41,7 +44,7 @@ $esta_pago = filter_var(@$_POST['esta_pago'], @FILTER_SANITIZE_STRING);
 
 
 //verificar pgto pix
-require ("verificar_pgto.php");
+require("verificar_pgto.php");
 if (@$status_api == 'approved' or $esta_pago == 'Sim') {
   $pago = 'Sim';
 } else {
@@ -76,17 +79,17 @@ if ($tel_cliente != "") {
   if (@count($res) > 0) {
     $cliente = $res[0]['id'];
     $total_cartoes_cliente = $res[0]['cartoes'];
-    if($total_cartoes_cliente == ""){
+    if ($total_cartoes_cliente == "") {
       $total_cartoes_cliente = 0;
     }
-    if($total_cartoes_cliente < $total_cartoes_config){
+    if ($total_cartoes_cliente < $total_cartoes_config) {
       $total_cartoes_cliente = $total_cartoes_cliente + 1;
     }
 
-    if($total_cartoes_cliente == $total_cartoes_config and $cupom == $valor_cupom_config){
+    if ($total_cartoes_cliente == $total_cartoes_config and $cupom == $valor_cupom_config) {
       $total_cartoes_cliente = 0;
     }
-    
+
 
     //atualiza os dados do cliente
     $query = $pdo->prepare("UPDATE clientes SET nome = :nome, endereco = :rua, numero = :numero, complemento = :complemento, bairro = :bairro, cep = :cep, cidade = :cidade, data_mensagem = '$data_dias_retorno', retorno_enviado = 'Não', cartoes = '$total_cartoes_cliente' where id = '$cliente'");
@@ -99,7 +102,6 @@ if ($tel_cliente != "") {
     $query->bindValue(":cidade", "$cidade");
 
     $query->execute();
-
   } else {
     $query = $pdo->prepare("INSERT INTO clientes SET nome = :nome, telefone = :telefone, endereco = :rua, numero = :numero, bairro = :bairro, complemento = :complemento, data_cad = curDate(), cep = :cep, cidade = :cidade, data_mensagem = '$data_dias_retorno', retorno_enviado = 'Não', cartoes = '1'");
     $query->bindValue(":nome", "$nome_cliente_ped");
@@ -131,8 +133,7 @@ if ($total_reg > 0) {
     $produto = $res[$i]['produto'];
     $quantidade = $res[$i]['quantidade'];
 
-    $total_item = $total_item * $quantidade;
-
+    // O total_item já inclui a quantidade, não precisa multiplicar novamente
     $total_carrinho += $total_item;
 
     $query2 = $pdo->query("SELECT * FROM produtos where id = '$produto'");
@@ -147,7 +148,6 @@ if ($total_reg > 0) {
       $total_produtos = $estoque - $quantidade;
       $pdo->query("UPDATE produtos SET estoque = '$total_produtos' where id = '$produto'");
     }
-
   }
 } else {
   echo '0';
@@ -155,8 +155,8 @@ if ($total_reg > 0) {
 }
 
 //if($pagamento == 'Cartão de Crédito'){
-    
- //   @$total_carrinho = @$total_carrinho + (@$total_carrinho * 0.05);
+
+//   @$total_carrinho = @$total_carrinho + (@$total_carrinho * 0.05);
 //}
 
 
@@ -167,15 +167,15 @@ if ($total_reg > 0) {
 // ====================================================================
 // Justificativa: Substitui a taxa fixa de 5% pela taxa configurável do banco.
 $taxa_aplicada = 0;
-if($pagamento == 'Cartão de Crédito'){
-    $query_taxa = $pdo->query("SELECT taxa_cartao FROM config where id = 1");
-    $res_taxa = $query_taxa->fetch(PDO::FETCH_ASSOC);
-    $taxa_cartao_db = $res_taxa['taxa_cartao'] ?? 0;
-    
-    if ($taxa_cartao_db > 0) {
-        $taxa_aplicada = $total_carrinho * ($taxa_cartao_db / 100);
-        $total_carrinho = $total_carrinho + $taxa_aplicada;
-    }
+if ($pagamento == 'Cartão de Crédito') {
+  $query_taxa = $pdo->query("SELECT taxa_cartao FROM config where id = 1");
+  $res_taxa = $query_taxa->fetch(PDO::FETCH_ASSOC);
+  $taxa_cartao_db = $res_taxa['taxa_cartao'] ?? 0;
+
+  if ($taxa_cartao_db > 0) {
+    $taxa_aplicada = $total_carrinho * ($taxa_cartao_db / 100);
+    $total_carrinho = $total_carrinho + $taxa_aplicada;
+  }
 }
 // ====================================================================
 // =============== FIM DA MODIFICAÇÃO CIRÚRGICA =======================
@@ -212,7 +212,9 @@ $id_pedido_feito = $pdo->lastInsertId();
 
 
 //relacionar itens do carrinho com o pedido
-$pdo->query("UPDATE carrinho SET cliente = '$cliente', pedido = '$id_pedido' where sessao = '$sessao' and pedido = '0'");
+$pdo->query("UPDATE carrinho SET cliente = '$cliente', pedido = '$id_pedido_feito' WHERE sessao = '$sessao' AND pedido = '0'");
+// Limpar apenas itens do carrinho sem pedido
+$pdo->query("DELETE FROM carrinho WHERE sessao = '$sessao' AND pedido = '0'");
 
 //limpar a sessao aberta
 @$_SESSION['sessao_usuario'] = "";
@@ -225,246 +227,167 @@ echo $hora_pedido . '*';
 
 
 
+// ENVIO WHATSAPP EMPRESA
 if ($api_whatsapp != 'Não') {
-  $telefone_envio = '55' . preg_replace('/[ ()-]+/', '', $tel_cliente);
-  $total_com_freteF = number_format($total_com_frete, 2, ',', '.');
-
-  $mensagem = '*Pedido:* ' . $pedido . '%0A';
-  $mensagem .= '*Cliente:* ' . $nome_cliente_ped . '%0A';
-  $mensagem .= '*Telefone:* ' . $tel_cliente . '%0A';
-  $mensagem .= '*Valor:* R$ ' . $total_com_freteF . '%0A';
-  $mensagem .= '*Pagamento:* ' . $pagamento . '%0A';
-  $mensagem .= '*Pago:* ' . $pago . '%0A';
-  $mensagem .= '*Previsão Entrega:* ' . $hora_pedido . '%0A';
-  $mensagem .= '%0A________________________________%0A%0A';
-  $mensagem .= '*_Detalhes do Pedido_* %0A%0A';
-
-
-
-
-
-  //ABAIXO É PARA PEGAR OS PRODUTOS COMPRADOS
-  $nome_produto2 = '';
-  $res = $pdo->query("SELECT * from carrinho where pedido = '$id_pedido' order by id asc");
-  $dados = $res->fetchAll(PDO::FETCH_ASSOC);
-  $linhas = count($dados);
-
-
-  $sub_tot;
-  for ($i = 0; $i < count($dados); $i++) {
-    foreach ($dados[$i] as $key => $value) {
-    }
-    $texto_produtos = '';
-    $id_carrinho = $dados[$i]['id'];
-    $id_produto = $dados[$i]['produto'];
-    $quantidade = $dados[$i]['quantidade'];
-    $total_item = $dados[$i]['total_item'];
-    $obs_item = $dados[$i]['obs'];
-    $item = $dados[$i]['item'];
-    $variacao = $dados[$i]['variacao'];
-    $nome_produto_tab = $dados[$i]['nome_produto'];
-    $sabores = $dados[$i]['sabores'];
-    $borda = $dados[$i]['borda'];
-    $categoria = $dados[$i]['categoria'];
-    $valor_unitario = $dados[$i]['valor_unitario'];
-
-    $query2 = $pdo->query("SELECT * FROM variacoes where id = '$variacao'");
-    $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-    if (@count(@$res2) > 0) {
-      $sigla_variacao = '(' . $res2[0]['sigla'] . ')';
-    } else {
-      $sigla_variacao = '';
-    }
-
-
-    $query2 = $pdo->query("SELECT * FROM temp where carrinho = '$id_carrinho' and tabela = 'Variação' order by id asc limit 1");
-    $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-    $id_do_item = @$res2[0]['id_item'];
-
-    $query2 = $pdo->query("SELECT * FROM itens_grade where id = '$id_do_item'");
-    $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-    if (@$res2[0]['texto'] != "") {
-      $sigla_grade = @$res2[0]['texto'];
-    } else {
-      $sigla_grade = '';
-    }
-
-    $query2 = $pdo->query("SELECT * FROM produtos where id = '$id_produto'");
-    $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-    if (@count(@$res2) > 0) {
-      $nome_produto = $res2[0]['nome'];
-      $foto_produto = $res2[0]['foto'];
-    } else {
-      $nome_produto = $nome_produto_tab;
-      $foto_produto = "";
-    }
-
-
-    $tabela_ad = 'adicionais';
-    if ($sabores > 0) {
-      $nome_produto = $nome_produto_tab;
-      $tabela_ad = 'adicionais_cat';
-    }
-
-
-    $query8 = $pdo->query("SELECT * FROM bordas where id = '$borda'");
-    $res8 = $query8->fetchAll(PDO::FETCH_ASSOC);
-    $total_reg8 = @count($res8);
-    if ($total_reg8 > 0) {
-      $nome_borda = ' - ' . $res8[0]['nome'];
-    } else {
-      $nome_borda = '';
-    }
-
-    $texto_produtos .= '✅' . $quantidade . ' - ' . $nome_produto . ' ' . $sigla_variacao . ' ' . $sigla_grade . '%0A';
-
-
-
-    $mensagem .= '%0A' . $texto_produtos;
-
-    if ($total_reg8 > 0) {
-      $mensagem .= $nome_borda . '%0A';
-    }
-
-    //COMEÇAR VER OS ADICIONAIS E OUTROS DOS DEMAIS ITENS QUE NAO SAO PIZZA 2 SAB
-    $query2 = $pdo->query("SELECT * FROM temp where carrinho = '$id_carrinho' and tabela = 'adicionais'");
-    $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-    $total_reg2 = @count($res2);
-    if ($total_reg2 > 0) {
-      if ($total_reg2 > 1) {
-        $texto_adicional = @$total_reg2 . ' Tipos de Adicionais';
-      } else {
-        $texto_adicional = @$total_reg2 . ' Tipo de Adicional';
-      }
-      $mensagem .= ' *' . $texto_adicional . '* %0A';
-      for ($i2 = 0; $i2 < $total_reg2; $i2++) {
-        foreach ($res2[$i2] as $key => $value) {
-        }
-        $id_temp = $res2[$i2]['id'];
-        $id_item = $res2[$i2]['id_item'];
-        $quantidade_temp = $res2[$i2]['quantidade'];
-
-        $query3 = $pdo->query("SELECT * FROM $tabela_ad where id = '$id_item'");
-        $res3 = $query3->fetchAll(PDO::FETCH_ASSOC);
-        $total_reg3 = @count($res3);
-        $nome_adc = $res3[0]['nome'];
-        if ($i2 < ($total_reg2 - 1)) {
-          $nome_adc .= '%0A';
-        }
-
-        $mensagem .= '```(' . $quantidade_temp . ') ' . $nome_adc . '```' . '';
-      }
-
-      $mensagem .= '%0A';
-
-    }
-
-
-
-
-
-    //percorrer as grades do produto
-    $query20 = $pdo->query("SELECT * FROM grades where produto = '$id_produto' and tipo_item != 'Variação'");
-    $res20 = $query20->fetchAll(PDO::FETCH_ASSOC);
-    $total_reg20 = @count($res20);
-    if ($total_reg20 > 0) {
-      for ($i20 = 0; $i20 < $total_reg20; $i20++) {
-        $id_da_grade = $res20[$i20]['id'];
-        $nome_da_grade = $res20[$i20]['nome_comprovante'];
-        $tipo_item_grade = $res20[$i20]['tipo_item'];
-
-
-        //buscar os itens selecionados pela grade
-        $query2 = $pdo->query("SELECT * FROM temp where carrinho = '$id_carrinho' and grade = '$id_da_grade'");
-        $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-        $total_reg2 = @count($res2);
-        if ($total_reg2 > 0) {
-
-          $mensagem .= '*' . $nome_da_grade . '* %0A';
-
-          for ($i2 = 0; $i2 < $total_reg2; $i2++) {
-            foreach ($res2[$i2] as $key => $value) {
-            }
-            $id_temp = $res2[$i2]['id'];
-            $id_item = $res2[$i2]['id_item'];
-            $tabela_item = $res2[$i2]['tabela'];
-            $tipagem_item = $res2[$i2]['tipagem'];
-            $grade_item = $res2[$i2]['grade'];
-
-            if ($tipo_item_grade == 'Múltiplo') {
-              $quant_item = '(' . $res2[$i2]['quantidade'] . ')';
-            } else {
-              $quant_item = '';
-            }
-
-
-
-            $query3 = $pdo->query("SELECT * FROM itens_grade where id = '$id_item'");
-            $res3 = $query3->fetchAll(PDO::FETCH_ASSOC);
-            $total_reg3 = @count($res3);
-            $nome_item = $res3[0]['texto'];
-            if ($i2 < ($total_reg2 - 1)) {
-              $nome_item .= ', ';
-            }
-            $mensagem .= '```' . $quant_item . $nome_item . '```%0A';
-          }
-
-          $mensagem .= '%0A';
-
-
-        }
-
-      }
-    }
-
-
-    if ($obs_item != "") {
-      $mensagem .= ' ' . '```Observações: ' . $obs_item . '```' . '%0A';
-    }
-
-
-
+  $telefone_empresa = $config['telefone_empresa'] ?? '';
+  if (empty($telefone_empresa)) {
+    $telefone_empresa = $telefone_sistema ?? '';
   }
-
-
-  //ond pizza 2 sab
-  if ($obs != "") {
-    $mensagem .= '%0A*Observações do Pedido*%0A';
-    $mensagem .= '_' . $obs . '_' . '%0A%0A';
+  // Remove tudo que não for número
+  $telefone_empresa = preg_replace('/[^0-9]/', '', $telefone_empresa);
+  // Se ainda assim ficar vazio, logar erro crítico
+  if (empty($telefone_empresa)) {
+    file_put_contents('../../sistema/logs/security.log', json_encode([
+      'event' => 'erro_telefone_vazio',
+      'fonte_config' => $config['telefone_empresa'] ?? null,
+      'tel_sistema' => $telefone_sistema ?? null,
+      'hora' => date('Y-m-d H:i:s')
+    ]) . "\n", FILE_APPEND);
   }
-
-
-  if ($entrega == "Delivery") {
-    $mensagem .= '%0A*Endereço do Cliente*%0A';
-    $endereco = $rua . ' ' . $numero . ' ' . $complemento . ' ' . $bairro . ' ' . $cidade;
-    $mensagem .= '_' . $endereco . '_';
-
+  if ($telefone_empresa) {
+    $telefone_envio = '55' . preg_replace('/[ ()-]+/', '', $telefone_empresa);
+    $mensagem_empresa = $mensagem_cliente; // mensagem detalhada já montada
+    file_put_contents('../../sistema/logs/security.log', json_encode(['event' => 'whatsapp_empresa', 'tel' => $telefone_envio, 'msg' => $mensagem_empresa, 'pedido' => $id_pedido, 'hora' => date('Y-m-d H:i:s')]) . "\n", FILE_APPEND);
+    require("api_texto.php");
   }
-
-
-  if($total_cartoes_config > 0 and $total_cartoes_cliente > 0){
-    $mensagem .= '%0A%0A' . 'Você ganhou mais um cartão Fidelidade' . '%0A';
-    $mensagem .= 'Você agora possui *'.$total_cartoes_cliente . '* cartões!';
-  }
-
-   if($total_cartoes_config == $total_cartoes_cliente){
-    $mensagem .= '%0A%0A' . '*Você já completou seus cartões Fidelidade*' . '%0A';
-    $mensagem .= 'Na sua próxima compra use o codigo de cupom (cartao) para ter um desconto de '.$valor_cupom_config.' reais!';
-  }
-
-
-  $mensagem .= '%0A%0A' . '```Obrigado pela preferência```' . '%0A';
-  $mensagem .= $url_sistema . '%0A%0A';
-
-  $mensagem .= 'Acompanhe o Status do Seu pedido%0A';
-  $mensagem .= $url_sistema . 'pedido/'. $id_pedido_feito.'%0A';
-  
-
-  $data_mensagem = date('Y-m-d H:i:s');
-  require ("api_texto.php");
-
 }
 
+// ================= MONTAGEM DA MENSAGEM WHATSAPP CLIENTE =====================
+$mensagem_cliente = '';
+$data_hora_pedido = date('d/m/Y H:i');
+$total_com_freteF = number_format($total_com_frete, 2, ',', '.');
+$link_status = $url_sistema . 'pedido/' . $id_pedido_feito;
+
+// LOG PRÉ-LIMPEZA DO CARRINHO
+$query_log = $pdo->query("SELECT * FROM carrinho WHERE sessao = '$sessao'");
+$res_log = $query_log->fetchAll(PDO::FETCH_ASSOC);
+file_put_contents('../../sistema/logs/security.log', json_encode([
+  'event' => 'pre_limpeza_carrinho',
+  'sessao' => $sessao,
+  'itens' => $res_log,
+  'hora' => date('Y-m-d H:i:s')
+]) . "\n", FILE_APPEND);
+
+// Relacionar itens do carrinho com o pedido e limpar
+$pdo->query("UPDATE carrinho SET cliente = '$cliente', pedido = '$id_pedido_feito' WHERE sessao = '$sessao' AND pedido = '0'");
+$pdo->query("DELETE FROM carrinho WHERE sessao = '$sessao' AND pedido = '0'");
+
+// LOG PÓS-LIMPEZA DO CARRINHO
+$query_log = $pdo->query("SELECT * FROM carrinho WHERE sessao = '$sessao'");
+$res_log = $query_log->fetchAll(PDO::FETCH_ASSOC);
+file_put_contents('../../sistema/logs/security.log', json_encode([
+  'event' => 'pos_limpeza_carrinho',
+  'sessao' => $sessao,
+  'itens' => $res_log,
+  'hora' => date('Y-m-d H:i:s')
+]) . "\n", FILE_APPEND);
+
+// Limpar sessão
+@$_SESSION['sessao_usuario'] = "";
+
+// Montar mensagem com emojis Unicode
+$mensagem_cliente = "🛒 Olá $nome_cliente_ped!\n";
+$mensagem_cliente .= "Seu pedido foi realizado com sucesso em $data_hora_pedido!\n";
+$mensagem_cliente .= "------------------------------------\n";
+$mensagem_cliente .= "📦 *Detalhes do Pedido:*\n";
+
+// Buscar itens do pedido já vinculados
+$query_itens = $pdo->query("SELECT c.*, p.nome as nome_produto FROM carrinho c 
+    LEFT JOIN produtos p ON c.produto = p.id 
+    WHERE c.pedido = '$id_pedido_feito'");
+$res_itens = $query_itens->fetchAll(PDO::FETCH_ASSOC);
+
+// LOG DOS ITENS DO PEDIDO
+file_put_contents('../../sistema/logs/security.log', json_encode([
+  'event' => 'itens_pedido',
+  'pedido' => $id_pedido_feito,
+  'itens' => $res_itens,
+  'hora' => date('Y-m-d H:i:s')
+]) . "\n", FILE_APPEND);
+
+foreach ($res_itens as $item) {
+  $qtd = $item['quantidade'];
+  $nome = $item['nome_produto'] ?? 'Produto removido';
+  $valor = number_format($item['total_item'], 2, ',', '.');
+  $obs_item = $item['obs'] ? " [Obs: {$item['obs']}]" : "";
+  $mensagem_cliente .= "• {$qtd}x {$nome} (R$ {$valor}){$obs_item}\n";
+}
+
+$mensagem_cliente .= "------------------------------------\n";
+$mensagem_cliente .= "💰 Total: R$ $total_com_freteF\n";
+$mensagem_cliente .= "💳 Pagamento: $pagamento\n";
+$mensagem_cliente .= "📄 Status do Pagamento: $pago\n";
+
+if ($tipo_pedido == 'Delivery') {
+  $mensagem_cliente .= "🏠 Endereço: $rua, $numero, $complemento, $bairro, $cidade\n";
+}
+
+if ($obs) {
+  $mensagem_cliente .= "📝 Observações do Pedido: $obs\n";
+}
+
+$mensagem_cliente .= "🙏 Agradecemos pela preferência!\n";
+$mensagem_cliente .= "🔔 Em breve você receberá atualizações sobre o status do seu pedido.\n";
+$mensagem_cliente .= "🔗 Para acompanhar o status do seu pedido, acesse:\n$link_status";
+
+// LOG DA MENSAGEM ANTES DO ENCODE
+file_put_contents('../../sistema/logs/security.log', json_encode([
+  'event' => 'mensagem_whatsapp_pre_encode',
+  'mensagem' => $mensagem_cliente,
+  'hora' => date('Y-m-d H:i:s')
+]) . "\n", FILE_APPEND);
+
+// Função para remover emojis (caracteres fora do Basic Multilingual Plane)
+function removerEmojis($texto)
+{
+  return preg_replace('/[\x{1F600}-\x{1F64F}\x{1F300}-\x{1F5FF}\x{1F680}-\x{1F6FF}\x{2600}-\x{26FF}\x{2700}-\x{27BF}\x{1F1E0}-\x{1F1FF}]/u', '', $texto);
+}
+
+// Limitar tamanho preservando quebras de linha
+$limite_whatsapp = 1800;
+if (mb_strlen($mensagem_cliente) > $limite_whatsapp) {
+  $mensagem_cliente = mb_substr($mensagem_cliente, 0, $limite_whatsapp) . '... (resumido, veja detalhes no link abaixo)';
+}
+
+// Garantir UTF-8 puro antes do encode
+$mensagem_cliente_utf8 = mb_convert_encoding($mensagem_cliente, 'UTF-8', 'UTF-8');
+
+// Remover emojis apenas do texto do link wa.me
+$mensagem_cliente_sem_emoji = removerEmojis($mensagem_cliente_utf8);
+
+// Log antes do encode
+file_put_contents('../../sistema/logs/security.log', json_encode([
+  'event' => 'mensagem_whatsapp_pre_rawurlencode',
+  'mensagem' => $mensagem_cliente_utf8,
+  'mensagem_sem_emoji' => $mensagem_cliente_sem_emoji,
+  'hora' => date('Y-m-d H:i:s')
+]) . "\n", FILE_APPEND);
+
+// Encode final para URL (rawurlencode para suportar emojis)
+$mensagem_url = rawurlencode($mensagem_cliente_sem_emoji);
+$link_whatsapp = "https://wa.me/55{$telefone_empresa}?text={$mensagem_url}";
+
+// Log após o encode
+file_put_contents('../../sistema/logs/security.log', json_encode([
+  'event' => 'mensagem_whatsapp_pos_rawurlencode',
+  'mensagem_url' => $mensagem_url,
+  'link_whatsapp' => $link_whatsapp,
+  'hora' => date('Y-m-d H:i:s')
+]) . "\n", FILE_APPEND);
+
+// TESTE TEMPORÁRIO: link WhatsApp com emojis hardcoded
+$mensagem_teste_emoji = "✅ Pedido realizado com sucesso! 🍔🍟 Obrigado! 🚀";
+$mensagem_teste_emoji_utf8 = mb_convert_encoding($mensagem_teste_emoji, 'UTF-8', 'UTF-8');
+$link_teste_emoji = "https://wa.me/55{$telefone_empresa}?text=" . rawurlencode($mensagem_teste_emoji_utf8);
+file_put_contents('../../sistema/logs/security.log', json_encode([
+  'event' => 'link_whatsapp_teste_emoji',
+  'link' => $link_teste_emoji,
+  'hora' => date('Y-m-d H:i:s')
+]) . "\n", FILE_APPEND);
+
+// RESPOSTA PADRÃO PARA O FRONTEND
+echo "Pedido Finalizado*{$id_pedido_feito}*{$link_whatsapp}";
+exit();
 
 $query2 = $pdo->query("SELECT * FROM formas_pgto WHERE nome = '$pagamento'");
 $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
@@ -474,7 +397,7 @@ if (@count($res2) > 0) {
 
 $id_caixa = 0;
 
-if($tipo_pedido == 'Balcão'){
+if ($tipo_pedido == 'Balcão') {
   $entrega = 'Balcão';
 
   //verificar caixa aberto
@@ -485,17 +408,22 @@ if($tipo_pedido == 'Balcão'){
   } else {
     $id_caixa = 0;
   }
-
-}else{
+} else {
   $id_usuario = 0;
 }
 
 
 
-if($pago == 'Sim'){
+if ($pago == 'Sim') {
   $pdo->query("INSERT INTO receber SET descricao = '$entrega', cliente = '$cliente', valor = '$total_com_frete', subtotal = '$total_com_frete', data_lanc = curDate(), hora = curTime(), pago = 'Sim', vencimento = curDate(), data_pgto = curDate(), foto = 'sem-foto.png', arquivo = 'sem-foto.png', forma_pgto = '$id_tipo_pgto', referencia = '$entrega', caixa = '$id_caixa', usuario_pgto = '$id_usuario'");
 }
 
 
 
 echo "Pedido Finalizado*" . $id_pedido;
+
+// Validação obrigatória da forma de pagamento
+if (empty($pagamento)) {
+  echo 'Erro: Forma de pagamento obrigatória.';
+  exit();
+}
