@@ -198,9 +198,33 @@ $charset = 'utf8';
 - `status` - Status do item (Aguardando, etc.)
 - `hora` - Hora do item
 
+### 6. **carrinho_adicionais** - Adicionais dos Itens do Carrinho
+
+**Função:** Armazena os adicionais selecionados para cada item do carrinho
+
+**Campos:**
+
+- `id` - ID único do registro
+- `carrinho_id` - ID do item no carrinho (FK para tabela carrinho)
+- `adicional_id` - ID do adicional (FK para tabela adicionais)
+- `quantidade` - Quantidade do adicional
+- `valor_unitario` - Valor unitário do adicional
+- `valor_total` - Valor total do adicional (quantidade \* valor_unitario)
+
+**Relacionamentos:**
+
+- FK com `carrinho.id`
+- FK com `adicionais.id`
+
+**Índices:**
+
+- PRIMARY KEY (`id`)
+- INDEX `idx_carrinho` (`carrinho_id`)
+- INDEX `idx_adicional` (`adicional_id`)
+
 ---
 
-### 6. **categorias** - Categorias de Produtos
+### 7. **categorias** - Categorias de Produtos
 
 **Função:** Organiza os produtos em categorias
 
@@ -212,7 +236,7 @@ $charset = 'utf8';
 
 ---
 
-### 7. **usuarios** - Usuários do Sistema
+### 8. **usuarios** - Usuários do Sistema
 
 **Função:** Controle de acesso ao sistema
 
@@ -227,7 +251,7 @@ $charset = 'utf8';
 
 ---
 
-### 8. **mesas** - Controle de Mesas
+### 9. **mesas** - Controle de Mesas
 
 **Função:** Gerenciamento de mesas do estabelecimento
 
@@ -239,7 +263,7 @@ $charset = 'utf8';
 
 ---
 
-### 9. **dias** - Dias de Funcionamento
+### 10. **dias** - Dias de Funcionamento
 
 **Função:** Controla os dias que o estabelecimento funciona
 
@@ -250,7 +274,7 @@ $charset = 'utf8';
 
 ---
 
-### 10. **variacoes** - Variações de Produtos
+### 11. **variacoes** - Variações de Produtos
 
 **Função:** Armazena variações dos produtos (tamanhos, sabores, etc.)
 
@@ -263,7 +287,7 @@ $charset = 'utf8';
 
 ---
 
-### 11. **temp** - Tabela Temporária
+### 12. **temp** - Tabela Temporária
 
 **Função:** Armazena dados temporários durante a montagem do pedido
 
@@ -277,7 +301,7 @@ $charset = 'utf8';
 
 ---
 
-### 12. **bordas** - Bordas de Pizza
+### 13. **bordas** - Bordas de Pizza
 
 **Função:** Opções de bordas para pizzas
 
@@ -289,7 +313,7 @@ $charset = 'utf8';
 
 ---
 
-### 13. **grades** - Grades de Produtos
+### 14. **grades** - Grades de Produtos
 
 **Função:** Sistema de grades para produtos complexos
 
@@ -301,7 +325,7 @@ $charset = 'utf8';
 
 ---
 
-### 14. **itens_grade** - Itens das Grades
+### 15. **itens_grade** - Itens das Grades
 
 **Função:** Itens específicos das grades
 
@@ -314,7 +338,7 @@ $charset = 'utf8';
 
 ---
 
-### 15. **abertura_mesa** - Abertura de Mesas
+### 16. **abertura_mesa** - Abertura de Mesas
 
 **Função:** Controla a abertura de mesas para atendimento
 
@@ -328,7 +352,7 @@ $charset = 'utf8';
 
 ---
 
-### 16. **formas_pgto** - Formas de Pagamento
+### 17. **formas_pgto** - Formas de Pagamento
 
 **Função:** Cadastro das formas de pagamento aceitas
 
@@ -339,7 +363,7 @@ $charset = 'utf8';
 
 ---
 
-### 17. **receber** - Contas a Receber
+### 18. **receber** - Contas a Receber
 
 **Função:** Controle financeiro de recebimentos
 
@@ -358,7 +382,7 @@ $charset = 'utf8';
 
 ---
 
-### 18. **pagar** - Contas a Pagar
+### 19. **pagar** - Contas a Pagar
 
 **Função:** Controle financeiro de pagamentos
 
@@ -379,7 +403,7 @@ $charset = 'utf8';
 
 ---
 
-### 19. **fornecedores** - Cadastro de Fornecedores
+### 20. **fornecedores** - Cadastro de Fornecedores
 
 **Função:** Controle de fornecedores
 
@@ -390,7 +414,7 @@ $charset = 'utf8';
 
 ---
 
-### 20. **caixas** - Controle de Caixa
+### 21. **caixas** - Controle de Caixa
 
 **Função:** Gerenciamento de caixas
 
@@ -404,7 +428,7 @@ $charset = 'utf8';
 
 ---
 
-### 21. **sangrias** - Sangrias do Caixa
+### 22. **sangrias** - Sangrias do Caixa
 
 **Função:** Controle de retiradas do caixa
 
@@ -418,7 +442,7 @@ $charset = 'utf8';
 
 ---
 
-### 22. **frequencias** - Frequências de Pagamento
+### 23. **frequencias** - Frequências de Pagamento
 
 **Função:** Controle de frequências para pagamentos recorrentes
 
@@ -429,7 +453,7 @@ $charset = 'utf8';
 
 ---
 
-### 23. **acessos** - Controle de Acessos
+### 24. **acessos** - Controle de Acessos
 
 **Função:** Sistema de permissões
 
@@ -440,7 +464,7 @@ $charset = 'utf8';
 
 ---
 
-### 24. **usuarios_permissoes** - Permissões dos Usuários
+### 25. **usuarios_permissoes** - Permissões dos Usuários
 
 **Função:** Relaciona usuários com suas permissões
 

@@ -204,7 +204,7 @@ if ($nome_mesa == '' and $pedido_balcao == "") {
 		} else {
 
 
-				echo "<script>
+			echo "<script>
         window.onload = function() {
             Swal.fire({
                 title: 'Bem-vindo!',
@@ -221,7 +221,7 @@ if ($nome_mesa == '' and $pedido_balcao == "") {
             });
         };
     </script>";
-	
+
 
 
 			//echo "<script>window.alert('$texto_fechamento_horario')</scripwindow.location=>";
@@ -267,10 +267,10 @@ if ($nome_mesa == '' and $pedido_balcao == "") {
 				<img class="ocultar_img" src="sistema/painel/images/produtos/<?php echo $foto ?>" width="100%" height="90%">
 			</div>
 		</div>
-		
+
 	</div>
-	
-<div class="destaque-qtd" style="border:  solid 1px #ababab; border-radius: 10px;">
+
+	<div class="destaque-qtd" style="border:  solid 1px #ababab; border-radius: 10px;">
 		<?php echo mb_strtoupper($descricao); ?>
 	</div>
 
@@ -376,7 +376,6 @@ if ($nome_mesa == '' and $pedido_balcao == "") {
 		var obs = $('#obs').val();
 		var mesa = "<?= $id_ab_mesa ?>";
 
-
 		total_item = parseFloat(total_item) / parseFloat(quantidade);
 
 		if (total_item == "") {
@@ -393,21 +392,17 @@ if ($nome_mesa == '' and $pedido_balcao == "") {
 				obs,
 				mesa
 			},
-			dataType: "text",
-
-			success: function(mensagem) {
-
-
-				if (mensagem.trim() == "Inserido com Sucesso") {
-
-					window.location = 'carrinho';
-
+			dataType: "json",
+			success: function(response) {
+				if (response.status === 'success') {
+					window.location.href = 'carrinho';
 				} else {
-					alert(mensagem)
+					alert(response.message);
 				}
-
 			},
-
+			error: function(xhr, status, error) {
+				alert("Erro ao adicionar ao carrinho. Por favor, tente novamente.");
+			}
 		});
 	}
 

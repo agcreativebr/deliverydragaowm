@@ -57,3 +57,4 @@ try {
     echo "Erro ao criar índices: " . $e->getMessage() . "\n";
     exit(1);
 }
+ 

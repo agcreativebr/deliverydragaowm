@@ -502,3 +502,4 @@ $todos_pedidos = $ini_pedidos + $ace_pedidos + $prep_pedidos + $ent_pedidos;
 		});
 	}
 </script>
+<script src="js/ajax.js"></script>

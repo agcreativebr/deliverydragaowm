@@ -122,10 +122,17 @@ class SecureSession
 		$_SESSION['user_id'] = $user_data['id'];
 		$_SESSION['user_name'] = $user_data['nome'];
 		$_SESSION['user_level'] = $user_data['nivel'];
+		$_SESSION['id'] = $user_data['id']; // Compatibilidade painel
+		$_SESSION['nivel'] = $user_data['nivel']; // Compatibilidade painel
 		$_SESSION['auth_token'] = $token;
 		$_SESSION['session_expires'] = $expires;
 		$_SESSION['session_ip'] = $_SERVER['REMOTE_ADDR'];
 		$_SESSION['session_user_agent'] = $_SERVER['HTTP_USER_AGENT'];
+
+		// Adiciona token especial para painel admin
+		if ($user_data['nivel'] === 'Administrador') {
+			$_SESSION['aut_token_SaL1P'] = '25tNX1L1MSaL1P';
+		}
 
 		// Log da sessão criada
 		SecurityLogger::logSecurityEvent('session_created', [

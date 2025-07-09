@@ -317,7 +317,7 @@ $total_dos_itens_pedidos = @count($res);
 
 		$('#tabela').DataTable({
 			"language": {
-				"url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Portuguese-Brasil.json"
+				"url": "assets/js/Portuguese-Brasil.json"
 			},
 			"ordering": false,
 			"stateSave": true
@@ -354,7 +354,7 @@ $total_dos_itens_pedidos = @count($res);
 
 				$('#tabela').DataTable({
 					"language": {
-						"url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Portuguese-Brasil.json"
+						"url": "assets/js/Portuguese-Brasil.json"
 					},
 					"ordering": false,
 					"stateSave": true
@@ -481,21 +481,6 @@ $total_dos_itens_pedidos = @count($res);
 		$('#modalDesconto').modal('show');
 	}
 </script>
-
-<input type="radio" class="btn-check" name="btnradio" id="btnradio1" checked onclick="buscarContas('')">
-<label class="btn btn-primary" for="btnradio1">Todos os Pedidos</label>
-
-<input type="radio" class="btn-check" name="btnradio" id="btnradio2" onclick="buscarContas('Iniciado')">
-<label class="btn btn-primary" for="btnradio2">Iniciados</label>
-
-<input type="radio" class="btn-check" name="btnradio" id="btnradio3" onclick="buscarContas('Aceito')">
-<label class="btn btn-primary" for="btnradio3">Aceitos</label>
-
-<input type="radio" class="btn-check" name="btnradio" id="btnradio4" onclick="buscarContas('Preparando')">
-<label class="btn btn-primary" for="btnradio4">Preparando</label>
-
-<input type="radio" class="btn-check" name="btnradio" id="btnradio5" onclick="buscarContas('Entrega')">
-<label class="btn btn-primary" for="btnradio5">Em Rota de Entrega</label>
 
 <div class="modal fade" id="modalDados" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">

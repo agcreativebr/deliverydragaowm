@@ -4,10 +4,8 @@ $id = $_POST['id'];
 ?>
 
 <style type="text/css">
-	.text {
-		&-center {
-			text-align: center;
-		}
+	.text-center {
+		text-align: center;
 	}
 
 	.printer-ticket {
@@ -57,9 +55,6 @@ $id = $_POST['id'];
 	.margem-superior {
 		padding-top: 5px;
 	}
-
-
-
 </style>
 
 
@@ -239,7 +234,11 @@ HTML;
 			$res3 = $query3->fetchAll(PDO::FETCH_ASSOC);
 			$total_reg3 = @count($res3);
 			$nome_adc = $res3[0]['nome'];
-			echo '(' . $quantidade_temp . ') ' . $nome_adc;
+			$valor_adc = isset($res3[0]['valor']) ? $res3[0]['valor'] : 0;
+			$valor_adcF = number_format($valor_adc, 2, ',', '.');
+			$valor_total_adc = $valor_adc * $quantidade_temp * $quantidade;
+			$valor_total_adcF = number_format($valor_total_adc, 2, ',', '.');
+			echo '(' . $quantidade_temp . ') ' . $nome_adc . ' - R$ ' . $valor_adcF . ' (Total: R$ ' . $valor_total_adcF . ')';
 			if ($i2 < ($total_reg2 - 1)) {
 				echo ', ';
 			}

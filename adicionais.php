@@ -331,15 +331,18 @@ if ($total_reg > 0) {
             $valor_total_pedidoF = @number_format($valor_total_do_item, 2, ',', '.');
         } ?>
 
+<!-- Grupo de quantidade moderno -->
 <div class="destaque-qtd" style="border:  solid 1px #ababab; border-radius: 10px;">
     <b>QUANTIDADE</b>
-    <span class="direita">
-        <big>
-            <span><button style="background:transparent; border:none" onclick="diminuirQuant()"><i class="bi bi-dash-circle-fill text-danger"></i></button></span>
-            <span> <b><span id="quant"></span></b> </span>
-            <span><button style="background:transparent; border:none" onclick="aumentarQuant()"><i class="bi bi-plus-circle-fill text-success"></i></button></span>
-        </big>
-    </span>
+    <div class="input-group input-group-sm quantidade-group" style="max-width: 120px; margin: 0 auto;">
+        <button class="btn btn-light border rounded-circle btn-quantidade" type="button" onclick="diminuirQuant()" aria-label="Diminuir">
+            <i class="bi bi-dash"></i>
+        </button>
+        <input type="text" class="form-control text-center border-0" id="quant" value="1" readonly style="width: 40px; background: transparent; font-size: 1.1rem; font-weight: 600;">
+        <button class="btn btn-light border rounded-circle btn-quantidade" type="button" onclick="aumentarQuant()" aria-label="Aumentar">
+            <i class="bi bi-plus"></i>
+        </button>
+    </div>
 </div>
 
 <div class="destaque-qtd" style="border:  solid 1px #ababab; border-radius: 10px;">
@@ -502,8 +505,11 @@ if (@$id_mesa == "" and $pedido_balcao == "") {
 </div>
 
 
-<div class="d-grid gap-2 col-8 mx-auto mt-3">
-    <button onclick="addCarrinho()" class="btn btn-warning btn-lg">Adicionar ao Pedido <i class="fal fa-long-arrow-right"></i></button>
+<!-- Botão moderno adicionar ao carrinho -->
+<div class="d-grid gap-2 col-8 mx-auto mt-4">
+    <button onclick="addCarrinho()" class="btn btn-warning btn-lg w-100 shadow-sm btn-modern" style="border-radius: 18px; font-weight: 500; letter-spacing: 0.5px; transition: all 0.2s; text-transform: capitalize;">
+        <i class="bi bi-cart-plus me-2"></i>Adicionar ao carrinho
+    </button>
 </div>
 
 <br>

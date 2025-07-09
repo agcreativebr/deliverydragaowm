@@ -31,6 +31,11 @@ if (!empty($codigo_pix_transacao)) {
             $resultado_api = json_decode($api_response_content);
             if ($resultado_api && isset($resultado_api->status)) {
                 $response_data['status'] = $resultado_api->status;
+                // Atualiza o campo pago = 'Sim' se aprovado
+                if ($resultado_api->status === 'approved') {
+                    $query = $pdo->prepare("UPDATE vendas SET pago = 'Sim' WHERE ref_api = ?");
+                    $query->execute([$codigo_pix_transacao]);
+                }
             } else {
                 $response_data['status'] = 'error_parsing_api_response';
             }

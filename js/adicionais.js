@@ -53,13 +53,14 @@ function atualizarSubtotalAdicionais() {
   const subtotal = totalProduto + totalAdicionais;
   $("#subtotal-adicionais").text("R$ " + subtotal.toFixed(2).replace(".", ","));
   $("#valor_item_quantF").text(subtotal.toFixed(2).replace(".", ","));
+  $("#valor_total_input").val(subtotal.toFixed(2)); // Atualiza o input hidden corretamente
   console.log("Subtotal atualizado:", subtotal);
 }
 
 window.aumentarQuant = function () {
   var quant = $("#quantidade").val();
   var novo_valor = parseInt(quant) + 1;
-  $("#quant").text(novo_valor);
+  $("#quant").val(novo_valor);
   $("#quantidade").val(novo_valor);
   atualizarSubtotalAdicionais();
 };
@@ -68,7 +69,7 @@ window.diminuirQuant = function () {
   var quant = $("#quantidade").val();
   if (quant > 1) {
     var novo_valor = parseInt(quant) - 1;
-    $("#quant").text(novo_valor);
+    $("#quant").val(novo_valor);
     $("#quantidade").val(novo_valor);
     atualizarSubtotalAdicionais();
   }
@@ -76,6 +77,8 @@ window.diminuirQuant = function () {
 
 // Event listeners
 $(document).ready(function () {
+  var quant = $("#quantidade").val();
+  $("#quant").val(quant);
   // Checkbox de adicional
   $(document).on("change", ".adicional-check", function () {
     const id = $(this).val();
@@ -147,4 +150,21 @@ $(document).ready(function () {
 
   // Forçar atualização ao carregar a página
   atualizarSubtotalAdicionais();
+  $(document).on(
+    "mouseenter",
+    ".plus-adicional, .minus-adicional",
+    function () {
+      $(this).addClass("shadow-sm");
+    }
+  );
+  $(document).on(
+    "mouseleave",
+    ".plus-adicional, .minus-adicional",
+    function () {
+      $(this).removeClass("shadow-sm");
+    }
+  );
+  $(".plus-adicional, .minus-adicional").addClass(
+    "btn btn-light rounded-circle btn-sm"
+  );
 });

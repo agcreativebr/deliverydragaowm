@@ -64,6 +64,10 @@ if ($res && !empty($res['ref_api'])) {
         ];
         file_put_contents('../../sistema/logs/security.log', json_encode($log) . "\n", FILE_APPEND);
         exit();
+    } elseif ($resultado && isset($resultado->status) && $resultado->status === 'approved') {
+        // Pagamento já realizado, não gerar novo QRCode
+        echo "<div class='alert alert-success text-center'>Pagamento PIX já realizado para este pedido. Não é possível gerar novo QRCode.<br>Finalize o pedido normalmente.</div>";
+        exit();
     } else {
         file_put_contents('../../sistema/logs/security.log', json_encode(['event' => 'mp_response_reutilizacao_status', 'status' => isset($resultado->status) ? $resultado->status : null, 'sessao' => $sessao, 'ref_api' => $codigo_pix_existente]) . "\n", FILE_APPEND);
     }

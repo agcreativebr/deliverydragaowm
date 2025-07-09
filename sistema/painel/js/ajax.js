@@ -66,7 +66,6 @@ function excluir(id) {
     console.error("ID não fornecido para exclusão");
     return;
   }
-
   Swal.fire({
     title: "Deseja Excluir?",
     text: "Você não conseguirá recuperá-lo novamente!",
@@ -82,7 +81,7 @@ function excluir(id) {
   }).then((result) => {
     if (result.isConfirmed) {
       $.ajax({
-        url: "paginas/" + pag + "/excluir.php",
+        url: "paginas/pedidos/excluir.php",
         method: "POST",
         data: { id: id },
         dataType: "html",

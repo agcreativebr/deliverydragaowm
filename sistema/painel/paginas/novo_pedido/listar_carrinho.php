@@ -62,7 +62,7 @@ HTML;
 			}
 		}
 
-		$total_item = $total_item * $quantidade;
+		// O total_item já inclui a quantidade, não precisa multiplicar novamente
 		$total_carrinho += $total_item;
 
 
@@ -148,7 +148,7 @@ HTML;
 			alert('Selecione um Gerente!');
 			return;
 		}
-		
+
 		if (senha == "") {
 			alert('Preencha a senha!');
 			return;
@@ -197,12 +197,12 @@ HTML;
 
 
 <script type="text/javascript">
-  function gerarComprovante(id) {
+	function gerarComprovante(id) {
 
 
-    let a = document.createElement('a');
-    a.target = '_blank';
-    a.href = 'rel/comprovante_item_mesa.php?id=' + id;
-    a.click();
-  }
+		let a = document.createElement('a');
+		a.target = '_blank';
+		a.href = 'rel/comprovante_item_mesa.php?id=' + id;
+		a.click();
+	}
 </script>

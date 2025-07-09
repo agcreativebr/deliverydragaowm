@@ -59,4 +59,25 @@
       }
     });
   }
+
+  function excluirCarrinhoIcone(id) {
+    $.ajax({
+      url: 'js/ajax/excluir-carrinho.php',
+      method: 'POST',
+      data: {
+        id
+      },
+      dataType: "text",
+      success: function(mensagem) {
+        if (mensagem.trim().indexOf("Excluído com Sucesso") !== -1) {
+          listarCarrinhoIcone();
+        } else {
+          alert(mensagem);
+        }
+      },
+      error: function(xhr, status, error) {
+        alert("Erro ao excluir item: " + error);
+      }
+    });
+  }
 </script>

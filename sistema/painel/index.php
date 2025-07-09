@@ -2441,16 +2441,12 @@ if (@count($res1) > 0) {
 					overlay = document.createElement('div');
 					overlay.className = 'body-overlay-admin';
 					body.appendChild(overlay);
+				}
+				if (overlay) {
 					overlay.addEventListener('click', function() { // Fechar menu ao clicar no overlay
 						body.classList.remove('sidenav-toggled');
 						this.classList.remove('opened');
 					});
-				}
-
-				if (body.classList.contains('sidenav-toggled')) {
-					overlay.classList.add('opened');
-				} else {
-					overlay.classList.remove('opened');
 				}
 			});
 		}
@@ -2467,7 +2463,7 @@ if (@count($res1) > 0) {
 		// Inicializar o DataTable
 		$('#tabela').DataTable({
 			"language": {
-				"url": "//cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json"
+				"url": "assets/js/Portuguese-Brasil.json"
 			},
 			"responsive": true,
 			"autoWidth": false

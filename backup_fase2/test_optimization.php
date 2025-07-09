@@ -77,3 +77,4 @@ try {
     echo "Erro durante os testes: " . $e->getMessage() . "\n";
     exit(1);
 }
+ 
