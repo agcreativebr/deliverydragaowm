@@ -78,7 +78,21 @@ if ($entrega == 'Consumir Local') {
 	$entrega = 'Consumir no Local';
 }
 
-
+function buscarNomeValorAdicional($idAdicional, $pdo)
+{
+	if ($idAdicional > 0) {
+		$res = $pdo->query("SELECT nome, valor FROM adicionais WHERE id = '$idAdicional' LIMIT 1")->fetchAll(PDO::FETCH_ASSOC);
+		if (count($res) > 0) {
+			return [$res[0]['nome'], $res[0]['valor']];
+		}
+		// Se não encontrar em adicionais, tenta em itens_grade
+		$res = $pdo->query("SELECT texto as nome, valor FROM itens_grade WHERE id = '$idAdicional' LIMIT 1")->fetchAll(PDO::FETCH_ASSOC);
+		if (count($res) > 0) {
+			return [$res[0]['nome'], $res[0]['valor']];
+		}
+	}
+	return [null, null];
+}
 ?>
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -303,10 +317,10 @@ if ($entrega == 'Consumir Local') {
 
 			<div align="right" class="col-3">
 				R$ <?php
-						$total_itemF = number_format($total_item, 2, ',', '.');
-						// $total = number_format( $cp1 , 2, ',', '.');
-						echo $total_itemF;
-						?>
+					$total_itemF = number_format($total_item, 2, ',', '.');
+					// $total = number_format( $cp1 , 2, ',', '.');
+					echo $total_itemF;
+					?>
 			</div>
 
 
@@ -337,23 +351,21 @@ if ($entrega == 'Consumir Local') {
 					<small><b><?php echo $texto_adicional ?> : </b>
 						<?php
 						for ($i2 = 0; $i2 < $total_reg2; $i2++) {
-							foreach ($res2[$i2] as $key => $value) {
-							}
 							$id_temp = $res2[$i2]['id'];
 							$id_item = $res2[$i2]['id_item'];
 							$quantidade_temp = $res2[$i2]['quantidade'];
-
-							$query3 = $pdo->query("SELECT * FROM $tabela_ad where id = '$id_item'");
-							$res3 = $query3->fetchAll(PDO::FETCH_ASSOC);
-							$total_reg3 = @count($res3);
-							$nome_adc = $res3[0]['nome'];
-							$valor_adc = isset($res3[0]['valor']) ? $res3[0]['valor'] : 0;
-							$valor_adcF = number_format($valor_adc, 2, ',', '.');
-							$valor_total_adc = $valor_adc * $quantidade_temp * $quantidade;
-							$valor_total_adcF = number_format($valor_total_adc, 2, ',', '.');
-							echo '(' . $quantidade_temp . ') ' . $nome_adc . ' - R$ ' . $valor_adcF . ' (Total: R$ ' . $valor_total_adcF . ')';
-							if ($i2 < ($total_reg2 - 1)) {
-								echo ', ';
+							list($nome_adc, $valor_adc) = buscarNomeValorAdicional($id_item, $pdo);
+							if ($nome_adc !== null) {
+								$valor_adcF = number_format($valor_adc, 2, ',', '.');
+								$valor_total_adc = $valor_adc * $quantidade_temp * $quantidade;
+								$valor_total_adcF = number_format($valor_total_adc, 2, ',', '.');
+								echo '(' . $quantidade_temp . ') ' . $nome_adc . ' - R$ ' . $valor_adcF . ' (Total: R$ ' . $valor_total_adcF . ')';
+								if ($i2 < ($total_reg2 - 1)) {
+									echo ', ';
+								}
+							} else {
+								error_log("ADICIONAL_NAO_ENCONTRADO: id_item=$id_item pedido=$id_carrinho");
+								echo '(adicional não encontrado: id ' . $id_item . ')';
 							}
 						}
 						?>

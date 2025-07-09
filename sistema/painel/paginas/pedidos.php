@@ -241,110 +241,76 @@ $todos_pedidos = $ini_pedidos + $ace_pedidos + $prep_pedidos + $ent_pedidos;
 
 <script type="text/javascript">
 	var pag = "<?= $pag ?>";
-	var seg = '<?= $segundos ?>';
+	var seg = 10000; // 10 segundos para checagem do alerta
+	var tocandoAlerta = false;
 
-	$(document).ready(function() {
-		listar(); // Carrega a lista inicial
-		if (seg > 0) {
-			setInterval(() => {
-				listar();
-			}, seg);
-		}
-	});
-
-	function buscarContas(status) {
-		$('#buscar-contas').val(status);
-		listar();
+	function tocarSomNovoPedido() {
+		// Verifica se o arquivo de áudio existe antes de tentar tocar
+		var audioPath = '../../img/audio.mp3';
+		var audio = document.createElement('audio');
+		audio.autoplay = true;
+		var xhr = new XMLHttpRequest();
+		xhr.open('HEAD', audioPath, true);
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState === 4) {
+				if (xhr.status === 200) {
+					audio.innerHTML = '<source src="' + audioPath + '" type="audio/mpeg" />';
+					document.body.appendChild(audio);
+					setTimeout(function() {
+						audio.remove();
+					}, 3000);
+				} else {
+					console.warn('Arquivo de áudio não encontrado:', audioPath);
+				}
+			}
+		};
+		xhr.send();
 	}
 
-	function listar() {
-		var status = $('#buscar-contas').val();
+	function checarNovosPedidos() {
+		$.ajax({
+			url: 'paginas/' + pag + '/listar.php',
+			method: 'POST',
+			data: {
+				status: 'Iniciado',
+				ajax_alerta: 1
+			},
+			dataType: 'html',
+			success: function(result) {
+				// Verifica se há algum pedido com status Iniciado
+				var existeNovo = $(result).find('#tabela tbody tr').length > 0;
+				if (existeNovo) {
+					tocarSomNovoPedido();
+				}
+			}
+		});
+	}
+
+	$(document).ready(function() {
+		setInterval(checarNovosPedidos, seg); // Checa a cada 10s
+	});
+
+	// Função buscarContas deve apenas filtrar localmente ou disparar refresh granular do tbody
+	function buscarContas(status) {
+		$('#buscar-contas').val(status);
+		atualizarTabelaPedidos(); // Chama apenas o refresh granular do tbody
+	}
+
+	// Função de refresh granular do tbody (deve ser definida igual ao listar.php)
+	function atualizarTabelaPedidos() {
 		$.ajax({
 			url: 'paginas/' + pag + "/listar.php",
 			method: 'POST',
 			data: {
-				status: status
+				status: $('#buscar-contas').val()
 			},
 			dataType: "html",
 			success: function(result) {
-				$("#listar").html(result);
-
-				// Destruir a tabela existente antes de reinicializar
-				if ($.fn.DataTable.isDataTable('#tabela')) {
-					$('#tabela').DataTable().destroy();
+				// Atualiza apenas o tbody da tabela
+				var tbody = $(result).find('#tabela tbody').html();
+				if (tbody) {
+					$('#tabela tbody').html(tbody);
 				}
-
-				// Inicializar DataTables
-				var table = $('#tabela').DataTable({
-					"language": {
-						"sEmptyTable": "Nenhum registro encontrado",
-						"sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
-						"sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
-						"sInfoFiltered": "(Filtrados de _MAX_ registros)",
-						"sInfoPostFix": "",
-						"sInfoThousands": ".",
-						"sLengthMenu": "_MENU_ resultados por página",
-						"sLoadingRecords": "Carregando...",
-						"sProcessing": "Processando...",
-						"sZeroRecords": "Nenhum registro encontrado",
-						"sSearch": "Pesquisar",
-						"oPaginate": {
-							"sNext": "Próximo",
-							"sPrevious": "Anterior",
-							"sFirst": "Primeiro",
-							"sLast": "Último"
-						},
-						"oAria": {
-							"sSortAscending": ": Ordenar colunas de forma ascendente",
-							"sSortDescending": ": Ordenar colunas de forma descendente"
-						}
-					},
-					"pageLength": 25,
-					"order": [
-						[0, "desc"]
-					],
-					"responsive": true,
-					"autoWidth": false,
-					"drawCallback": function() {
-						// Restaurar os botões e funcionalidades após cada redesenho da tabela
-						$('.btn-excluir').off('click').on('click', function() {
-							var id = $(this).attr('id');
-							excluir(id);
-						});
-
-						$('.btn-editar').off('click').on('click', function() {
-							var id = $(this).attr('id');
-							editar(id);
-						});
-
-						$('.btn-visualizar').off('click').on('click', function() {
-							var id = $(this).attr('id');
-							visualizar(id);
-						});
-
-						// Adicionar event listeners para ordenação
-						const headers = document.querySelectorAll("#tabela th.sortable-th");
-						if (headers && headers.length > 0) {
-							headers.forEach(header => {
-								if (header) {
-									// Remover event listeners antigos
-									header.removeEventListener("click", header.clickHandler);
-
-									// Adicionar novo event listener
-									header.clickHandler = function() {
-										const column = this.dataset.column;
-										const type = this.dataset.type || 'string';
-										sortTable(document.querySelector("#tabela"), column, type, currentSortOrder);
-									};
-									header.addEventListener("click", header.clickHandler);
-								}
-							});
-						}
-					}
-				});
-			},
-			error: function(xhr, status, error) {
-				console.error("Erro ao carregar lista de pedidos: ", status, error);
 			}
 		});
 	}
@@ -386,6 +352,16 @@ $todos_pedidos = $ini_pedidos + $ace_pedidos + $prep_pedidos + $ent_pedidos;
 			tbody.removeChild(tbody.firstChild);
 		}
 		rows.forEach(row => tbody.appendChild(row));
+	}
+
+	// Utilitário seguro para adicionar eventos
+	function safeAddEventListener(selector, event, handler) {
+		var el = typeof selector === 'string' ? document.querySelector(selector) : selector;
+		if (el) {
+			el.addEventListener(event, handler);
+		} else {
+			console.warn('Elemento não encontrado para evento:', selector, event);
+		}
 	}
 
 	// Funções AJAX para modais (manter as originais do seu arquivo ajax.js ou incluí-las aqui se necessário)
