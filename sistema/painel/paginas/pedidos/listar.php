@@ -55,9 +55,11 @@ if ($total_reg > 0) {
 
 	echo <<<HTML
 	<small>
+	<button id="btn-excluir-selecionados" class="btn btn-danger btn-sm" style="margin-bottom:10px; display:none;" onclick="excluirSelecionados()">Excluir Selecionados</button>
 	<table class="table table-bordered text-nowrap border-bottom dt-responsive" id="tabela">
 	<thead class="thead-dark-mode">
 	<tr> 
+	<th><input type="checkbox" id="checkAllPedidos" onclick="toggleAllPedidos(this)"></th>
 	<th class="sortable-th" data-column="cliente" data-type="varchar"> Cliente <i class="fas fa-sort"></i></th>	
 	<th class="sortable-th" data-column="valor" data-type="number"> Valor <i class="fas fa-sort"></i></th> 	
 	<th>Total Pago</th> 
@@ -216,6 +218,7 @@ HTML;
 
 		echo <<<HTML
 <tr style="background: {$classe_pago2}">
+<td><input type="checkbox" class="checkPedido" value="{$id}" onclick="toggleBtnExcluirSelecionados()"></td>
 <td><sapn style="color:{$classe_alerta}"><i class="fa fa-square"></i></sapn> <b>Pedido ({$pedido})</b> / {$nome_cliente} <span class="{$classe_entrega}"><small>({$entrega}) </small></span>
 
 
@@ -508,4 +511,55 @@ $total_dos_itens_pedidos = @count($res);
 			$('body').css('padding-right', '');
 		});
 	});
+</script>
+
+<script>
+	function toggleAllPedidos(source) {
+		const checks = document.querySelectorAll('.checkPedido');
+		checks.forEach(c => c.checked = source.checked);
+		toggleBtnExcluirSelecionados();
+	}
+
+	function toggleBtnExcluirSelecionados() {
+		const anyChecked = Array.from(document.querySelectorAll('.checkPedido')).some(c => c.checked);
+		document.getElementById('btn-excluir-selecionados').style.display = anyChecked ? 'inline-block' : 'none';
+	}
+
+	function excluirSelecionados() {
+		const ids = Array.from(document.querySelectorAll('.checkPedido:checked')).map(c => c.value);
+		if (ids.length === 0) return;
+		Swal.fire({
+			title: 'Excluir Selecionados?',
+			text: `Você tem certeza que deseja excluir ${ids.length} pedidos?`,
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#d33',
+			cancelButtonColor: '#3085d6',
+			confirmButtonText: 'Sim, Excluir!',
+			cancelButtonText: 'Cancelar',
+			reverseButtons: true
+		}).then((result) => {
+			if (result.isConfirmed) {
+				$.ajax({
+					url: 'paginas/pedidos/excluir_lote.php',
+					method: 'POST',
+					data: {
+						ids: ids
+					},
+					dataType: 'json',
+					success: function(resp) {
+						if (resp.sucesso) {
+							Swal.fire('Excluídos!', resp.mensagem, 'success');
+							listar();
+						} else {
+							Swal.fire('Erro!', resp.mensagem, 'error');
+						}
+					},
+					error: function(xhr, status, error) {
+						Swal.fire('Erro!', 'Falha ao excluir pedidos.', 'error');
+					}
+				});
+			}
+		});
+	}
 </script>
