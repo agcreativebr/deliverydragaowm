@@ -505,6 +505,7 @@ $total_dos_itens_pedidos = @count($res);
 				<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
+				<div id="listar-pedido"></div>
 				<!-- Conteúdo do modal -->
 			</div>
 			<div class="modal-footer">
@@ -513,3 +514,13 @@ $total_dos_itens_pedidos = @count($res);
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#modalDados').on('hidden.bs.modal', function() {
+			$('.modal-backdrop').remove();
+			$('body').removeClass('modal-open');
+			$('body').css('padding-right', '');
+		});
+	});
+</script>
