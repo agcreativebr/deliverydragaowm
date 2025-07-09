@@ -1159,7 +1159,11 @@ if ($linhas > 0) {
 </script>
 
 <script>
-	modalForm.addEventListener('shown.bs.modal', () => {
-		descricao.focus()
-	})
+	if (typeof modalForm !== 'undefined' && modalForm) {
+		modalForm.addEventListener('shown.bs.modal', () => {
+			descricao.focus()
+		});
+	} else {
+		console.warn('modalForm não encontrado ao tentar adicionar evento shown.bs.modal');
+	}
 </script>

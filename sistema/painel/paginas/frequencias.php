@@ -95,7 +95,11 @@ if (@$frequencias == 'ocultar') {
 <script src="js/ajax.js"></script>
 
 <script>
-	modalForm.addEventListener('shown.bs.modal', () => {
-		frequencia.focus()
-	})
+	if (typeof modalForm !== 'undefined' && modalForm) {
+		modalForm.addEventListener('shown.bs.modal', () => {
+			frequencia.focus()
+		});
+	} else {
+		console.warn('modalForm não encontrado ao tentar adicionar evento shown.bs.modal');
+	}
 </script>

@@ -121,7 +121,11 @@ $pag = 'cupons';
 
 
 <script>
-	modalForm.addEventListener('shown.bs.modal', () => {
-		codigo.focus()
-	})
+	if (typeof modalForm !== 'undefined' && modalForm) {
+		modalForm.addEventListener('shown.bs.modal', () => {
+			codigo.focus()
+		});
+	} else {
+		console.warn('modalForm não encontrado ao tentar adicionar evento shown.bs.modal');
+	}
 </script>

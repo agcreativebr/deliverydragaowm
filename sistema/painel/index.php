@@ -2038,9 +2038,13 @@ if (@count($res1) > 0) {
 	const modalForm = document.getElementById('modalForm')
 	const nome = document.getElementById('nome')
 
-	modalForm.addEventListener('shown.bs.modal', () => {
-		nome.focus()
-	})
+	if (modalForm) {
+		modalForm.addEventListener('shown.bs.modal', () => {
+			nome && nome.focus()
+		});
+	} else {
+		console.warn('modalForm não encontrado ao tentar adicionar evento shown.bs.modal');
+	}
 </script>
 
 
@@ -2447,6 +2451,8 @@ if (@count($res1) > 0) {
 						body.classList.remove('sidenav-toggled');
 						this.classList.remove('opened');
 					});
+				} else {
+					console.warn('overlay não encontrado ao tentar adicionar evento click');
 				}
 			});
 		}
@@ -2470,3 +2476,6 @@ if (@count($res1) > 0) {
 		});
 	});
 </script>
+
+<script src="../assets/js/index1.js"></script>
+<script src="../assets/js/themecolor.js"></script>

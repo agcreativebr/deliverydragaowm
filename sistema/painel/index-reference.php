@@ -722,27 +722,27 @@ if (@count($res1) > 0) {
 
 
 
-										<li class="slide <?php echo @$minhas_comissoes ?>" >
-									<a class="side-menu__item" href="minhas_comissoes">
-										<i class="fa fa-usd text-white"></i>
-										<span class="side-menu__label" style="margin-left: 15px">Minhas Comissões</span></a>
-								</li>
-
-								
+							<li class="slide <?php echo @$minhas_comissoes ?>">
+								<a class="side-menu__item" href="minhas_comissoes">
+									<i class="fa fa-usd text-white"></i>
+									<span class="side-menu__label" style="margin-left: 15px">Minhas Comissões</span></a>
+							</li>
 
 
-										<li class="slide <?php echo @$marketing ?>" >
-									<a class="side-menu__item" href="marketing">
-										<i class="fa fa-phone text-white"></i>
-										<span class="side-menu__label" style="margin-left: 15px">Marketing</span></a>
-								</li>
 
 
-								<li class="slide <?php echo @$dispositivos ?>" >
-									<a class="side-menu__item" href="dispositivos">
-										<i class="fa fa-phone text-white"></i>
-										<span class="side-menu__label" style="margin-left: 15px">Dispositivos</span></a>
-								</li>
+							<li class="slide <?php echo @$marketing ?>">
+								<a class="side-menu__item" href="marketing">
+									<i class="fa fa-phone text-white"></i>
+									<span class="side-menu__label" style="margin-left: 15px">Marketing</span></a>
+							</li>
+
+
+							<li class="slide <?php echo @$dispositivos ?>">
+								<a class="side-menu__item" href="dispositivos">
+									<i class="fa fa-phone text-white"></i>
+									<span class="side-menu__label" style="margin-left: 15px">Dispositivos</span></a>
+							</li>
 
 
 						</ul>
@@ -1498,7 +1498,7 @@ if (@count($res1) > 0) {
 							<label>API Mercado Pago</label>
 							<input type="text" class="form-control" id="api_merc" name="api_merc" placeholder="API Mercado Pago"
 								value="<?php echo @$api_merc ?>" <?php if ($nivel_usuario == 'Administrador') {
-																									} else { ?> readonly <?php } ?>>
+																	} else { ?> readonly <?php } ?>>
 						</div>
 
 						<div class="col-md-2">
@@ -1510,7 +1510,7 @@ if (@count($res1) > 0) {
 						<div class="col-md-3">
 							<label>Link Mensagem Retorno</label>
 							<input type="text" class="form-control" id="link_retorno" name="link_retorno" placeholder="Link na mensagem de retorno cliente"
-								value="<?php echo @$link_retorno ?>" >
+								value="<?php echo @$link_retorno ?>">
 						</div>
 					</div>
 
@@ -1518,7 +1518,7 @@ if (@count($res1) > 0) {
 						<div class="col-md-12">
 							<label>Mensagem Retorno Cliente <small>(Já virá no inicio um texto Olá (nome cliente), )</small></label>
 							<input type="text" class="form-control" id="mensagem_retorno" name="mensagem_retorno" placeholder="Texto mensagem de retorno cliente"
-								value="<?php echo @$mensagem_retorno ?>" >
+								value="<?php echo @$mensagem_retorno ?>">
 						</div>
 					</div>
 
@@ -1534,22 +1534,22 @@ if (@count($res1) > 0) {
 							<input type="number" name="valor_cupom" id="valor_cupom" class="form-control"
 								value="<?php echo @$valor_cupom_config ?>" placeholder="Valor do cupom">
 						</div>
-						
+
 						<!-- ADICIONAR ESTE CAMPO NA MODAL DE CONFIGURAÇÕES EXISTENTE -->
-                        
-                            
-                                <div class="col-md-3">
-                                    <label>Taxa Cartão de Crédito (%)</label>
-                                    <input type="number" class="form-control" name="taxa_cartao" id="taxa_cartao" 
-                                           value="<?php echo @$taxa_cartao ?>" step="0.01" min="0" max="100" required>
-                                    <small class="text-muted">Taxa adicional para pagamentos no cartão de crédito</small>
-                                </div>
-                            
-                        
+
+
+						<div class="col-md-3">
+							<label>Taxa Cartão de Crédito (%)</label>
+							<input type="number" class="form-control" name="taxa_cartao" id="taxa_cartao"
+								value="<?php echo @$taxa_cartao ?>" step="0.01" min="0" max="100" required>
+							<small class="text-muted">Taxa adicional para pagamentos no cartão de crédito</small>
+						</div>
+
+
 
 					</div>
-					
-					
+
+
 
 
 
@@ -2033,14 +2033,14 @@ if (@count($res1) > 0) {
 							<div class="form-group">
 								<label>Hora Inicial</label>
 								<input type="time" class="form-control" name="horaInicial" id=""
-									value="" >
+									value="">
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
 								<label>Hora Final</label>
 								<input type="time" class="form-control" name="horaFinal" id=""
-									value="" >
+									value="">
 							</div>
 						</div>
 
@@ -2133,9 +2133,9 @@ if (@count($res1) > 0) {
 		var caixa_aberto = "<?= $caixa_esta_aberto ?>";
 		var obrigatorio_caixa = "<?= $abertura_caixa ?>";
 		var nivel_usuario = "<?= $nivel_usuario ?>";
-		if(caixa_aberto != 'Sim' && obrigatorio_caixa == 'Sim' && nivel_usuario != 'Administrador'){
+		if (caixa_aberto != 'Sim' && obrigatorio_caixa == 'Sim' && nivel_usuario != 'Administrador') {
 			alert("Não possui caixa Aberto, abra o caixa!");
-			window.location="caixas";
+			window.location = "caixas";
 			return;
 		}
 		document.getElementById("meuFormulario").submit();
@@ -2188,10 +2188,13 @@ if (@count($res1) > 0) {
 <script type="text/javascript">
 	const modalForm = document.getElementById('modalForm')
 	const nome = document.getElementById('nome')
-
-	modalForm.addEventListener('shown.bs.modal', () => {
-		nome.focus()
-	})
+	if (modalForm) {
+		modalForm.addEventListener('shown.bs.modal', () => {
+			nome && nome.focus()
+		})
+	} else {
+		console.warn('modalForm não encontrado ao tentar adicionar evento shown.bs.modal');
+	}
 </script>
 
 
