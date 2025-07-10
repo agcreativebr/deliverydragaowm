@@ -460,8 +460,13 @@ file_put_contents('../../sistema/logs/security.log', json_encode([
 ]) . "\n", FILE_APPEND);
 
 // RESPOSTA PADRÃO PARA O FRONTEND
-echo "Pedido Finalizado*{$id_pedido_feito}*{$link_whatsapp}";
-exit();
+if ($api_whatsapp == 'manual') {
+  echo "Pedido Finalizado*{$id_pedido_feito}*{$link_whatsapp}";
+  exit();
+} else {
+  echo "Pedido Finalizado*{$id_pedido_feito}";
+  exit();
+}
 
 $query2 = $pdo->query("SELECT * FROM formas_pgto WHERE nome = '$pagamento'");
 $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
