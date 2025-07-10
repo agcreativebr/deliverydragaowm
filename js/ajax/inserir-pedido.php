@@ -1,6 +1,7 @@
 <?php
-error_reporting(0);
-ini_set('display_errors', 0);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 header('Content-Type: text/html; charset=UTF-8');
 require_once('../../sistema/conexao.php');
 require_once('ApiConfig.php');
@@ -227,6 +228,60 @@ echo $hora_pedido . '*';
 
 
 
+// ================= MONTAGEM DA MENSAGEM WHATSAPP CLIENTE =====================
+// Inicializar variável para evitar warning
+$mensagem_cliente = '';
+$data_hora_pedido = date('d/m/Y H:i');
+$total_com_freteF = number_format($total_com_frete, 2, ',', '.');
+$link_status = $url_sistema . 'pedido/' . $id_pedido_feito;
+
+// Montar mensagem detalhada com todos os itens, adicionais, valores, taxas, cupom, total
+$mensagem_cliente = "🛒 Olá $nome_cliente_ped!\n";
+$mensagem_cliente .= "Seu pedido foi realizado com sucesso em $data_hora_pedido!\n";
+$mensagem_cliente .= "------------------------------------\n";
+$mensagem_cliente .= "📦 *Detalhes do Pedido:*\n";
+
+// Buscar itens do pedido já vinculados
+$query_itens = $pdo->query("SELECT c.*, p.nome as nome_produto FROM carrinho c 
+    LEFT JOIN produtos p ON c.produto = p.id 
+    WHERE c.pedido = '$id_pedido_feito'");
+$res_itens = $query_itens->fetchAll(PDO::FETCH_ASSOC);
+foreach ($res_itens as $item) {
+  $qtd = $item['quantidade'];
+  $nome = $item['nome_produto'] ?? 'Produto removido';
+  $valor = number_format($item['total_item'], 2, ',', '.');
+  $obs_item = $item['obs'] ? " [Obs: {$item['obs']}]" : "";
+  $mensagem_cliente .= "• {$qtd}x {$nome} (R$ {$valor}){$obs_item}\n";
+  // Adicionais (usando função replicada do carrinho)
+  $id_carrinho = $item['id'];
+  $categoria = isset($item['categoria']) ? $item['categoria'] : 0;
+  $mensagem_cliente .= montarAdicionaisPedido($pdo, $id_carrinho, $qtd, $categoria);
+}
+$mensagem_cliente .= "------------------------------------\n";
+$mensagem_cliente .= "💰 Subtotal: R$ " . number_format($total_carrinho, 2, ',', '.') . "\n";
+if ($taxa_entrega > 0) {
+  $mensagem_cliente .= "🚚 Frete: R$ " . number_format($taxa_entrega, 2, ',', '.') . "\n";
+}
+if ($taxa_aplicada > 0) {
+  $mensagem_cliente .= "💳 Taxa Cartão: R$ " . number_format($taxa_aplicada, 2, ',', '.') . "\n";
+}
+if ($cupom > 0) {
+  $mensagem_cliente .= "🏷️ Desconto/Cupom: -R$ " . number_format($cupom, 2, ',', '.') . "\n";
+}
+$mensagem_cliente .= "------------------------------------\n";
+$mensagem_cliente .= "💵 Total a Pagar: R$ $total_com_freteF\n";
+$mensagem_cliente .= "💳 Pagamento: $pagamento\n";
+$mensagem_cliente .= "📄 Status do Pagamento: $pago\n";
+if ($tipo_pedido == 'Delivery') {
+  $mensagem_cliente .= "🏠 Endereço: $rua, $numero, $complemento, $bairro, $cidade\n";
+}
+if ($obs) {
+  $mensagem_cliente .= "📝 Observações do Pedido: $obs\n";
+}
+$mensagem_cliente .= "🙏 Agradecemos pela preferência!\n";
+$mensagem_cliente .= "🔔 Em breve você receberá atualizações sobre o status do seu pedido.\n";
+$mensagem_cliente .= "🔗 Para acompanhar o status do seu pedido, acesse:\n$link_status";
+
 // ENVIO WHATSAPP EMPRESA
 if ($api_whatsapp != 'Não') {
   $telefone_empresa = $config['telefone_empresa'] ?? '';
@@ -247,88 +302,107 @@ if ($api_whatsapp != 'Não') {
   if ($telefone_empresa) {
     $telefone_envio = '55' . preg_replace('/[ ()-]+/', '', $telefone_empresa);
     $mensagem_empresa = $mensagem_cliente; // mensagem detalhada já montada
-    file_put_contents('../../sistema/logs/security.log', json_encode(['event' => 'whatsapp_empresa', 'tel' => $telefone_envio, 'msg' => $mensagem_empresa, 'pedido' => $id_pedido, 'hora' => date('Y-m-d H:i:s')]) . "\n", FILE_APPEND);
+    file_put_contents('../../sistema/logs/security.log', json_encode(['event' => 'whatsapp_empresa', 'tel' => $telefone_envio, 'msg' => $mensagem_empresa, 'pedido' => $id_pedido_feito, 'hora' => date('Y-m-d H:i:s')]) . "\n", FILE_APPEND);
     require("api_texto.php");
   }
 }
 
-// ================= MONTAGEM DA MENSAGEM WHATSAPP CLIENTE =====================
-$mensagem_cliente = '';
-$data_hora_pedido = date('d/m/Y H:i');
-$total_com_freteF = number_format($total_com_frete, 2, ',', '.');
-$link_status = $url_sistema . 'pedido/' . $id_pedido_feito;
-
-// LOG PRÉ-LIMPEZA DO CARRINHO
-$query_log = $pdo->query("SELECT * FROM carrinho WHERE sessao = '$sessao'");
-$res_log = $query_log->fetchAll(PDO::FETCH_ASSOC);
-file_put_contents('../../sistema/logs/security.log', json_encode([
-  'event' => 'pre_limpeza_carrinho',
-  'sessao' => $sessao,
-  'itens' => $res_log,
-  'hora' => date('Y-m-d H:i:s')
-]) . "\n", FILE_APPEND);
-
-// Relacionar itens do carrinho com o pedido e limpar
-$pdo->query("UPDATE carrinho SET cliente = '$cliente', pedido = '$id_pedido_feito' WHERE sessao = '$sessao' AND pedido = '0'");
-$pdo->query("DELETE FROM carrinho WHERE sessao = '$sessao' AND pedido = '0'");
-
-// LOG PÓS-LIMPEZA DO CARRINHO
-$query_log = $pdo->query("SELECT * FROM carrinho WHERE sessao = '$sessao'");
-$res_log = $query_log->fetchAll(PDO::FETCH_ASSOC);
-file_put_contents('../../sistema/logs/security.log', json_encode([
-  'event' => 'pos_limpeza_carrinho',
-  'sessao' => $sessao,
-  'itens' => $res_log,
-  'hora' => date('Y-m-d H:i:s')
-]) . "\n", FILE_APPEND);
-
-// Limpar sessão
-@$_SESSION['sessao_usuario'] = "";
-
-// Montar mensagem com emojis Unicode
-$mensagem_cliente = "🛒 Olá $nome_cliente_ped!\n";
-$mensagem_cliente .= "Seu pedido foi realizado com sucesso em $data_hora_pedido!\n";
-$mensagem_cliente .= "------------------------------------\n";
-$mensagem_cliente .= "📦 *Detalhes do Pedido:*\n";
-
-// Buscar itens do pedido já vinculados
-$query_itens = $pdo->query("SELECT c.*, p.nome as nome_produto FROM carrinho c 
-    LEFT JOIN produtos p ON c.produto = p.id 
-    WHERE c.pedido = '$id_pedido_feito'");
-$res_itens = $query_itens->fetchAll(PDO::FETCH_ASSOC);
-
-// LOG DOS ITENS DO PEDIDO
-file_put_contents('../../sistema/logs/security.log', json_encode([
-  'event' => 'itens_pedido',
-  'pedido' => $id_pedido_feito,
-  'itens' => $res_itens,
-  'hora' => date('Y-m-d H:i:s')
-]) . "\n", FILE_APPEND);
-
-foreach ($res_itens as $item) {
-  $qtd = $item['quantidade'];
-  $nome = $item['nome_produto'] ?? 'Produto removido';
-  $valor = number_format($item['total_item'], 2, ',', '.');
-  $obs_item = $item['obs'] ? " [Obs: {$item['obs']}]" : "";
-  $mensagem_cliente .= "• {$qtd}x {$nome} (R$ {$valor}){$obs_item}\n";
+// === ENVIO PARA CLIENTE/EMPRESA DE ACORDO COM CONFIG ===
+$telefone_cliente_envio = preg_replace('/[^0-9]/', '', $tel_cliente);
+if (strlen($telefone_cliente_envio) == 11) {
+  $telefone_cliente_envio = '55' . $telefone_cliente_envio;
+}
+// Buscar telefone da empresa do config ou fallback
+$telefone_empresa = $config['telefone_sistema'] ?? ($telefone_sistema ?? '');
+$telefone_empresa = preg_replace('/[^0-9]/', '', $telefone_empresa);
+if (strlen($telefone_empresa) == 11) {
+  $telefone_empresa = '55' . $telefone_empresa;
 }
 
-$mensagem_cliente .= "------------------------------------\n";
-$mensagem_cliente .= "💰 Total: R$ $total_com_freteF\n";
-$mensagem_cliente .= "💳 Pagamento: $pagamento\n";
-$mensagem_cliente .= "📄 Status do Pagamento: $pago\n";
-
-if ($tipo_pedido == 'Delivery') {
-  $mensagem_cliente .= "🏠 Endereço: $rua, $numero, $complemento, $bairro, $cidade\n";
+// Controle de envio WhatsApp conforme painel
+if ($api_whatsapp == 'Não') {
+  // Não envia mensagem para ninguém
+  echo "Pedido Finalizado*{$id_pedido_feito}";
+  exit();
+} elseif ($api_whatsapp == 'manual') {
+  // Modo manual: apenas empresa recebe via link WhatsApp Web
+  $mensagem_empresa = "🛒 Olá! Novo pedido recebido em $data_hora_pedido!\n";
+  $mensagem_empresa .= "------------------------------------\n";
+  $mensagem_empresa .= "📦 *Detalhes do Pedido:*\n";
+  $query_itens = $pdo->query("SELECT c.*, p.nome as nome_produto FROM carrinho c LEFT JOIN produtos p ON c.produto = p.id WHERE c.pedido = '$id_pedido_feito'");
+  $res_itens = $query_itens->fetchAll(PDO::FETCH_ASSOC);
+  if (count($res_itens) == 0) {
+    file_put_contents('../../sistema/logs/security.log', date('Y-m-d H:i:s') . " - ERRO: Nenhum item encontrado para o pedido {$id_pedido_feito}\n", FILE_APPEND);
+    echo "Pedido Finalizado*{$id_pedido_feito}";
+    exit();
+  }
+  foreach ($res_itens as $item) {
+    $qtd = $item['quantidade'];
+    $nome = $item['nome_produto'] ?? 'Produto removido';
+    $valor = number_format($item['total_item'], 2, ',', '.');
+    $obs_item = $item['obs'] ? " [Obs: {$item['obs']}]" : "";
+    $mensagem_empresa .= "• {$qtd}x {$nome} (R$ {$valor}){$obs_item}\n";
+    $id_carrinho = $item['id'];
+    $categoria = isset($item['categoria']) ? $item['categoria'] : 0;
+    $mensagem_empresa .= montarAdicionaisPedido($pdo, $id_carrinho, $qtd, $categoria);
+  }
+  // Adicionar totais, frete, taxa, cupom, etc (ajustar conforme variáveis já existentes)
+  $mensagem_empresa .= "------------------------------------\n";
+  $mensagem_empresa .= "Subtotal: R$ " . number_format($total_carrinho ?? 0, 2, ',', '.') . "\n";
+  if (isset($taxa_entrega) && $taxa_entrega > 0) $mensagem_empresa .= "Frete: R$ " . number_format($taxa_entrega, 2, ',', '.') . "\n";
+  if (isset($taxa_aplicada) && $taxa_aplicada > 0) $mensagem_empresa .= "Taxa: R$ " . number_format($taxa_aplicada, 2, ',', '.') . "\n";
+  if (isset($cupom) && $cupom > 0) $mensagem_empresa .= "Cupom: -R$ " . number_format($cupom, 2, ',', '.') . "\n";
+  $mensagem_empresa .= "TOTAL: R$ " . number_format($total_com_frete ?? 0, 2, ',', '.') . "\n";
+  $mensagem_empresa .= "------------------------------------\n";
+  // Remover emojis para o link
+  if (!function_exists('removerEmojis')) {
+    function removerEmojis($text)
+    {
+      return preg_replace('/[\x{1F600}-\x{1F64F}\x{1F300}-\x{1F5FF}\x{1F680}-\x{1F6FF}\x{2600}-\x{26FF}\x{2700}-\x{27BF}]+/u', '', $text);
+    }
+  }
+  $mensagem_empresa_sem_emoji = removerEmojis($mensagem_empresa);
+  $mensagem_url = rawurlencode($mensagem_empresa_sem_emoji);
+  $link_whatsapp_empresa = "https://wa.me/{$telefone_empresa}?text={$mensagem_url}";
+  echo "Pedido Finalizado*{$id_pedido_feito}*{$link_whatsapp_empresa}";
+  exit();
+} else {
+  // API: envia para cliente e empresa via API
+  $enviar_cliente = true;
+  $enviar_empresa = true;
 }
 
-if ($obs) {
-  $mensagem_cliente .= "📝 Observações do Pedido: $obs\n";
+if ($enviar_cliente) {
+  if (!empty($telefone_cliente_envio)) {
+    $mensagem_whatsapp = $mensagem_cliente;
+    $telefone_envio = $telefone_cliente_envio;
+    require('api_texto.php');
+    file_put_contents('../../sistema/logs/security.log', json_encode([
+      'event' => 'whatsapp_cliente_api',
+      'api' => $api_whatsapp,
+      'tel' => $telefone_envio,
+      'msg' => $mensagem_whatsapp,
+      'pedido' => $id_pedido_feito,
+      'hora' => date('Y-m-d H:i:s')
+    ]) . "\n", FILE_APPEND);
+  }
 }
 
-$mensagem_cliente .= "🙏 Agradecemos pela preferência!\n";
-$mensagem_cliente .= "🔔 Em breve você receberá atualizações sobre o status do seu pedido.\n";
-$mensagem_cliente .= "🔗 Para acompanhar o status do seu pedido, acesse:\n$link_status";
+if ($enviar_empresa) {
+  if (!empty($telefone_empresa)) {
+    $mensagem_whatsapp = $mensagem_cliente;
+    $telefone_envio = $telefone_empresa;
+    require('api_texto.php');
+    file_put_contents('../../sistema/logs/security.log', json_encode([
+      'event' => 'whatsapp_empresa_api',
+      'api' => $api_whatsapp,
+      'tel' => $telefone_envio,
+      'msg' => $mensagem_whatsapp,
+      'pedido' => $id_pedido_feito,
+      'hora' => date('Y-m-d H:i:s')
+    ]) . "\n", FILE_APPEND);
+  }
+}
 
 // LOG DA MENSAGEM ANTES DO ENCODE
 file_put_contents('../../sistema/logs/security.log', json_encode([
@@ -420,10 +494,47 @@ if ($pago == 'Sim') {
 
 
 
-echo "Pedido Finalizado*" . $id_pedido;
-
 // Validação obrigatória da forma de pagamento
 if (empty($pagamento)) {
   echo 'Erro: Forma de pagamento obrigatória.';
   exit();
+}
+
+// Função para montar string dos adicionais de um item (replica lógica do carrinho)
+function montarAdicionaisPedido($pdo, $id_carrinho, $quantidade_item, $categoria = 0)
+{
+  $str = '';
+  $query = $pdo->query("SELECT * FROM temp WHERE carrinho = '$id_carrinho' AND tabela = 'adicionais'");
+  $res = $query->fetchAll(PDO::FETCH_ASSOC);
+  $total_reg = @count($res);
+  if ($total_reg > 0) {
+    $str .= "   Adicionais: ";
+    for ($i = 0; $i < $total_reg; $i++) {
+      $id_item = $res[$i]['id_item'];
+      $quantidade_temp = isset($res[$i]['quantidade']) ? $res[$i]['quantidade'] : 1;
+      // Buscar nome e valor do adicional
+      if ($categoria > 0) {
+        $query2 = $pdo->query("SELECT * FROM adicionais_cat WHERE id = '$id_item' AND ativo = 'Sim'");
+      } else {
+        $query2 = $pdo->query("SELECT * FROM adicionais WHERE id = '$id_item' AND ativo = 'Sim'");
+      }
+      $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+      $total_reg2 = @count($res2);
+      // Se não encontrar, buscar na itens_grade
+      if ($total_reg2 == 0) {
+        $query2 = $pdo->query("SELECT texto as nome, valor FROM itens_grade WHERE id = '$id_item'");
+        $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+        $total_reg2 = @count($res2);
+      }
+      if ($total_reg2 > 0 && isset($res2[0]['nome']) && isset($res2[0]['valor'])) {
+        $nome_adc = $res2[0]['nome'];
+        $valor_adc = ($res2[0]['valor'] * $quantidade_temp) * $quantidade_item;
+        $valor_adcF = number_format($valor_adc, 2, ',', '.');
+        $qtd_str = $quantidade_temp > 1 ? $quantidade_temp . 'x ' : '';
+        $str .= "+ {$qtd_str}{$nome_adc} (R$ {$valor_adcF}) ";
+      }
+    }
+    $str .= "\n";
+  }
+  return $str;
 }

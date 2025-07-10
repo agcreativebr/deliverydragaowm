@@ -21,7 +21,8 @@ file_put_contents($logFile, json_encode([
 
 if ($api_whatsapp == 'menuia') {
   // Garantir que todas as quebras de linha estão como \n
-  $mensagem_whatsapp = str_replace(["\r\n", "\r", "%0A"], "\n", $mensagem ?? $mensagem_whatsapp);
+  if (!isset($mensagem_whatsapp) || $mensagem_whatsapp === null) $mensagem_whatsapp = '';
+  $mensagem_whatsapp = str_replace(["\r\n", "\r", "%0A"], "\n", ($mensagem ?? $mensagem_whatsapp) ?: '');
 
   // Converter emojis para formato Unicode
   $mensagem_whatsapp = preg_replace_callback('/[\x{1F300}-\x{1F6FF}]/u', function ($matches) {
@@ -98,6 +99,7 @@ if ($api_whatsapp == 'wm') {
 
 if ($api_whatsapp == 'newtek') {
   // Garantir que todas as quebras de linha estão como \n
+  if (!isset($mensagem_whatsapp) || $mensagem_whatsapp === null) $mensagem_whatsapp = '';
   $mensagem_whatsapp = str_replace(["\r\n", "\r", "%0A"], "\n", $mensagem_whatsapp);
 
   $curl = curl_init();
