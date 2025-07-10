@@ -62,7 +62,7 @@ if ($total_reg > 0) {
 	<th><input type="checkbox" id="checkAllPedidos" onclick="toggleAllPedidos(this)"></th>
 	<th class="sortable-th" data-column="cliente" data-type="varchar"> Cliente <i class="fas fa-sort"></i></th>	
 	<th class="sortable-th" data-column="valor" data-type="number"> Valor <i class="fas fa-sort"></i></th> 	
-	<th>Total Pago</th> 
+	<th>Total</th> 
 	<th>Troco</th>	
 	<th class="sortable-th" data-column="tipo_pgto" data-type="varchar">Forma PGTO <i class="fas fa-sort"></i></th> 	
 	<th>Status</th>	 	

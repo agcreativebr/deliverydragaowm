@@ -478,6 +478,16 @@ function buscarNomeValorAdicional($idAdicional, $pdo)
 		<div class="col-6" align="right">R$ <b><?php echo @$valorF ?></b></div>
 	</div>
 
+	<?php
+	if (isset($taxa_cartao) && $taxa_cartao > 0 && strtolower($tipo_pgto) == 'cartão de crédito') {
+		$valor_taxa_cartao = $valor * ($taxa_cartao / 100);
+		$valor_taxa_cartaoF = number_format($valor_taxa_cartao, 2, ',', '.');
+		echo '<div class="row valores">';
+		echo '<div class="col-6">Taxa Cartão de Crédito (' . $taxa_cartao . '%)</div>';
+		echo '<div class="col-6" align="right">R$ ' . $valor_taxa_cartaoF . '</div>';
+		echo '</div>';
+	}
+	?>
 
 	</tr>
 
