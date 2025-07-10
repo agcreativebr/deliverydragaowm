@@ -456,11 +456,15 @@ $total_finalF = number_format($total_final, 2, ',', '.');
 </div>
 
 <?php
-if ($total_pago != $valor) {
-	echo '<div class="row valores">';
-	echo '<div class="col-md-6">Valor Recebido</div>';
-	echo '<div class="col-md-6" align="right">R$ ' . $total_pagoF . '</div>';
-	echo '</div>';
+if (
+    $pago == 'Sim' ||
+    ($tipo_pgto == 'Pix' && $total_pago == $valor && $total_pago > 0) ||
+    ($tipo_pgto == 'Dinheiro' && $total_pago > 0)
+) {
+    echo '<div class="row valores">';
+    echo '<div class="col-md-6"><b>Valor Recebido</b></div>';
+    echo '<div class="col-md-6" align="right"><b>R$ ' . $total_pagoF . '</b></div>';
+    echo '</div>';
 }
 if ($troco > 0) {
 	echo '<div class="row valores">';
