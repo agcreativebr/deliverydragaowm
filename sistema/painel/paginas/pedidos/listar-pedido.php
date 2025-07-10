@@ -209,7 +209,7 @@ for ($i = 0; $i < count($dados); $i++) {
 	<div align="right" class="col-md-3">
 		R$ 
 HTML;
-	$total_item_finalF = number_format($total_item_final, 2, ',', '.');
+	$total_item_finalF = number_format($total_item, 2, ',', '.');
 	// $total = number_format( $cp1 , 2, ',', '.');
 	echo $total_item_finalF;
 	echo <<<HTML

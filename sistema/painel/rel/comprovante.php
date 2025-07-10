@@ -187,9 +187,6 @@ function buscarNomeValorAdicional($idAdicional, $pdo)
 	.margem-superior {
 		padding-top: 5px;
 	}
-
-
-	}
 </style>
 
 
@@ -249,7 +246,7 @@ function buscarNomeValorAdicional($idAdicional, $pdo)
 		$borda = $dados[$i]['borda'];
 		$categoria = $dados[$i]['categoria'];
 
-		$total_item = $total_item * $quantidade;
+		// $total_item = $total_item * $quantidade;
 
 
 		$query2 = $pdo->query("SELECT * FROM variacoes where id = '$variacao'");
