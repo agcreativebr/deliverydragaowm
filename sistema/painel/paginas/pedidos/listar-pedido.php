@@ -455,17 +455,6 @@ $total_finalF = number_format($total_final, 2, ',', '.');
 	<div class="col-md-6" align="right"><b>R$ <?php echo $total_finalF ?></b></div>
 </div>
 
-<?php
-if (isset($taxa_cartao) && $taxa_cartao > 0 && strtolower($tipo_pgto) == 'cartão de crédito') {
-	$valor_taxa_cartao = $valor * ($taxa_cartao / 100);
-	$valor_taxa_cartaoF = number_format($valor_taxa_cartao, 2, ',', '.');
-	echo '<div class="row valores">';
-	echo '<div class="col-md-6">Taxa Cartão de Crédito (' . $taxa_cartao . '%)</div>';
-	echo '<div class="col-md-6" align="right">R$ ' . $valor_taxa_cartaoF . '</div>';
-	echo '</div>';
-}
-?>
-
 HTML;
 if ($total_pago != $valor) {
 echo '<div class="row valores">';
