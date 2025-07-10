@@ -1017,12 +1017,8 @@ $complemento = "";
             }
 
             setTimeout(() => {
-              if (id_pedido_msg && !isNaN(id_pedido_msg)) {
-                window.location = `pedido/${id_pedido_msg}`;
-              } else {
-                Swal.fire('Erro', 'Não foi possível identificar o pedido. Tente novamente ou contate o suporte.', 'error');
-                window.location = 'index.php';
-              }
+              if (id_pedido_msg) window.location = `pedido/${id_pedido_msg}`;
+              else window.location = 'index.php';
             }, pedidoauto === 'Sim' ? 500 : 2000);
           }
         } else if (mensagem.trim() === "0") {
@@ -1052,22 +1048,14 @@ $complemento = "";
                 showConfirmButton: true,
                 confirmButtonText: 'Já abri o WhatsApp'
               }).then(() => {
-                if (msg_parts[1] && !isNaN(msg_parts[1])) {
-                  window.location = `pedido/${msg_parts[1]}`;
-                } else {
-                  Swal.fire('Erro', 'Não foi possível identificar o pedido. Tente novamente ou contate o suporte.', 'error');
-                  window.location = 'index.php';
-                }
+                if (msg_parts[1]) window.location = `pedido/${msg_parts[1]}`;
+                else window.location = 'index.php';
               });
             } else {
               // Se abriu automaticamente, redireciona após 2 segundos
               setTimeout(() => {
-                if (msg_parts[1] && !isNaN(msg_parts[1])) {
-                  window.location = `pedido/${msg_parts[1]}`;
-                } else {
-                  Swal.fire('Erro', 'Não foi possível identificar o pedido. Tente novamente ou contate o suporte.', 'error');
-                  window.location = 'index.php';
-                }
+                if (msg_parts[1]) window.location = `pedido/${msg_parts[1]}`;
+                else window.location = 'index.php';
               }, 2000);
             }
             return;
@@ -1086,12 +1074,8 @@ $complemento = "";
             showConfirmButton: false
           });
           setTimeout(() => {
-            if (msg_parts[1] && !isNaN(msg_parts[1])) {
-              window.location = `pedido/${msg_parts[1]}`;
-            } else {
-              Swal.fire('Erro', 'Não foi possível identificar o pedido. Tente novamente ou contate o suporte.', 'error');
-              window.location = 'index.php';
-            }
+            if (msg_parts[1]) window.location = `pedido/${msg_parts[1]}`;
+            else window.location = 'index.php';
           }, 2500);
           return;
         }

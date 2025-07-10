@@ -1,7 +1,7 @@
 <?php
 @session_start();
 $id_usuario = $_SESSION['id'];
-require_once ("../../../conexao.php");
+require_once("../../../conexao.php");
 $tabela = 'vendas';
 
 $id = $_POST['id'];
@@ -123,12 +123,12 @@ if ($api_whatsapp != 'Não') {
 
     $query2 = $pdo->query("SELECT * FROM temp where carrinho = '$id_carrinho' and tabela = 'Variação' order by id asc limit 1");
     $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-    $id_do_item = @$res2[0]['id_item'];
+    $id_do_item = (count($res2) > 0) ? $res2[0]['id_item'] : '';
 
     $query2 = $pdo->query("SELECT * FROM itens_grade where id = '$id_do_item'");
     $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-    if (@$res2[0]['texto'] != "") {
-      $sigla_grade = @$res2[0]['texto'];
+    if (count($res2) > 0 && $res2[0]['texto'] != "") {
+      $sigla_grade = $res2[0]['texto'];
     } else {
       $sigla_grade = '';
     }
@@ -191,7 +191,7 @@ if ($api_whatsapp != 'Não') {
         $query3 = $pdo->query("SELECT * FROM $tabela_ad where id = '$id_item'");
         $res3 = $query3->fetchAll(PDO::FETCH_ASSOC);
         $total_reg3 = @count($res3);
-        $nome_adc = $res3[0]['nome'];
+        $nome_adc = (count($res3) > 0) ? $res3[0]['nome'] : '';
         if ($i2 < ($total_reg2 - 1)) {
           $nome_adc .= '%0A';
         }
@@ -200,7 +200,6 @@ if ($api_whatsapp != 'Não') {
       }
 
       $mensagem .= '%0A';
-
     }
 
 
@@ -246,7 +245,7 @@ if ($api_whatsapp != 'Não') {
             $query3 = $pdo->query("SELECT * FROM itens_grade where id = '$id_item'");
             $res3 = $query3->fetchAll(PDO::FETCH_ASSOC);
             $total_reg3 = @count($res3);
-            $nome_item = $res3[0]['texto'];
+            $nome_item = (count($res3) > 0) ? $res3[0]['texto'] : '';
             if ($i2 < ($total_reg2 - 1)) {
               $nome_item .= ', ';
             }
@@ -254,16 +253,9 @@ if ($api_whatsapp != 'Não') {
           }
 
           $mensagem .= '';
-
-
         }
-
       }
-
-
-
     }
-
   }
 
   //ond pizza 2 sab
@@ -277,7 +269,6 @@ if ($api_whatsapp != 'Não') {
     $mensagem .= '%0A*Endereço do Cliente*%0A';
     $endereco = $rua_cliente . ' ' . $numero_cliente . ' ' . $complemento_cliente . ' ' . $bairro_cliente . ' ' . $cidade_cliente;
     $mensagem .= $endereco;
-
   }
   $mensagem .= '%0A%0A';
 
@@ -288,7 +279,7 @@ if ($api_whatsapp != 'Não') {
 
 
   $data_mensagem = date('Y-m-d H:i:s');
-  require ("../../../../js/ajax/api_texto.php");
+  require("../../../../js/ajax/api_texto.php");
 }
 
 
@@ -296,4 +287,3 @@ if ($api_whatsapp != 'Não') {
 $query = $pdo->prepare("INSERT INTO pagar SET descricao = 'Comissão Entrega', tipo = 'Comissão', valor = :valor, data_lanc = curDate(), vencimento = curDate(), usuario_lanc = '$id_usuario', foto = 'sem-foto.png', arquivo = 'sem-foto.jpg', pessoa = '0', pago = 'Não', funcionario = '$entregador', referencia = 'Comissão', id_ref = '$n_pedido', comissao = 'Entregador'");
 $query->bindValue(":valor", "$taxa_entrega");
 $query->execute();
-?>
