@@ -455,56 +455,45 @@ $total_finalF = number_format($total_final, 2, ',', '.');
 	<div class="col-md-6" align="right"><b>R$ <?php echo $total_finalF ?></b></div>
 </div>
 
-HTML;
+<?php
 if ($total_pago != $valor) {
-echo '<div class="row valores">';
+	echo '<div class="row valores">';
 	echo '<div class="col-md-6">Valor Recebido</div>';
 	echo '<div class="col-md-6" align="right">R$ ' . $total_pagoF . '</div>';
 	echo '</div>';
 }
-
 if ($troco > 0) {
-echo '<div class="row valores">';
+	echo '<div class="row valores">';
 	echo '<div class="col-md-6">Troco</div>';
 	echo '<div class="col-md-6" align="right">R$ ' . $trocoF . '</div>';
 	echo '</div>';
 }
-echo '<div class="th" style="margin-bottom: 7px">
-</div>
-
-<div class="row valores">
-	<div class="col-md-6">Forma de Pagamento</div>
-	<div class="col-md-6" align="right">' . $tipo_pgto . '</div>
-</div>
-
-<div class="row valores">
-	<div class="col-md-6">Forma de Entrega</div>
-	<div class="col-md-6" align="right">' . $entrega . '</div>
-</div>
-
-
-<div class="row valores">
-	<div class="col-md-6">Está Pago</div>
-	<div class="col-md-6" align="right"><b>' . $pago . '</b></div>
-</div>
-
-<div class="th" style="margin-bottom: 10px"></div>
-
-HTML;
+echo '<div class="th" style="margin-bottom: 7px"></div>';
+echo '<div class="row valores">';
+echo '<div class="col-md-6">Forma de Pagamento</div>';
+echo '<div class="col-md-6" align="right">' . $tipo_pgto . '</div>';
+echo '</div>';
+echo '<div class="row valores">';
+echo '<div class="col-md-6">Forma de Entrega</div>';
+echo '<div class="col-md-6" align="right">' . $entrega . '</div>';
+echo '</div>';
+echo '<div class="row valores">';
+echo '<div class="col-md-6">Está Pago</div>';
+echo '<div class="col-md-6" align="right"><b>' . $pago . '</b></div>';
+echo '</div>';
+echo '<div class="th" style="margin-bottom: 10px"></div>';
 if ($entrega == "Delivery") {
-echo '<div class="valores" align="center">';
+	echo '<div class="valores" align="center">';
 	echo '<b>Endereço para Entrega</b><br>';
 	echo $rua_cliente . ' ' . $numero_cliente . ' ' . $complemento_cliente . ' ' . $bairro_cliente . ' ' . $cidade_cliente;
 	echo '</div>';
-echo '<div class="th" style="margin-bottom: 10px"></div>';
+	echo '<div class="th" style="margin-bottom: 10px"></div>';
 }
-
 if ($obs != "") {
-echo '<div class="valores" align="center">';
+	echo '<div class="valores" align="center">';
 	echo '<b>Observação do Pedido</b><br>';
 	echo $obs;
 	echo '</div>';
-echo '<div class="th" style="margin-bottom: 10px"></div>';
+	echo '<div class="th" style="margin-bottom: 10px"></div>';
 }
-
 ?>
