@@ -452,30 +452,45 @@ function buscarNomeValorAdicional($idAdicional, $pdo)
 	<div class="th" style="margin-bottom: 7px"></div>
 
 
-	<?php if ($entrega == "Delivery") { ?>
+	<?php
+	// Cálculo matemático exato dos totais
+	$subtotal = $valor - $taxa_entrega + $cupom;
+	$taxa_cartao_valor = 0;
+	if (isset($taxa_cartao) && $taxa_cartao > 0 && strtolower($tipo_pgto) == 'cartão de crédito') {
+		$taxa_cartao_valor = $subtotal * ($taxa_cartao / 100);
+	}
+	$total_final = $subtotal + $taxa_cartao_valor + $taxa_entrega - $cupom;
+	$subtotalF = number_format($subtotal, 2, ',', '.');
+	$taxa_cartaoF = number_format($taxa_cartao_valor, 2, ',', '.');
+	$total_finalF = number_format($total_final, 2, ',', '.');
+
+	// Exibição clara dos totais
+	?>
+	<div class="row valores">
+		<div class="col-6">Subtotal</div>
+		<div class="col-6" align="right">R$ <?php echo $subtotalF ?></div>
+	</div>
+	<?php if ($taxa_cartao_valor > 0) { ?>
 		<div class="row valores">
-			<div class="col-6">Total</div>
-			<div class="col-6" align="right">R$ <?php echo @$valor_dos_itensF ?></div>
+			<div class="col-6">Taxa Cartão de Crédito (<?php echo $taxa_cartao ?>%)</div>
+			<div class="col-6" align="right">R$ <?php echo $taxa_cartaoF ?></div>
 		</div>
 	<?php } ?>
-
-	<?php if ($entrega == "Delivery") { ?>
+	<?php if ($taxa_entrega > 0) { ?>
 		<div class="row valores">
 			<div class="col-6">Frete</div>
-			<div class="col-6" align="right">R$ <?php echo @$taxa_entregaF ?></div>
+			<div class="col-6" align="right">R$ <?php echo $taxa_entregaF ?></div>
 		</div>
 	<?php } ?>
-
 	<?php if ($cupom > 0) { ?>
 		<div class="row valores">
 			<div class="col-6">Desconto</div>
-			<div class="col-6" align="right">R$ <?php echo @$cupomF ?></div>
+			<div class="col-6" align="right">R$ <?php echo $cupomF ?></div>
 		</div>
 	<?php } ?>
-
 	<div class="row valores">
-		<div class="col-6">SubTotal</div>
-		<div class="col-6" align="right">R$ <b><?php echo @$valorF ?></b></div>
+		<div class="col-6"><b>Total</b></div>
+		<div class="col-6" align="right"><b>R$ <?php echo $total_finalF ?></b></div>
 	</div>
 
 	<?php
