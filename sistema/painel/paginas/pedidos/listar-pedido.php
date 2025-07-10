@@ -412,7 +412,13 @@ echo <<<HTML
 HTML;
 
 // Cálculo matemático exato dos totais
-$subtotal = $valor - $taxa_entrega + $cupom;
+// Subtotal: soma dos produtos (sem taxa, sem frete, sem desconto)
+$subtotal = 0;
+$res = $pdo->query("SELECT total_item FROM carrinho WHERE pedido = '$id'");
+$itens = $res->fetchAll(PDO::FETCH_ASSOC);
+foreach ($itens as $item) {
+	$subtotal += $item['total_item'];
+}
 $taxa_cartao_valor = 0;
 if (isset($taxa_cartao) && $taxa_cartao > 0 && strtolower($tipo_pgto) == 'cartão de crédito') {
 	$taxa_cartao_valor = $subtotal * ($taxa_cartao / 100);

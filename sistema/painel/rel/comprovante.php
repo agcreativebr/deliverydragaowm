@@ -454,7 +454,13 @@ function buscarNomeValorAdicional($idAdicional, $pdo)
 
 	<?php
 	// Cálculo matemático exato dos totais
-	$subtotal = $valor - $taxa_entrega + $cupom;
+	// Subtotal: soma dos produtos (sem taxa, sem frete, sem desconto)
+	$subtotal = 0;
+	$res = $pdo->query("SELECT total_item FROM carrinho WHERE pedido = '$id'");
+	$itens = $res->fetchAll(PDO::FETCH_ASSOC);
+	foreach ($itens as $item) {
+		$subtotal += $item['total_item'];
+	}
 	$taxa_cartao_valor = 0;
 	if (isset($taxa_cartao) && $taxa_cartao > 0 && strtolower($tipo_pgto) == 'cartão de crédito') {
 		$taxa_cartao_valor = $subtotal * ($taxa_cartao / 100);
@@ -492,17 +498,6 @@ function buscarNomeValorAdicional($idAdicional, $pdo)
 		<div class="col-6"><b>Total</b></div>
 		<div class="col-6" align="right"><b>R$ <?php echo $total_finalF ?></b></div>
 	</div>
-
-	<?php
-	if (isset($taxa_cartao) && $taxa_cartao > 0 && strtolower($tipo_pgto) == 'cartão de crédito') {
-		$valor_taxa_cartao = $valor * ($taxa_cartao / 100);
-		$valor_taxa_cartaoF = number_format($valor_taxa_cartao, 2, ',', '.');
-		echo '<div class="row valores">';
-		echo '<div class="col-6">Taxa Cartão de Crédito (' . $taxa_cartao . '%)</div>';
-		echo '<div class="col-6" align="right">R$ ' . $valor_taxa_cartaoF . '</div>';
-		echo '</div>';
-	}
-	?>
 
 	</tr>
 
