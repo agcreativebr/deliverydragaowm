@@ -250,7 +250,7 @@ HTML;
 				$valor_adcF = number_format($valor_adc, 2, ',', '.');
 				$valor_total_adc = $valor_adc * $quantidade_temp * $quantidade;
 				$valor_total_adcF = number_format($valor_total_adc, 2, ',', '.');
-				echo '(' . $quantidade_temp . ') ' . $nome_adc . ' - R$ ' . $valor_adcF . ' (Total: R$ ' . $valor_total_adcF . ')';
+				echo '(' . $quantidade_temp . ') ' . $nome_adc . ' - R$ ' . $valor_adcF;
 				if ($i2 < ($total_reg2 - 1)) {
 					echo ', ';
 				}

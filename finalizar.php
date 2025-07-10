@@ -1017,8 +1017,8 @@ $complemento = "";
             }
 
             setTimeout(() => {
-              if (id_pedido_msg && !isNaN(id_pedido_msg)) {
-                window.location = `pedido/${id_pedido_msg}`;
+              if (msg_parts[2] && !isNaN(msg_parts[2])) {
+                window.location = `pedido/${msg_parts[2]}`;
               } else {
                 Swal.fire('Erro', 'Não foi possível identificar o pedido. Tente novamente ou contate o suporte.', 'error');
                 window.location = 'index.php';
@@ -1052,8 +1052,8 @@ $complemento = "";
                 showConfirmButton: true,
                 confirmButtonText: 'Já abri o WhatsApp'
               }).then(() => {
-                if (msg_parts[1] && !isNaN(msg_parts[1])) {
-                  window.location = `pedido/${msg_parts[1]}`;
+                if (msg_parts[2] && !isNaN(msg_parts[2])) {
+                  window.location = `pedido/${msg_parts[2]}`;
                 } else {
                   Swal.fire('Erro', 'Não foi possível identificar o pedido. Tente novamente ou contate o suporte.', 'error');
                   window.location = 'index.php';
@@ -1062,8 +1062,8 @@ $complemento = "";
             } else {
               // Se abriu automaticamente, redireciona após 2 segundos
               setTimeout(() => {
-                if (msg_parts[1] && !isNaN(msg_parts[1])) {
-                  window.location = `pedido/${msg_parts[1]}`;
+                if (msg_parts[2] && !isNaN(msg_parts[2])) {
+                  window.location = `pedido/${msg_parts[2]}`;
                 } else {
                   Swal.fire('Erro', 'Não foi possível identificar o pedido. Tente novamente ou contate o suporte.', 'error');
                   window.location = 'index.php';
@@ -1086,8 +1086,8 @@ $complemento = "";
             showConfirmButton: false
           });
           setTimeout(() => {
-            if (msg_parts[1] && !isNaN(msg_parts[1])) {
-              window.location = `pedido/${msg_parts[1]}`;
+            if (msg_parts[2] && !isNaN(msg_parts[2])) {
+              window.location = `pedido/${msg_parts[2]}`;
             } else {
               Swal.fire('Erro', 'Não foi possível identificar o pedido. Tente novamente ou contate o suporte.', 'error');
               window.location = 'index.php';
