@@ -612,6 +612,12 @@ $complemento = "";
     var telefone = $('#telefone').val().replace(/\D/g, '');
     var pedido_balcao = "<?= $sessao_pedido_balcao ?>";
     var modo_entrega_selecionado = ($('#radio_retirar').is(':checked') || $('#radio_local').is(':checked') || $('#radio_entrega').is(':checked'));
+    var pagamento = $('#pagamento').val();
+
+    if (pagamento === "") return {
+      valido: false,
+      mensagem: "Escolha uma forma de pagamento."
+    };
 
     if (pedido_balcao === "") { // Não é balcão, validações mais estritas
       if (nome === "") return {
@@ -1077,6 +1083,31 @@ $complemento = "";
             if (btn) {
               btn.onclick = function(e) {
                 e.preventDefault();
+                if (idPedido && !isNaN(idPedido)) {
+                  window.location = `pedido/${idPedido}`;
+                } else {
+                  window.location = 'index.php';
+                }
+              };
+            }
+          }, 100);
+          return;
+        }
+        // NOVO BLOCO: Pix confirmado automaticamente + link manual WhatsApp
+        if (mensagem.includes('Pedido Finalizado') && pedidoauto === 'Sim' && link && link.startsWith('http')) {
+          Swal.fire({
+            title: 'Pagamento Confirmado!',
+            html: `<a href="${link}" target="_blank" id="btnFinalizarPedidoSwal" style="background: #198754; color: #fff !important; font-weight: bold; padding: 12px 28px; border-radius: 5px; display: inline-block; margin-top: 16px; font-size: 18px; text-decoration: none; border: none;">Finalizar Pedido</a>`,
+            icon: 'success',
+            showConfirmButton: false,
+            allowOutsideClick: false
+          });
+          setTimeout(function() {
+            const btn = document.getElementById('btnFinalizarPedidoSwal');
+            if (btn) {
+              btn.onclick = function(e) {
+                e.preventDefault();
+                window.open(link, '_blank');
                 if (idPedido && !isNaN(idPedido)) {
                   window.location = `pedido/${idPedido}`;
                 } else {
