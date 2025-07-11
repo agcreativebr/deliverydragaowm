@@ -1016,14 +1016,16 @@ $complemento = "";
               window.open(`sistema/painel/rel/comprovante2_class.php?id=${id_pedido_msg}&enviar=sim`);
             }
 
-            setTimeout(() => {
-              if (msg_parts[2] && !isNaN(msg_parts[2])) {
-                window.location = `pedido/${msg_parts[2]}`;
-              } else {
-                Swal.fire('Erro', 'Não foi possível identificar o pedido. Tente novamente ou contate o suporte.', 'error');
-                window.location = 'index.php';
-              }
-            }, pedidoauto === 'Sim' ? 500 : 2000);
+            if (pedidoauto !== 'Sim') {
+              setTimeout(() => {
+                if (msg_parts[2] && !isNaN(msg_parts[2])) {
+                  window.location = `pedido/${msg_parts[2]}`;
+                } else {
+                  Swal.fire('Erro', 'Não foi possível identificar o pedido. Tente novamente ou contate o suporte.', 'error');
+                  window.location = 'index.php';
+                }
+              }, 2000);
+            }
           }
         } else if (mensagem.trim() === "0") {
           Swal.fire('Carrinho Vazio', 'Seu carrinho está vazio, adicione itens antes de finalizar.', 'error');
@@ -1037,43 +1039,52 @@ $complemento = "";
 
         // LOG DE DIAGNÓSTICO PARA WHATSAPP WEB
         console.log('Resposta Ajax:', mensagem);
-        if (mensagem.includes('wa.me')) {
-          const msg_parts = mensagem.split("*");
-          const link = msg_parts[3]?.trim();
+        // Função centralizada para abrir o WhatsApp manual (declarar fora do Ajax, no escopo global do script)
+        function abrirWhatsAppManual(link, idPedido) {
           if (link && link.startsWith('http')) {
             // Tenta abrir automaticamente
             const win = window.open(link, '_blank');
             if (!win) {
-              // Se o popup for bloqueado, mostra botão/link para o usuário clicar
+              // Se o popup for bloqueado, exibe o botão para o usuário clicar
               Swal.fire({
                 title: 'Pedido Finalizado!',
                 html: `<a href="${link}" target="_blank" class="btn btn-success" id="btnAbrirWhats">Clique aqui para abrir o WhatsApp</a>`,
                 icon: 'success',
                 showConfirmButton: true,
                 confirmButtonText: 'Já abri o WhatsApp'
-              }).then(() => {
-                if (msg_parts[2] && !isNaN(msg_parts[2])) {
-                  window.location = `pedido/${msg_parts[2]}`;
-                } else {
-                  Swal.fire('Erro', 'Não foi possível identificar o pedido. Tente novamente ou contate o suporte.', 'error');
-                  window.location = 'index.php';
-                }
               });
-            } else {
-              // Se abriu automaticamente, redireciona após 2 segundos
-              setTimeout(() => {
-                if (msg_parts[2] && !isNaN(msg_parts[2])) {
-                  window.location = `pedido/${msg_parts[2]}`;
+            }
+          }
+        }
+        const link = msg_parts[3]?.trim();
+        const idPedido = msg_parts[2]?.trim();
+        if (mensagem.includes('wa.me') && link && pedidoauto === 'Sim') {
+          Swal.fire({
+            title: 'Pagamento Confirmado!',
+            html: `<p>Seu pagamento foi confirmado com sucesso!</p>
+                   <a href="#" id="btnFinalizarPedidoSwal" style="background: #198754; color: #fff !important; font-weight: bold; padding: 12px 28px; border-radius: 5px; display: inline-block; margin-top: 16px; font-size: 18px; text-decoration: none; border: none;">Finalizar Pedido</a>`,
+            icon: 'success',
+            showConfirmButton: false,
+            allowOutsideClick: false
+          });
+          setTimeout(function() {
+            const btn = document.getElementById('btnFinalizarPedidoSwal');
+            if (btn) {
+              btn.onclick = function(e) {
+                e.preventDefault();
+                if (link && link.startsWith('http')) {
+                  window.open(link, '_blank');
+                }
+                if (idPedido && !isNaN(idPedido)) {
+                  window.location = `pedido/${idPedido}`;
                 } else {
-                  Swal.fire('Erro', 'Não foi possível identificar o pedido. Tente novamente ou contate o suporte.', 'error');
                   window.location = 'index.php';
                 }
-              }, 2000);
+              };
             }
-            return;
-          } else {
-            console.log('Link não encontrado ou mal formatado.');
-          }
+          }, 100);
+          // NÃO redirecionar automaticamente, só após o clique no botão do modal!
+          return;
         }
         // NOVO: Se resposta indicar finalização padrão (API ou manual)
         if (mensagem.startsWith('Pedido Finalizado*')) {
@@ -1085,14 +1096,16 @@ $complemento = "";
             timer: 2500,
             showConfirmButton: false
           });
-          setTimeout(() => {
-            if (msg_parts[2] && !isNaN(msg_parts[2])) {
-              window.location = `pedido/${msg_parts[2]}`;
-            } else {
-              Swal.fire('Erro', 'Não foi possível identificar o pedido. Tente novamente ou contate o suporte.', 'error');
-              window.location = 'index.php';
-            }
-          }, 2500);
+          if (pedidoauto !== 'Sim') {
+            setTimeout(() => {
+              if (msg_parts[2] && !isNaN(msg_parts[2])) {
+                window.location = `pedido/${msg_parts[2]}`;
+              } else {
+                Swal.fire('Erro', 'Não foi possível identificar o pedido. Tente novamente ou contate o suporte.', 'error');
+                window.location = 'index.php';
+              }
+            }, 2500);
+          }
           return;
         }
       },
