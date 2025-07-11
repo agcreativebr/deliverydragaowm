@@ -1016,6 +1016,11 @@ $complemento = "";
               window.open(`sistema/painel/rel/comprovante2_class.php?id=${id_pedido_msg}&enviar=sim`);
             }
 
+            // ABRIR WHATSAPP MANUAL PARA FORMAS DE PAGAMENTO NÃO-PIX
+            if (pedidoauto !== 'Sim' && msg_parts[3] && msg_parts[3].startsWith('http')) {
+              window.open(msg_parts[3], '_blank');
+            }
+
             if (pedidoauto !== 'Sim') {
               setTimeout(() => {
                 if (msg_parts[2] && !isNaN(msg_parts[2])) {
@@ -1061,8 +1066,7 @@ $complemento = "";
         if (mensagem.includes('wa.me') && link && pedidoauto === 'Sim') {
           Swal.fire({
             title: 'Pagamento Confirmado!',
-            html: `<p>Seu pagamento foi confirmado com sucesso!</p>
-                   <a href="#" id="btnFinalizarPedidoSwal" style="background: #198754; color: #fff !important; font-weight: bold; padding: 12px 28px; border-radius: 5px; display: inline-block; margin-top: 16px; font-size: 18px; text-decoration: none; border: none;">Finalizar Pedido</a>`,
+            html: `<a href="#" id="btnFinalizarPedidoSwal" style="background: #198754; color: #fff !important; font-weight: bold; padding: 12px 28px; border-radius: 5px; display: inline-block; margin-top: 16px; font-size: 18px; text-decoration: none; border: none;">Finalizar Pedido</a>`,
             icon: 'success',
             showConfirmButton: false,
             allowOutsideClick: false
