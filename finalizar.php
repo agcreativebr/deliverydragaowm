@@ -1063,7 +1063,8 @@ $complemento = "";
         }
         const link = msg_parts[3]?.trim();
         const idPedido = msg_parts[2]?.trim();
-        if (mensagem.includes('wa.me') && link && pedidoauto === 'Sim') {
+        // Se for Pix confirmado automaticamente e modo menuia/API (sem link manual), exibe modal com botão de redirecionamento
+        if (mensagem.includes('Pedido Finalizado') && pedidoauto === 'Sim' && (!link || !link.startsWith('http'))) {
           Swal.fire({
             title: 'Pagamento Confirmado!',
             html: `<a href="#" id="btnFinalizarPedidoSwal" style="background: #198754; color: #fff !important; font-weight: bold; padding: 12px 28px; border-radius: 5px; display: inline-block; margin-top: 16px; font-size: 18px; text-decoration: none; border: none;">Finalizar Pedido</a>`,
@@ -1076,9 +1077,6 @@ $complemento = "";
             if (btn) {
               btn.onclick = function(e) {
                 e.preventDefault();
-                if (link && link.startsWith('http')) {
-                  window.open(link, '_blank');
-                }
                 if (idPedido && !isNaN(idPedido)) {
                   window.location = `pedido/${idPedido}`;
                 } else {
@@ -1087,7 +1085,6 @@ $complemento = "";
               };
             }
           }, 100);
-          // NÃO redirecionar automaticamente, só após o clique no botão do modal!
           return;
         }
         // NOVO: Se resposta indicar finalização padrão (API ou manual)
