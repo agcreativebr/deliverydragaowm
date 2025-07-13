@@ -13,7 +13,8 @@ $total_carrinhoF = 0;
 
 // Buscar itens do carrinho com JOIN para garantir produtos válidos
 $query = $pdo->prepare("
-    SELECT c.*, p.nome as nome_produto, p.valor_venda as valor_produto 
+    SELECT c.id, c.produto, c.quantidade, c.total_item, c.obs, c.valor_unitario, 
+           p.nome as nome_produto, p.valor_venda as valor_produto, p.foto as foto_produto
     FROM carrinho c 
     INNER JOIN produtos p ON c.produto = p.id 
     WHERE c.sessao = ? AND c.pedido = '0' AND p.ativo = 'Sim'
