@@ -242,9 +242,7 @@ $mensagem_cliente .= "------------------------------------\n";
 $mensagem_cliente .= "📦 *Detalhes do Pedido:*\n";
 
 // Buscar itens do pedido já vinculados
-$query_itens = $pdo->query("SELECT c.*, p.nome as nome_produto FROM carrinho c 
-    LEFT JOIN produtos p ON c.produto = p.id 
-    WHERE c.pedido = '$id_pedido_feito'");
+$query_itens = $pdo->query("SELECT c.id, c.quantidade, c.total_item, c.obs, c.categoria, c.produto, p.nome as nome_produto FROM carrinho c LEFT JOIN produtos p ON c.produto = p.id WHERE c.pedido = '$id_pedido_feito'");
 $res_itens = $query_itens->fetchAll(PDO::FETCH_ASSOC);
 foreach ($res_itens as $item) {
   $qtd = $item['quantidade'];
