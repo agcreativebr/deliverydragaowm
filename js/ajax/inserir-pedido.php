@@ -125,10 +125,19 @@ $query = $pdo->query("SELECT * FROM carrinho where sessao = '$sessao'");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_reg = @count($res);
 if ($total_reg > 0) {
-  for ($i = 0; $i < $total_reg; $i++) {
-    foreach ($res[$i] as $key => $value) {
-    }
+  // Coletar todos os IDs de produtos do carrinho
+  $ids_produtos = array_column($res, 'produto');
+  $ids_produtos_unicos = array_unique(array_map('intval', $ids_produtos));
+  $ids_produtos_str = implode(',', $ids_produtos_unicos);
 
+  // Buscar todos os produtos de uma vez
+  $query_produtos = $pdo->query("SELECT id, categoria, valor_venda, estoque, tem_estoque FROM produtos WHERE id IN ($ids_produtos_str)");
+  $produtos = [];
+  foreach ($query_produtos->fetchAll(PDO::FETCH_ASSOC) as $prod) {
+    $produtos[$prod['id']] = $prod;
+  }
+
+  for ($i = 0; $i < $total_reg; $i++) {
     $id = $res[$i]['id'];
     $total_item = $res[$i]['total_item'];
     $produto = $res[$i]['produto'];
@@ -137,17 +146,10 @@ if ($total_reg > 0) {
     // O total_item já inclui a quantidade, não precisa multiplicar novamente
     $total_carrinho += $total_item;
 
-    $query2 = $pdo->query("SELECT * FROM produtos where id = '$produto'");
-    $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-    $id_categoria = $res2[0]['categoria'];
-    $valor_produto = $res2[0]['valor_venda'];
-    $estoque = $res2[0]['estoque'];
-    $tem_estoque = $res2[0]['tem_estoque'];
-
-
-    if ($tem_estoque == 'Sim') {
-      $total_produtos = $estoque - $quantidade;
-      $pdo->query("UPDATE produtos SET estoque = '$total_produtos' where id = '$produto'");
+    $prod = $produtos[$produto] ?? null;
+    if ($prod && $prod['tem_estoque'] == 'Sim') {
+      $novo_estoque = $prod['estoque'] - $quantidade;
+      $pdo->query("UPDATE produtos SET estoque = '$novo_estoque' WHERE id = '$produto'");
     }
   }
 } else {
