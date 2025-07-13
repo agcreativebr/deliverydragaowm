@@ -312,11 +312,12 @@ class SecureDB
     public function getCartItems($sessao)
     {
         $query = $this->pdo->prepare("
-            SELECT c.*, p.nome as nome_produto, p.foto as foto_produto,
-                COALESCE(c.valor_unitario, CASE 
-                    WHEN c.total_item > 0 AND c.quantidade > 0 THEN c.total_item / c.quantidade 
-                    ELSE p.valor_venda 
-                END) as valor_unitario
+            SELECT c.id, c.produto, c.quantidade, c.total_item, c.obs, 
+                   COALESCE(c.valor_unitario, CASE 
+                       WHEN c.total_item > 0 AND c.quantidade > 0 THEN c.total_item / c.quantidade 
+                       ELSE p.valor_venda 
+                   END) as valor_unitario,
+                   p.nome as nome_produto, p.foto as foto_produto
             FROM carrinho c 
             INNER JOIN produtos p ON c.produto = p.id 
             WHERE c.sessao = ? AND c.pedido = '0' AND p.ativo = 'Sim'
