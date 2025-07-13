@@ -1001,6 +1001,7 @@ $complemento = "";
           return;
         }
 
+        // Primeira ocorrência de msg_parts (mantenha let/const)
         const msg_parts = mensagem.split("*");
         const previsao_entrega_msg = msg_parts[0]?.trim() || '';
         const status_pedido_msg = msg_parts[1]?.trim() || '';
